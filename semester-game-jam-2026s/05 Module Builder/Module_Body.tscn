@@ -1,3 +1,6 @@
 [gd_scene format=3 uid="uid://btcv6x6so88d5"]
 
+[ext_resource type="Script" uid="uid://c33vbahi7sror" path="res://05 Module Builder/ModuleBody.cs" id="1_j1uiu"]
+
 [node name="ModuleBody" type="Node2D" unique_id=2008233099]
+script = ExtResource("1_j1uiu")
