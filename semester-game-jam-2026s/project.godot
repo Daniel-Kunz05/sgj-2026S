@@ -11,12 +11,18 @@ config_version=5
 [application]
 
 config/name="SemesterGameJam2026S"
-config/features=PackedStringArray("4.6", "Forward Plus")
+config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [dotnet]
 
 project/assembly_name="SemesterGameJam2026S"
+
+[file_customization]
+
+folder_colors={
+"res://05 Module Builder/": "teal"
+}
 
 [physics]
 
