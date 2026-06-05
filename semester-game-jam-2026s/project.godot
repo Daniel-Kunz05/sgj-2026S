@@ -14,6 +14,11 @@ config/name="SemesterGameJam2026S"
 config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+
 [dotnet]
 
 project/assembly_name="SemesterGameJam2026S"
@@ -31,3 +36,4 @@ folder_colors={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+environment/defaults/default_clear_color=Color(0.060530297, 0.060530372, 0.060530342, 1)

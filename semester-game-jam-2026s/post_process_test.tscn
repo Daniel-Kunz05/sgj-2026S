@@ -1,0 +1,97 @@
+[gd_scene format=3 uid="uid://duv1snyfo3lbe"]
+
+[ext_resource type="Texture2D" uid="uid://cy4a3ywvhlawt" path="res://sprites/filetypes/pdf.png" id="1_vpven"]
+[ext_resource type="Shader" uid="uid://ck1kxxgjwa2bu" path="res://shaders/node_pixelate.gdshader" id="2_qjeev"]
+[ext_resource type="Shader" uid="uid://bagk85xk4afh6" path="res://shaders/screen_shader.gdshader" id="3_nklrh"]
+[ext_resource type="Texture2D" uid="uid://dupdilpyqwvmy" path="res://sprites/filetypes/txt.png" id="3_wrey1"]
+
+[sub_resource type="Environment" id="Environment_vpven"]
+background_mode = 3
+tonemap_mode = 3
+tonemap_exposure = 0.84
+glow_enabled = true
+glow_intensity = 4.67
+glow_bloom = 0.18
+
+[sub_resource type="LabelSettings" id="LabelSettings_nklrh"]
+font_size = 39
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qjeev"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qjeev"]
+shader = ExtResource("2_qjeev")
+shader_parameter/pixel_size = 4.0
+shader_parameter/handle_edges = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wrey1"]
+shader = ExtResource("3_nklrh")
+shader_parameter/screen_resolution = Vector2(1920, 1080)
+shader_parameter/scanline_intensity = 0.2150000102125
+shader_parameter/color_bleed_weight = 0.10800000512999999
+
+[node name="PostProcessTest" type="Node2D" unique_id=59728923]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2113930789]
+environment = SubResource("Environment_vpven")
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="." unique_id=1862993137]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="BackgroundLayer" unique_id=781210834]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0627451, 0.0627451, 0.1254902, 1)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=804019862]
+anchor_mode = 0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=341954918]
+
+[node name="Label" type="Label" parent="CanvasLayer" unique_id=91329172]
+offset_left = 25.0
+offset_top = 14.0
+offset_right = 976.0
+offset_bottom = 129.0
+text = "/home/test/Documents"
+label_settings = SubResource("LabelSettings_nklrh")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="." unique_id=1972867564]
+position = Vector2(516, 339)
+gravity_scale = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D" unique_id=1310784113]
+scale = Vector2(5, 5)
+shape = SubResource("RectangleShape2D_qjeev")
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D/CollisionShape2D" unique_id=756874982]
+material = SubResource("ShaderMaterial_qjeev")
+scale = Vector2(0.04, 0.04)
+texture = ExtResource("1_vpven")
+
+[node name="RigidBody2D2" type="RigidBody2D" parent="." unique_id=414192196]
+position = Vector2(871, 378)
+gravity_scale = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D2" unique_id=1799983810]
+scale = Vector2(5, 5)
+shape = SubResource("RectangleShape2D_qjeev")
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D2/CollisionShape2D" unique_id=1765773092]
+material = SubResource("ShaderMaterial_qjeev")
+scale = Vector2(0.04, 0.04)
+texture = ExtResource("3_wrey1")
+
+[node name="PostProcessLayer" type="CanvasLayer" parent="." unique_id=699186179]
+layer = 2
+
+[node name="ColorRect" type="ColorRect" parent="PostProcessLayer" unique_id=2099870616]
+material = SubResource("ShaderMaterial_wrey1")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
