@@ -1,6 +1,30 @@
 [gd_scene format=3 uid="uid://btcv6x6so88d5"]
 
 [ext_resource type="Script" uid="uid://c33vbahi7sror" path="res://05 Module Builder/ModuleBody.cs" id="1_j1uiu"]
+[ext_resource type="Texture2D" uid="uid://cy4a3ywvhlawt" path="res://sprites/filetypes/pdf.png" id="2_l8ad1"]
+[ext_resource type="Shader" uid="uid://ck1kxxgjwa2bu" path="res://shaders/node_pixelate.gdshader" id="2_ldrhc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ldrhc"]
+shader = ExtResource("2_ldrhc")
+shader_parameter/pixel_size = 4.0
+shader_parameter/handle_edges = false
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ldrhc"]
+size = Vector2(500, 500)
 
 [node name="ModuleBody" type="Node2D" unique_id=2008233099]
+material = SubResource("ShaderMaterial_ldrhc")
+scale = Vector2(0.23, 0.23)
 script = ExtResource("1_j1uiu")
+
+[node name="Node" type="Node" parent="." unique_id=1929640767]
+
+[node name="Area2D" type="Area2D" parent="." unique_id=723625127]
+use_parent_material = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1618463432]
+shape = SubResource("RectangleShape2D_ldrhc")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=861963749]
+use_parent_material = true
+texture = ExtResource("2_l8ad1")

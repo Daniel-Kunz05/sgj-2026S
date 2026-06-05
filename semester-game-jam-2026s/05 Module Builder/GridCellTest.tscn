@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://b6yl6btkqug8q"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_xml41"]
+size = Vector2(125, 125)
+
+[node name="GridCellTest" type="Node2D" unique_id=1949909551]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=814085199]
+texture = SubResource("PlaceholderTexture2D_xml41")
