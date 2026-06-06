@@ -8,17 +8,31 @@ public interface IExplodable
 
     void SpawnExplosion(Node2D caller, Vector2 posToSpawn)
     {
+        if(caller == null) {
+            GD.PrintErr("Caller is null");
+            return;
+        }
+
+        GD.Print("Entered SpawnExplosion()");
+
         if(scene == null) {
             GD.PrintErr("Particle scene couldn't be found");
             return;
         }
-        var particle = scene.Instantiate();
+
+        Node particle = scene.Instantiate();
+        if(particle == null) {
+            GD.PrintErr("Particle  is null");
+            return;
+        }
+
         caller.GetTree().CurrentScene.AddChild(particle);
         if(particle is Node2D node)
         {
-            node.Position = posToSpawn;
-            node.Set("Emitting", true);
-            var lifetime = node.Get("Lifetime");
+            GD.Print("Ready to boom");
+            node.GlobalPosition = posToSpawn;
+            node.Set("emitting", true);
+            var lifetime = node.Get("lifetime");
             Timer t = new Timer
             {
                 OneShot = true,
@@ -27,6 +41,9 @@ public interface IExplodable
             t.Timeout += node.QueueFree;
 
             t.QueueFree();
+        } else
+        {
+            GD.Print("Sth went wrong");
         }
     }
 }

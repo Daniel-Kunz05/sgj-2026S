@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://c1y1ji6a1u5ca"]
 
+[ext_resource type="Script" uid="uid://dwivk7vo8th7b" path="res://12 Particle System/ParticleFreer.cs" id="1_rugbg"]
+
 [sub_resource type="Gradient" id="Gradient_1wqnm"]
 offsets = PackedFloat32Array(0.5295858, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
@@ -20,20 +22,21 @@ curve = SubResource("Curve_3kisi")
 lifetime_randomness = 0.5
 particle_flag_disable_z = true
 spread = 180.0
-initial_velocity_min = 500.0
-initial_velocity_max = 500.0
+initial_velocity_min = 150.0
+initial_velocity_max = 300.0
 angular_velocity_min = -15.000016
 angular_velocity_max = 14.999984
 gravity = Vector3(0, 0, 0)
-scale_min = 20.0
-scale_max = 20.0
+scale_min = 15.0
+scale_max = 15.0
 scale_curve = SubResource("CurveTexture_5ytyp")
 color_ramp = SubResource("GradientTexture1D_rugbg")
 
 [node name="GPUParticles2D" type="GPUParticles2D" unique_id=686034547]
-self_modulate = Color(0.6627451, 0.28235295, 0.2, 1)
+self_modulate = Color(0.7781978, 0.3072736, 0.18219253, 1)
 emitting = false
-amount = 50
+amount = 200
 one_shot = true
-explosiveness = 1.0
+explosiveness = 0.8
 process_material = SubResource("ParticleProcessMaterial_af1ci")
+script = ExtResource("1_rugbg")
