@@ -7,9 +7,8 @@ using System.Reflection;
 
 public partial class TooltipManager : Node
 {
-	public TooltipManager instance;
+	public static TooltipManager instance;
 	[Export] ToolTip toolTip;
-	[Export] Godot.Collections.Dictionary<NodePath, Array<string>> modules;
 
 	//[Export(PropertyHint.MultilineText)] public Godot.Collections.Array<string> texts;
 

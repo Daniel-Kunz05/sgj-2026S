@@ -6,6 +6,6 @@
 [node name="TooltipManager" type="Node" unique_id=1883395475 node_paths=PackedStringArray("toolTip")]
 script = ExtResource("1_0y2x2")
 toolTip = NodePath("ToolTip")
-modules = {}
 
 [node name="ToolTip" parent="." unique_id=1250218207 instance=ExtResource("2_xefmb")]
+z_index = 1

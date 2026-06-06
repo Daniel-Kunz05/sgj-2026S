@@ -1,13 +1,15 @@
 [gd_scene format=3 uid="uid://bg5mnt87ffhix"]
 
 [ext_resource type="PackedScene" uid="uid://bgtqrl5ms0kqe" path="res://11 TooltipManager/tooltipManager.tscn" id="1_g4rrn"]
+[ext_resource type="PackedScene" uid="uid://btcv6x6so88d5" path="res://05 Module Builder/Module_Body.tscn" id="2_tkibr"]
+[ext_resource type="Script" uid="uid://3qnruq0p4w1f" path="res://11 TooltipManager/ButtonWithToolTip.cs" id="3_2ndna"]
 
 [node name="TooltipTest" type="Node" unique_id=1406840893]
 
+[node name="ModuleBody" parent="." unique_id=2008233099 instance=ExtResource("2_tkibr")]
+position = Vector2(519, 41)
+
 [node name="TooltipManager" parent="." unique_id=1883395475 instance=ExtResource("1_g4rrn")]
-modules = {
-NodePath("../CanvasLayer/VBoxContainer/HBoxContainer/1/Button"): ["hallo", "tschüss", "bye"]
-}
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1225661356]
 layer = -1
@@ -37,6 +39,11 @@ offset_right = 250.0
 offset_bottom = 100.0
 theme_override_font_sizes/font_size = 60
 text = "1"
+script = ExtResource("3_2ndna")
+toolTipText = "ICH BIN EIN BUTON
+
+
+sgtdsgdfs"
 
 [node name="2" type="Control" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=416813596]
 layout_mode = 2
