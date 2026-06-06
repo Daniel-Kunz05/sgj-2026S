@@ -80,7 +80,7 @@ public partial class GameManager : Node
 			{
 				// Continue after command animation is done
 
-				mainCmdlineController.EnqueueCommand($"{Database.Instance.gamePath}/{Database.Instance.playerName}/core.exe --fight TODO", CmdlineAction.NOP, () =>
+				mainCmdlineController.EnqueueCommand($"{Database.Instance.initialGamePath}/{Database.Instance.playerName}/core.exe --fight TODO", CmdlineAction.NOP, () =>
 				{
 					isBattlePhase = true;
 
