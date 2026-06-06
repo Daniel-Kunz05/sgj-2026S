@@ -63,6 +63,7 @@ public partial class DragAndDropManager : Node2D
 			isDragging = true;
 			currentDragged = hit;
 			currentDragged.Monitorable = false;
+			currentDragged.OnDragStart();
 			currentDragged.OwnerParent.Reparent(this);
 		}
 		else
@@ -83,12 +84,16 @@ public partial class DragAndDropManager : Node2D
 			{
 				receiver.Receive(currentDragged);
 			}
-			else
+			if (!currentDragged.answerReceived)
 			{
 				currentDragged.Decline();
 			}
+			
+			currentDragged.OnDragEnd();
+			currentDragged.Reset();
 			currentDragged.Monitorable = true;
 			currentDragged = null;
+			
 		}
 		
 	}
