@@ -13,7 +13,7 @@ public partial class ModuleBuilder : Node2D
 
     [Export] private CollisionShape2D _collisionShape2D;
 
-    SortedList<(int, int), Module> usedModules;
+    SortedList<(int, int), ModuleBody> usedModules;
 
 
     public override void _Ready()
@@ -23,7 +23,7 @@ public partial class ModuleBuilder : Node2D
         _collisionShape2D.Shape = shape;
         _collisionShape2D.Position = shape.Size / 2;
 
-        usedModules = new SortedList<(int, int), Module>();
+        usedModules = new SortedList<(int, int), ModuleBody>();
 
 
         for (int i = 0; i < gridSize.X; i++)
@@ -52,13 +52,11 @@ public partial class ModuleBuilder : Node2D
             {
                 if (!IsFree(index))
                 {
-                    SwapModule(index, moduleTest);
+                    SwapModule(index, body);
                 }
                 else
                 {
-                    SetModule(index, moduleTest);
-                    body.Reparent(this);
-                    body.Position = GridToLocalPosition(index) + moduleSize / 2;
+                    SetModule(index, body);
                     accepted = true;
                 }
             }
@@ -66,33 +64,52 @@ public partial class ModuleBuilder : Node2D
         if (accepted) draggable.Accept();
         else draggable.Decline();
     }
-    public void OnModuleDropped()
-    {
-        Vector2 mousePos = GetLocalMousePosition();
 
-        Vector2I index = LocalToGrid(mousePos);
-
-        if (!OutOfBounds(index))
-        {
-            if (IsFree(index))
-            {
-                SwapModule(index, moduleTest);
-            }
-            else
-            {
-                SetModule(index, moduleTest);
-            }
-        }
-    }
-
-    private void SwapModule(Vector2I index, Module module)
+    private void SwapModule(Vector2I index, ModuleBody module)
     {
         SetModule(index, module);
     }
-    private void SetModule(Vector2I index, Module module)
+    private void SetModule(Vector2I index, ModuleBody body)
     {
-        usedModules.Add((index.X, index.Y), module);
+        body.Reparent(this);
+        body.Position = GridToLocalPosition(index) + moduleSize / 2;
+        usedModules.Add((index.X, index.Y), body);
+        body.module.x = index.X;
+        body.module.y = index.Y;
+        body.Draggable.DragStart += OnDragStart;
+    }
 
+    private ModuleBody RemoveModule(Vector2I index)
+    {
+        ModuleBody result = usedModules[(index.X, index.Y)];
+        usedModules.Remove((index.X, index.Y));
+        result.module.x = -1;
+        result.module.y = -1;
+        
+        result.Draggable.OwnerParent.Reparent(GetTree().Root);
+        
+        result.Draggable.DragStart -= OnDragStart;
+        return result;
+    }
+
+    private void OnDragStart(Draggable draggable)
+    {
+        if (draggable.OwnerParent is ModuleBody body)
+        {
+            if (usedModules.ContainsValue(body))
+            {
+                RemoveModule(GetIndex(body));
+
+            }
+            else
+            {
+                draggable.DragStart -= OnDragStart;
+            }
+        }
+        else
+        {
+            draggable.DragStart -= OnDragStart;
+        }
     }
 
     private Vector2 GridToLocalPosition(Vector2I index)
@@ -108,6 +125,12 @@ public partial class ModuleBuilder : Node2D
     private bool OutOfBounds(Vector2I index)
     {
         return index.X < 0 || index.X >= gridSize.X || index.Y < 0 || index.Y >= gridSize.Y;
+    }
+
+    private Vector2I GetIndex(ModuleBody body)
+    {
+        (int,int) tuple = usedModules.GetKeyAtIndex(usedModules.IndexOfValue(body));
+        return new Vector2I(tuple.Item1, tuple.Item2);
     }
 
 
