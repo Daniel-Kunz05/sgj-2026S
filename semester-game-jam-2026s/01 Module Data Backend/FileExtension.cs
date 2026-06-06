@@ -29,17 +29,17 @@ file class ToolTipAttribute(string tooltipBody) : Attribute
 
 public enum FileExtension
 {
-	[Icon("res://06 Modules/Sprites/Filetypes/pdf.png"), ToolTip("awesome")] PDF,
-	[Behaviour(typeof(MP3Behaviour)), Icon("res://06 Modules/Sprites/Filetypes/mp3.png")] MP3,
-	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/txt.png")] TXT,
-	[Icon("res://06 Modules/Sprites/Filetypes/mp4.png")] MP4,
-	[Icon("res://06 Modules/Sprites/Filetypes/sh.png")] SH,
-	[Icon("res://06 Modules/Sprites/Filetypes/zip.png")] ZIP,
-	[Icon("res://06 Modules/Sprites/Filetypes/png.png")] PNG,
-	[Icon("res://06 Modules/Sprites/Filetypes/obj.png")] OBJ,
-	[Icon("res://06 Modules/Sprites/Filetypes/godot.png")] GODOT,
-	[Icon("res://06 Modules/Sprites/Filetypes/json.png")] JSON,
-	[Behaviour(typeof(EXEBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/test.png")] EXE,
+	[Icon("res://06 Modules/Sprites/Filetypes/pdf.png"), ToolTip("Does nothing special")] PDF,
+	[Behaviour(typeof(MP3Behaviour)), Icon("res://06 Modules/Sprites/Filetypes/mp3.png"), ToolTip("Shoots musical projectiles")] MP3,
+	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/txt.png"), ToolTip("The plainest of files")] TXT,
+	[Icon("res://06 Modules/Sprites/Filetypes/mp4.png"), ToolTip("Does nothing special")] MP4,
+	[Icon("res://06 Modules/Sprites/Filetypes/sh.png"), ToolTip("Does nothing special")] SH,
+	[Icon("res://06 Modules/Sprites/Filetypes/zip.png"), ToolTip("Does nothing special")] ZIP,
+	[Icon("res://06 Modules/Sprites/Filetypes/png.png"), ToolTip("Does nothing special")] PNG,
+	[Icon("res://06 Modules/Sprites/Filetypes/obj.png"), ToolTip("Does nothing special")] OBJ,
+	[Icon("res://06 Modules/Sprites/Filetypes/godot.png"), ToolTip("Does nothing special")] GODOT,
+	[Icon("res://06 Modules/Sprites/Filetypes/json.png"), ToolTip("Does nothing special")] JSON,
+	[Behaviour(typeof(EXEBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/test.png"), ToolTip("The core of your system. It dies, you lose.")] EXE,
 }
 
 public static class BehaviourTypeExtensions
