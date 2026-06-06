@@ -5,5 +5,5 @@ using System;
 [GlobalClass]
 public partial class Module : Resource
 {
-    [Export] public BehaviourType behaviourType;
+    [Export] public FileExtension behaviourType;
 }
