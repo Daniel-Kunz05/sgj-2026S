@@ -63,6 +63,7 @@ public partial class DragAndDropManager : Node2D
 			isDragging = true;
 			currentDragged = hit;
 			currentDragged.Monitorable = false;
+			currentDragged.OnDragStart();
 			currentDragged.OwnerParent.Reparent(this);
 		}
 		else
@@ -83,12 +84,16 @@ public partial class DragAndDropManager : Node2D
 			{
 				receiver.Receive(currentDragged);
 			}
-			else
+			if (!currentDragged.AnswerReceived)
 			{
 				currentDragged.Decline();
 			}
+			
+			currentDragged.OnDragEnd();
+			currentDragged.Reset();
 			currentDragged.Monitorable = true;
 			currentDragged = null;
+			
 		}
 		
 	}
@@ -112,7 +117,7 @@ public partial class DragAndDropManager : Node2D
 		{
 			Node collider = hit["collider"].As<Node>();
 
-			if (collider is Draggable draggable)
+			if (collider is Draggable draggable && draggable.AllowDragging)
 			{
 				return draggable;
 			}

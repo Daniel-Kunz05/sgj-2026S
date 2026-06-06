@@ -13,12 +13,12 @@ shader_parameter/handle_edges = false
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ldrhc"]
 size = Vector2(500, 500)
 
-[node name="ModuleBody" type="Node2D" unique_id=2008233099]
+[node name="ModuleBody" type="Node2D" unique_id=2008233099 node_paths=PackedStringArray("Draggable", "sprite")]
 material = SubResource("ShaderMaterial_ldrhc")
 scale = Vector2(0.23, 0.23)
 script = ExtResource("1_j1uiu")
-
-[node name="Node" type="Node" parent="." unique_id=1929640767]
+Draggable = NodePath("Area2D")
+sprite = NodePath("Sprite2D")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=723625127 node_paths=PackedStringArray("OwnerParent")]
 use_parent_material = true
@@ -32,3 +32,5 @@ shape = SubResource("RectangleShape2D_ldrhc")
 z_index = 1
 use_parent_material = true
 texture = ExtResource("2_l8ad1")
+
+[connection signal="area_entered" from="Area2D" to="." method="OnAreaEntered"]

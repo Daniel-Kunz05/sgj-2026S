@@ -10,20 +10,26 @@ public partial class ShopElementsArranger : Node2D
 	[Export] private Vector2 shopWidthHeight = new Vector2(300, 300);
 	[Export] private Vector2 elementSize = new Vector2(118, 118);
 
+	private List<ShopItemField> shopElements = new List<ShopItemField>();
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		LinkItems();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-
-		ArrangeShopElements();
-
 	}
 
-	private void ArrangeShopElements()
+	private void LinkItems()
+	{
+		CalcShopElementsPostions();
+		shopElements = GetChildren().OfType<ShopItemField>().ToList();
+	}
+
+	private void CalcShopElementsPostions()
 	{
 		var shopNodes = GetChildren().OfType<Node2D>().ToList();
 

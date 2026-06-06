@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://bg5mnt87ffhix"]
+
+[ext_resource type="PackedScene" uid="uid://bgtqrl5ms0kqe" path="res://11 TooltipManager/tooltipManager.tscn" id="1_g4rrn"]
+[ext_resource type="PackedScene" uid="uid://btcv6x6so88d5" path="res://05 Module Builder/Module_Body.tscn" id="2_tkibr"]
+[ext_resource type="Script" uid="uid://3qnruq0p4w1f" path="res://11 TooltipManager/ButtonWithToolTip.cs" id="3_2ndna"]
+
+[node name="TooltipTest" type="Node" unique_id=1406840893]
+
+[node name="ModuleBody" parent="." unique_id=2008233099 instance=ExtResource("2_tkibr")]
+position = Vector2(519, 41)
+
+[node name="TooltipManager" parent="." unique_id=1883395475 instance=ExtResource("1_g4rrn")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1225661356]
+layer = -1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=1740583876]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/VBoxContainer" unique_id=1872918577]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer" unique_id=816482593]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="1" type="Control" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=1518072315]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/1" unique_id=1323350208]
+layout_mode = 0
+offset_right = 250.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 60
+text = "1"
+script = ExtResource("3_2ndna")
+toolTipText = "ICH BIN EIN BUTON
+
+
+sgtdsgdfs"
+
+[node name="2" type="Control" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=416813596]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/2" unique_id=724054521]
+layout_mode = 0
+offset_right = 250.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 60
+text = "2"
+
+[node name="3" type="Control" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=2009969530]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/3" unique_id=663273358]
+layout_mode = 0
+offset_right = 250.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 60
+text = "3"
+
+[node name="4" type="Control" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=822488590]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/4" unique_id=525302297]
+layout_mode = 0
+offset_right = 250.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 60
+text = "4"
+
+[node name="5" type="Control" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=1383026370]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/5" unique_id=11530258]
+layout_mode = 0
+offset_right = 250.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 60
+text = "5"

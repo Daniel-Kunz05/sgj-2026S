@@ -20,11 +20,16 @@ file class CostAttribute(int cost) : Attribute
 {
 	public readonly int cost = cost;
 }
+[AttributeUsage(AttributeTargets.Field)]
+file class ToolTipAttribute(string tooltipBody) : Attribute
+{
+	public readonly string tooltipBody = tooltipBody;
+}
 
 
 public enum FileExtension
 {
-	PDF,
+	[ToolTip("awesome")] PDF,
 	MP3,
 	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/txt.png")] TXT,
 	MP4,
@@ -34,6 +39,7 @@ public enum FileExtension
 	OBJ,
 	GODOT,
 	JSON,
+	[Behaviour(typeof(EXEBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/test.png")] EXE,
 }
 
 public static class BehaviourTypeExtensions
@@ -48,5 +54,6 @@ public static class BehaviourTypeExtensions
 		public Func<Module.Module, Behaviour> Constructor => type.GetAttr<BehaviourAttribute>()?.constructor ?? throw new Exception();
 		public string IconPath => type.GetAttr<IconAttribute>()?.iconPath ?? throw new Exception();
 		public int Cost => type.GetAttr<CostAttribute>()?.cost ?? throw new Exception();
+		public string ToolTip => type.GetAttr<ToolTipAttribute>()?.tooltipBody ?? throw new Exception();
 	}
 }

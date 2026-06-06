@@ -10,7 +10,8 @@ public partial class Draggable : Area2D
     [Signal] public delegate void AcceptedEventHandler(Draggable draggable);
     [Signal] public delegate void DeclinedEventHandler(Draggable draggable);
 
-
+    public bool AnswerReceived;
+    public bool AllowDragging = true;
     
     
     public void MoveTo(Vector2 worldPos)
@@ -36,13 +37,19 @@ public partial class Draggable : Area2D
 
     public void Accept()
     {
+        AnswerReceived = true;
         EmitSignalAccepted(this);
     }
 
     public void Decline()
     {
+        AnswerReceived = true;
         EmitSignalDeclined(this);
     }
 
+    public void Reset()
+    {
+        AnswerReceived = false;
+    }
 
 }

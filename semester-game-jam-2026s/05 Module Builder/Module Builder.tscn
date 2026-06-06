@@ -2,12 +2,13 @@
 
 [ext_resource type="Script" uid="uid://cncrscj1r4d3a" path="res://05 Module Builder/ModuleBuilder.cs" id="1_5nk00"]
 [ext_resource type="PackedScene" uid="uid://b6yl6btkqug8q" path="res://05 Module Builder/GridCellTest.tscn" id="2_vvfak"]
+[ext_resource type="PackedScene" uid="uid://btcv6x6so88d5" path="res://05 Module Builder/Module_Body.tscn" id="3_vvfak"]
 [ext_resource type="Script" uid="uid://dglem1k2cvc7n" path="res://04 Drag And Drop/DropReceiver.cs" id="5_pmms3"]
 
 [node name="ModuleBuilder" type="Node2D" unique_id=188737696 node_paths=PackedStringArray("_collisionShape2D")]
 script = ExtResource("1_5nk00")
 cell = ExtResource("2_vvfak")
-moduleSize = Vector2i(125, 125)
+moduleBodyPrefab = ExtResource("3_vvfak")
 gridSize = Vector2i(5, 5)
 _collisionShape2D = NodePath("Area2D/CollisionShape2D")
 

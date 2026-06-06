@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://cgexw1vtgvx0m"]
+
+[node name="Ui" type="Node" unique_id=1265628750]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=449369857]
+
+[node name="MainUI" type="Control" parent="CanvasLayer" unique_id=905524269]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainUI" unique_id=1574362430]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LeftP1" type="PanelContainer" parent="CanvasLayer/MainUI/HBoxContainer" unique_id=1249192559]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MainUI/HBoxContainer/LeftP1" unique_id=212869533]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainUI/HBoxContainer/LeftP1/VBoxContainer" unique_id=1238885992]
+layout_mode = 2
+
+[node name="MiddleLoot" type="PanelContainer" parent="CanvasLayer/MainUI/HBoxContainer" unique_id=395967583]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RightP2" type="PanelContainer" parent="CanvasLayer/MainUI/HBoxContainer" unique_id=1551441565]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
