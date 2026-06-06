@@ -4,14 +4,16 @@ using sgj.Module;
 using sgj.NameGeneration;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class Shop : Node2D
 {
 	[Export] private PackedScene moduleBodyScene;
-
-	private HashSet<Module> originalDroppedItems = new();
+	[Export] private Button rerollButton;
 
 	private List<Node2D> itemsInSlots = new();
+
+	private int rerollTries = 3;
 
 	public void OpenAndGenerateShop()
 	{
@@ -38,21 +40,50 @@ public partial class Shop : Node2D
 		}
 	}
 
+	public void RerollShop()
+	{
+		// Check which slots are still occupied, and only reroll those
+		var itemHoldersWithItems = itemsInSlots.ConvertAll((item) => item.FindParent("ShopItemField*") as ShopItemField).FindAll((field) => field != null).Select(x => x!).ToList();
+
+		foreach (var shopItemField in itemHoldersWithItems)
+		{
+			// Remove the old item from the field
+			var oldItem = shopItemField.CurrentStoredModuleBody;
+			if (oldItem != null)
+			{
+				shopItemField.RemoveChild(oldItem);
+				itemsInSlots.Remove(oldItem);
+				oldItem.QueueFree();
+			}
+
+			// Generate a new item for the field
+			GenerateRandomModuleBody(shopItemField);
+		}
+
+		AnimateOpenShop();
+
+		rerollTries--;
+		rerollButton.Disabled = rerollTries <= 0;
+
+		rerollButton.Text = $"Reroll ({rerollTries}/3)";
+	}
+
 	public void ClearShop()
 	{
-		GD.Print($"Clearing shop, items in slots: {itemsInSlots.Count}, original dropped items: {originalDroppedItems.Count}");
 		foreach (var item in itemsInSlots)
 		{
 			item.QueueFree();
 		}
 		itemsInSlots.Clear();
-		originalDroppedItems.Clear();
 	}
 
 	public void OnItemPlacedInField(ShopItemField shopItemField, ModuleBody moduleBody)
 	{
 		itemsInSlots.Add(moduleBody);
 		GD.Print($"Item placed in shop: {shopItemField.Name}, module body: {moduleBody.Name}");
+
+		// Enable reroll button if there is at least 1 item in the shop
+		rerollButton.Disabled = itemsInSlots.Count == 0 || rerollTries <= 0;
 	}
 
 	public void OnItemRemovedFromField(ShopItemField shopItemField, ModuleBody moduleBody)
@@ -65,6 +96,9 @@ public partial class Shop : Node2D
 		{
 			GD.Print($"Attempted to remove item that was not in shop: {shopItemField.Name}, module body: {moduleBody.Name}");
 		}
+
+		// If shop now empty, disable reroll button
+		rerollButton.Disabled = itemsInSlots.Count == 0 || rerollTries <= 0;
 	}
 
 	private void GenerateRandomModuleBody(ShopItemField attachTo)
@@ -72,11 +106,9 @@ public partial class Shop : Node2D
 		var instance = moduleBodyScene.Instantiate<ModuleBody>();
 		var chosenFileExtension = (FileExtension)(GD.Randi() % (Enum.GetValues<FileExtension>().Length - 2)); // -2 to exclude EXE as core
 		var module = new Module(chosenFileExtension, FilenameGenerator.Generate(chosenFileExtension), -1, -1);
-		originalDroppedItems.Add(module);
 		instance.Setup(module);
 		attachTo.AddChild(instance);
 
-		originalDroppedItems.Add(module);
 		attachTo.OnItemPlaced(null, instance.GetNode<Area2D>("Area2D"));
 	}
 
