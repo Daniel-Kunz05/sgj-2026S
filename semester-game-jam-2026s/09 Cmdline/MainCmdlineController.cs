@@ -26,6 +26,9 @@ public partial class MainCmdlineController : Node
 	private string currentPath = null!;
 	private const double CC_DELAY = 0.3;
 	private const double COMMAND_DURATION = 0.5;
+	private const double COMMAND_DELAY = 0.25;
+	private const double TOTAL_COMMAND_TIME = (COMMAND_DURATION + COMMAND_DELAY);
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -58,19 +61,19 @@ public partial class MainCmdlineController : Node
 			}
 			return;
 		}
-		if (timer > COMMAND_DURATION && queuedCommands.Count == 0)
+		if (timer > TOTAL_COMMAND_TIME && queuedCommands.Count == 0)
 		{
 			UpdateCmdline();
 			return;
 		}
-		if (timer > COMMAND_DURATION)
+		if (timer > TOTAL_COMMAND_TIME)
 		{
 			(currentCommand, nextAction, nextCallback) = queuedCommands.Dequeue();
 			timer = 0;
 		}
 		timer += delta;
 		cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{Database.Instance.userName}@PC[/color]:[color=#11d116]{Database.Instance.gamePath}[/color]$ {currentCommand.Substring(0, (int)(currentCommand.Length * double.Clamp(timer / COMMAND_DURATION, 0, 1)))}[/font]";
-		if (timer > COMMAND_DURATION)
+		if (timer > TOTAL_COMMAND_TIME)
 		{
 			nextCallback();
 			switch (nextAction)
