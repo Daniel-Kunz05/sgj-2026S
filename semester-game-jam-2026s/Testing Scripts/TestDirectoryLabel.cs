@@ -17,15 +17,15 @@ public partial class TestDirectoryLabel : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		Change();
 		command = $"./{Database.Instance.playerName}.exe";
 		username = Database.Instance.userName;
+		Change();
 	}
 
 	public void Change()
 	{
-		var (uname, curPath) = sgj.NameGeneration.PathGenerator.Generate();
-		currentPath = curPath.Replace($"/home/{uname}", $"/home/{Database.Instance.userName}");
+		(username, currentPath) = sgj.NameGeneration.PathGenerator.Generate(username);
+		//currentPath = curPath.Replace($"/home/{uname}", $"/home/{Database.Instance.userName}");
 		currentFname = sgj.NameGeneration.FilenameGenerator.Generate(sgj.Behaviour.FileExtension.TXT);
 	}
 

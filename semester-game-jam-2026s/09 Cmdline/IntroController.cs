@@ -5,7 +5,7 @@ using System;
 [GlobalClass]
 public partial class IntroController : Node
 {
-	private const string NextScene = "res://post_process_test.tscn";
+	private const string NextScene = "res://main.tscn";
 	[Export] public RichTextLabel cmdline = null!;
 	[Export] public double timer;
 	public double blinkTimer;
@@ -45,7 +45,7 @@ public partial class IntroController : Node
 		}
 		if (timer > TOTAL_DELAY)
 		{
-			cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{Database.Instance.userName}@PC[/color]:[color=#11d116]{Database.Instance.gamePath}[/color]$ /usr/bin/register-user {playerName}{(showCursor ? "█" : "")}[/font]";
+			cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{Database.Instance.userName}@PC[/color]:[color=#11d116]{Database.Instance.gamePath}[/color]$ /usr/bin/register-player {playerName}{(showCursor ? "█" : "")}[/font]";
 			if (blinkTimer > 1)
 			{
 				blinkTimer = 0;
@@ -62,8 +62,8 @@ public partial class IntroController : Node
 		double bar = START_COMMAND_DELAY;
 		if (timer < bar + START_COMMAND_DURATION)
 		{
-			string register_user = "/usr/bin/register-user █";
-			cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{Database.Instance.userName}@PC[/color]:[color=#11d116]{Database.Instance.gamePath}[/color]$ {register_user.Substring(0, (int)(register_user.Length * ((timer - bar) / START_COMMAND_DURATION)))}[/font]";
+			string register_player = "/usr/bin/register-player █";
+			cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{Database.Instance.userName}@PC[/color]:[color=#11d116]{Database.Instance.gamePath}[/color]$ {register_player.Substring(0, (int)(register_player.Length * ((timer - bar) / START_COMMAND_DURATION)))}[/font]";
 			return;
 		}
 	}
@@ -121,8 +121,8 @@ public partial class IntroController : Node
 			}
 			else if (keyEvent.Keycode == Key.Enter && playerName.Length > 0)
 			{
-				// TODO
 				Database.Instance.playerName = playerName;
+				Database.Instance.gamePath += $"/{playerName}";
 				GetTree().ChangeSceneToFile(NextScene);
 			}
 		}

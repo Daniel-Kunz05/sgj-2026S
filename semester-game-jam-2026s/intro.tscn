@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c1367elycm3b2"]
 
 [ext_resource type="Shader" uid="uid://bagk85xk4afh6" path="res://20 Shaders/screen_shader.gdshader" id="1_ayt76"]
-[ext_resource type="Script" uid="uid://babuvjv1f3qv4" path="res://09 Intro/IntroController.cs" id="2_ayt76"]
+[ext_resource type="Script" uid="uid://babuvjv1f3qv4" path="res://09 Cmdline/IntroController.cs" id="2_ayt76"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7vrkn"]
 shader = ExtResource("1_ayt76")

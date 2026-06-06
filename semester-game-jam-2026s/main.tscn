@@ -1,3 +1,49 @@
 [gd_scene format=3 uid="uid://hdlmmgkv5s4"]
 
+[ext_resource type="Shader" uid="uid://bagk85xk4afh6" path="res://20 Shaders/screen_shader.gdshader" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://baw4e05j5ph6l" path="res://09 Cmdline/MainCmdlineController.cs" id="2_0xm2m"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0xm2m"]
+shader = ExtResource("1_ig7tw")
+shader_parameter/screen_resolution = Vector2(1920, 1080)
+shader_parameter/scanline_intensity = 0.2150000102125
+shader_parameter/color_bleed_weight = 0.10800000513
+
+[sub_resource type="Environment" id="Environment_h2yge"]
+background_mode = 3
+tonemap_mode = 3
+tonemap_exposure = 0.84
+glow_enabled = true
+glow_intensity = 2.05
+glow_bloom = 0.18
+
 [node name="Node2D" type="Node2D" unique_id=1287528612]
+
+[node name="startCommand" type="RichTextLabel" parent="." unique_id=1574045834]
+offset_right = 1924.0
+offset_bottom = 99.0
+theme_override_font_sizes/normal_font_size = 39
+bbcode_enabled = true
+text = "[font=res://NotoSansMono.ttf][color=#11d116]user@PC[/color]:[color=#11d116]path[/color]$ [/font]"
+scroll_active = false
+autowrap_mode = 1
+
+[node name="PostProcessLayer" type="CanvasLayer" parent="." unique_id=561232319]
+layer = 2
+
+[node name="ColorRect" type="ColorRect" parent="PostProcessLayer" unique_id=979293318]
+material = SubResource("ShaderMaterial_0xm2m")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1207063228]
+environment = SubResource("Environment_h2yge")
+
+[node name="MainCmdlineController" type="Node" parent="." unique_id=1340692563 node_paths=PackedStringArray("cmdline")]
+script = ExtResource("2_0xm2m")
+cmdline = NodePath("../startCommand")
+metadata/_custom_type_script = "uid://baw4e05j5ph6l"

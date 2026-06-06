@@ -41,4 +41,9 @@ public partial class PathGenerator : Node
 		string user = USERS.PickRandom();
 		return (user, FormatUtil.Format(PREFIX + "/" + user + "/" + home_dir + "/" + SUBDIRECTORIES[home_dir].PickRandom()));
 	}
+	public static (string username, string path) Generate(string username)
+	{
+		string home_dir = HOME_DIRECTORIES.PickRandom();
+		return (username, FormatUtil.Format(PREFIX + "/" + username + "/" + home_dir + "/" + SUBDIRECTORIES[home_dir].PickRandom()));
+	}
 }
