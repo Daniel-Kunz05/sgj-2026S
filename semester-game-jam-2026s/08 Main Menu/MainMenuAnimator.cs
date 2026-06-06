@@ -14,9 +14,9 @@ public partial class MainMenuAnimator : Node
 	private bool ctrl_cd;
 	private double cctimer;
 	private const double CC_DELAY = 0.3;
-	private const double START_COMMAND_DELAY = 1;
-	private const double START_COMMAND_DURATION = 2;
-	private const double TITLE_TEXT_DELAY = 0.5;
+	private const double START_COMMAND_DELAY = 0.5;
+	private const double START_COMMAND_DURATION = 1;
+	private const double TITLE_TEXT_DELAY = 1.5;
 	private const double TITLE_TEXT_DURATION = 3;
 	private const double CONFIRM_TEXT_DELAY = 0.5;
 	private const double CONFIRM_TEXT_DURATION = 2;
@@ -31,8 +31,7 @@ public partial class MainMenuAnimator : Node
 █████╗  ██║██║     █████╗      █████╗  ██████╔╝█████╗  ██╔██╗ ██║  ███╔╝  ╚████╔╝ 
 ██╔══╝  ██║██║     ██╔══╝      ██╔══╝  ██╔══██╗██╔══╝  ██║╚██╗██║ ███╔╝    ╚██╔╝  
 ██║     ██║███████╗███████╗    ██║     ██║  ██║███████╗██║ ╚████║███████╗   ██║   
-╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝     ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝╚══════╝   ╚═╝   
-                                                                                  ";
+╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝     ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ";
 	private static readonly string confirm_text = @"Viruses run rampant on this disk.
 After this operation, only one will remain.
 Is this ok [y/N]:";

@@ -6,7 +6,8 @@ using System.Collections.Generic;
 public enum CmdlineAction
 {
 	NOP,
-	POP_DIR
+	POP_DIR,
+	PUSH_PLAYER_DIR,
 }
 
 [GlobalClass]
@@ -28,14 +29,21 @@ public partial class MainCmdlineController : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{Database.Instance.userName}@PC[/color]:[color=#11d116]{Database.Instance.gamePath}[/color]$ [/font]";
-		timer = 0;
+		timer = COMMAND_DURATION * 2;
 		cctimer = 0;
 		queuedCommands = new();
 		currentCommand = "";
 		userName = Database.Instance.userName;
 		playerName = Database.Instance.playerName;
 		currentPath = Database.Instance.gamePath;
+		UpdateCmdline();
+		EnqueueCommand($"mkdir {playerName}");
+		EnqueueCommand($"cd {playerName}", CmdlineAction.PUSH_PLAYER_DIR);
+	}
+
+	private void UpdateCmdline()
+	{
+		cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{userName}@PC[/color]:[color=#11d116]{currentPath}[/color]$ {currentCommand}[/font]";
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -52,7 +60,7 @@ public partial class MainCmdlineController : Node
 		}
 		if (timer > COMMAND_DURATION && queuedCommands.Count == 0)
 		{
-			cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{Database.Instance.userName}@PC[/color]:[color=#11d116]{Database.Instance.gamePath}[/color]$ {currentCommand}[/font]";
+			UpdateCmdline();
 			return;
 		}
 		if (timer > COMMAND_DURATION)
@@ -61,17 +69,25 @@ public partial class MainCmdlineController : Node
 			timer = 0;
 		}
 		timer += delta;
-		cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{Database.Instance.userName}@PC[/color]:[color=#11d116]{Database.Instance.gamePath}[/color]$ {currentCommand.Substring(0, (int)(currentCommand.Length * double.Clamp(0, 1, timer / COMMAND_DURATION)))}[/font]";
+		cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{Database.Instance.userName}@PC[/color]:[color=#11d116]{Database.Instance.gamePath}[/color]$ {currentCommand.Substring(0, (int)(currentCommand.Length * double.Clamp(timer / COMMAND_DURATION, 0, 1)))}[/font]";
 		if (timer > COMMAND_DURATION)
 		{
 			nextCallback();
 			switch (nextAction)
 			{
+				case CmdlineAction.PUSH_PLAYER_DIR:
+					{
+						if (currentPath == "/") { currentPath = $"/{playerName}"; }
+						else { currentPath = $"{currentPath}/{playerName}"; }
+						UpdateCmdline();
+					}
+					break;
 				case CmdlineAction.POP_DIR:
 					{
 						int i = currentPath.LastIndexOf('/');
 						currentPath = currentPath[..i];
 						if (currentPath == "") { currentPath = "/"; }
+						UpdateCmdline();
 					}
 					break;
 				default:

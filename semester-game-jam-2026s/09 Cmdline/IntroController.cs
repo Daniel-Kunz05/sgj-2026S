@@ -122,7 +122,7 @@ public partial class IntroController : Node
 			else if (keyEvent.Keycode == Key.Enter && playerName.Length > 0)
 			{
 				Database.Instance.playerName = playerName;
-				Database.Instance.gamePath += $"/{playerName}";
+				//Database.Instance.gamePath += $"/{playerName}";
 				GetTree().ChangeSceneToFile(NextScene);
 			}
 		}
