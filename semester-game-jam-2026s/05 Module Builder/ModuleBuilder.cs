@@ -15,6 +15,30 @@ public partial class ModuleBuilder : Node2D
     SortedList<(int, int), ModuleBody> usedModules;
     private ModuleBody coreBody;
 
+    public enum BuildErrorCode
+    {
+        ALL_GOOD,
+        CORE_MISSING,
+        NOT_CONNECTED
+    }
+    public BuildErrorCode IsBuildAccepted()
+    {
+        if (!usedModules.ContainsValue(coreBody)) return BuildErrorCode.CORE_MISSING;
+        foreach (var key in usedModules.Keys)
+        {
+
+            if (!((usedModules.ContainsKey((key.Item1 + 1, key.Item2))) || (usedModules.ContainsKey((key.Item1 - 1,
+                                                                            key.Item2)))
+                                                                        || (usedModules.ContainsKey((key.Item1,
+                                                                            key.Item2 + 1))) ||
+                                                                        (usedModules.ContainsKey((key.Item1,
+                                                                            key.Item2 - 1)))))
+                return BuildErrorCode.NOT_CONNECTED;
+
+        }
+
+        return BuildErrorCode.ALL_GOOD;
+    }
 
     public override void _Ready()
     {
