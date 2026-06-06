@@ -25,7 +25,7 @@ use_parent_material = true
 script = ExtResource("3_ig6jt")
 OwnerParent = NodePath("..")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1618463432]
+[node name="Collider" type="CollisionShape2D" parent="Area2D" unique_id=1618463432]
 shape = SubResource("RectangleShape2D_ldrhc")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=861963749]

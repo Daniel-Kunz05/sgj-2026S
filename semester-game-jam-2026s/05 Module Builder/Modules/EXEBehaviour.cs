@@ -1,83 +1,173 @@
 ﻿
+using System;
 using System.Collections.Generic;
+using System.Numerics;
 using Godot;
 using sgj.Behaviour;
 using sgj.Module;
+using Vector2 = Godot.Vector2;
 
 public partial class EXEBehaviour(Module module) : Behaviour(module)
 {
-    public ModuleBuilder builder;
+    enum CoreState
+    {
+        DRAGGING,
+        AIMING,
+        FIGHTING
+    }
 
-    private Vector2 direction;
+    private CoreState _state;
+    private CoreState State
+    {
+        get => _state;
+        set
+        {
+            _state = value;
+            GD.Print(value);
+            switch (_state)
+            {
+                case CoreState.AIMING:
+                    _rigidBody2D.GlobalPosition = Body.GlobalPosition;
+                    Body.Reparent(_rigidBody2D);
+                    arrowPivot.Modulate = new Color(1, 1, 1, 1);
+                    _rigidBody2D.Freeze = true;
+
+                    break;
+                case CoreState.FIGHTING:
+                    arrowPivot.Modulate = new Color(1, 1, 1, 0);
+                    _rigidBody2D.Freeze = false;
+                    break;
+                case CoreState.DRAGGING:
+                    arrowPivot.Modulate = new Color(1, 1, 1, 0);
+                    _rigidBody2D.Freeze = true;
+                    break;
+            }
+            
+        }
+    }
+    
+    public ModuleBuilder builder;
+    
     private float speed = 300;
-    private bool isMoving;
+
+    private RigidBody2D? _rigidBody2D;
+    private List<CollisionShape2D> _shape2Ds;
+
+    private Node2D arrowPivot;
+
+    public override void _Ready()
+    {
+        base._Ready();
+        
+        Setup();
+    }
+
+    private async void Setup()
+    {
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        _rigidBody2D = new RigidBody2D();
+        _rigidBody2D.Freeze = true;
+
+        _rigidBody2D.CollisionLayer = 2;
+        _rigidBody2D.CollisionMask = 2;
+
+        PhysicsMaterial physicsMaterial = new PhysicsMaterial();
+        physicsMaterial.Friction = 0;
+        physicsMaterial.Bounce = 1;
+        _rigidBody2D.PhysicsMaterialOverride = physicsMaterial;
+
+        _rigidBody2D.GravityScale = 0;
+        _rigidBody2D.LockRotation = true;
+        _rigidBody2D.ContinuousCd = RigidBody2D.CcdMode.CastShape;
+
+        Body.GetParent().AddChild(_rigidBody2D);
+        _rigidBody2D.GlobalPosition = Body.GlobalPosition;
+        Body.Reparent(_rigidBody2D);
+        
+        
+        arrowPivot = ResourceLoader.Load<PackedScene>("res://05 Module Builder/ArrowPivot.tscn").Instantiate<Node2D>();
+        Body.AddChild(arrowPivot);
+        
+        State = CoreState.DRAGGING;
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        base._PhysicsProcess(delta);
+        if (State == CoreState.FIGHTING)
+        {
+            _rigidBody2D.LinearVelocity = _rigidBody2D.LinearVelocity.Normalized() * speed;
+        }
+    }
 
     public override void _Process(double delta)
     {
         base._Process(delta);
-        if (isMoving)
+        if (State == CoreState.AIMING)
         {
-            Body.Position += direction * speed * (float)delta;
+            arrowPivot.Rotation = (Body.GetGlobalMousePosition() - arrowPivot.GlobalPosition).Angle();
+        }
+    }
+    
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (State != CoreState.AIMING) return;
+        if (@event is InputEventMouseButton eventKey)
+        {
+            if (eventKey.Pressed && eventKey.ButtonIndex == MouseButton.Left)
+            {
+                Shoot(arrowPivot.Rotation);
+            }
         }
     }
 
-    private void OnCollision(Vector2 colPos)
+    public async void Shoot(float angle)
     {
-        Vector2 diff = (Body.Position - colPos);
-        if (Mathf.Abs(diff.X) > Mathf.Abs(diff.Y))
-        {
-            if (diff.X > 0) //right
-            {
-                direction.X = -direction.X;
-
-            }
-            else //left
-            {
-                direction.X = -direction.X;
-
-            }
-                
-        }
-        else
-        {
-            if (diff.Y > 0)
-            {
-                direction.Y = -direction.Y;
-            }
-            else
-            {
-                direction.Y = -direction.Y;
-            }
-        }
+        Vector2 pos = _rigidBody2D.GlobalPosition;
+        
+        State = CoreState.FIGHTING;
+        _rigidBody2D.LinearVelocity = Vector2.FromAngle(angle) * speed;
+        
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        _rigidBody2D.GlobalPosition = pos;
 
     }
 
 
     public void SetupShip(SortedList<(int,int), ModuleBody> moduleBodies)
     {
-        foreach (ModuleBody body in moduleBodies.Values)
+        if (State == CoreState.DRAGGING)
         {
-            if (body != Body)
-            {
-                body.Reparent(Body);
-                body.Position = GetRelativePosition(new Vector2I(body.module.x, body.module.y));
-                body.SetActive(true);
-                body.OnCollision += OnCollision;
-            }
-            
-        }
-
-        Body.SetActive(true);
-        Body.OnCollision += OnCollision;
-
+            _shape2Ds = new List<CollisionShape2D>();
         
-        //REMOVE
-        Body.Position = new Vector2(960, 520);
-        direction = Vector2.Left;
-        isMoving = true;
+            foreach (ModuleBody body in moduleBodies.Values)
+            {
+                if (body != Body)
+                {
+                    body.Reparent(Body);
+                    body.Position = GetRelativePosition(new Vector2I(body.module.x, body.module.y));
+                
+                    body.BattleMode(true);
+                }
 
+                var rect = Body.Draggable.GetChild<CollisionShape2D>(0).Shape as RectangleShape2D;
+
+                var rect2 = new RectangleShape2D();
+                rect2.Size = rect.Size * Body.Scale * 0.8f;
+
+                var shape = new CollisionShape2D();
+                shape.Shape = rect2;
+                shape.DebugColor = Colors.Goldenrod;
+                _shape2Ds.Add(shape);
+                _rigidBody2D.AddChild(shape);
+                shape.Position = GetRelativePosition(new Vector2I(body.module.x, body.module.y)) * Body.Scale;
+
+            }
+            Body.BattleMode(true);
+            State = CoreState.AIMING;
+        }
     }
-
+    
     public Vector2 GetRelativePosition(Vector2I index)
     {
         index = index - new Vector2I(module.x, module.y);
@@ -98,5 +188,14 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
     public override void OnModuleDeath(Module cause)
     {
         throw new System.NotImplementedException();
+    }
+
+    public override void Reset()
+    {
+        State = CoreState.DRAGGING;
+        foreach (var shape in _shape2Ds)
+        {
+            shape.Free();
+        }
     }
 }

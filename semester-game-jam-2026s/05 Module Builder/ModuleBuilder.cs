@@ -181,6 +181,8 @@ public partial class ModuleBuilder : Node2D
     {
         foreach (ModuleBody body in usedModules.Values)
         {
+            body.module.behaviour.Reset();
+            
             Vector2I index = new Vector2I(body.module.x, body.module.y);
             if (body.GetParent() != null)
             {
@@ -191,7 +193,7 @@ public partial class ModuleBuilder : Node2D
                 AddChild(body);
             }
             body.Position = GridToLocalPosition(index) + ModuleBody.moduleSize / 2;
-            body.SetActive(false);
+            body.BattleMode(false);
         }
     }
 

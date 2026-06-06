@@ -8,6 +8,11 @@ public partial class TXTBehaviour(Module.Module module) : Behaviour(module)
 
     }
 
+    public override void Reset()
+    {
+        
+    }
+
     public override void OnModuleHit(Module.Module m1, Module.Module m2)
     {
         // TODO death
