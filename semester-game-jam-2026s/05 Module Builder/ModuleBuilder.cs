@@ -5,6 +5,7 @@ using sgj.Behaviour;
 using sgj.Module;
 public partial class ModuleBuilder : Node2D
 {
+    [Export] private bool isPlayer = true;
     [Export] private PackedScene cell;
     [Export] private PackedScene moduleBodyPrefab;
 
@@ -62,38 +63,44 @@ public partial class ModuleBuilder : Node2D
             }
         }
 
-        coreBody = moduleBodyPrefab.Instantiate<ModuleBody>();
-        coreBody.Name = "CoreModuleBody";
-        Module coreModule = new Module(FileExtension.EXE, "CoreTest", -1, -1);
-        coreBody.Setup(coreModule);
-
-        SetModule(gridSize / 2, coreBody);
+        if (isPlayer)
+        {
+            coreBody = moduleBodyPrefab.Instantiate<ModuleBody>();
+            coreBody.Name = "CoreModuleBody";
+            Module coreModule = new Module(FileExtension.EXE, "CoreTest", -1, -1);
+            coreBody.Setup(coreModule);
+            SetModule(gridSize / 2, coreBody);
+        }
     }
 
 
     public void OnDraggableReceived(DropReceiver receiver, Draggable draggable)
     {
         bool accepted = false;
-        if (draggable.OwnerParent is ModuleBody body)
+        if (isPlayer)
         {
-
-            Vector2 mousePos = GetLocalMousePosition();
-
-            Vector2I index = LocalToGrid(mousePos);
-
-            if (!OutOfBounds(index))
+            if (draggable.OwnerParent is ModuleBody body)
             {
-                if (!IsFree(index))
+
+                Vector2 mousePos = GetLocalMousePosition();
+
+                Vector2I index = LocalToGrid(mousePos);
+
+                if (!OutOfBounds(index))
                 {
-                    SwapModule(index, body);
+                    if (!IsFree(index))
+                    {
+                        SwapModule(index, body);
+                    }
+                    else
+                    {
+                        SetModule(index, body);
+                        accepted = true;
+                    }
                 }
-                else
-                {
-                    SetModule(index, body);
-                    accepted = true;
-                }
-            }
+            } 
         }
+        
         if (accepted) draggable.Accept();
         else draggable.Decline();
     }
@@ -116,7 +123,14 @@ public partial class ModuleBuilder : Node2D
         usedModules.Add((index.X, index.Y), body);
         body.module.x = index.X;
         body.module.y = index.Y;
-        body.Draggable.DragStart += OnDragStart;
+        if (isPlayer)
+        {
+            body.Draggable.DragStart += OnDragStart;
+        }
+        else
+        {
+            body.Draggable.AllowDragging = false;
+        }
     }
 
     private ModuleBody RemoveModule(Vector2I index)
@@ -128,7 +142,14 @@ public partial class ModuleBuilder : Node2D
 
         result.Draggable.OwnerParent.Reparent(GetTree().Root);
 
-        result.Draggable.DragStart -= OnDragStart;
+        if (isPlayer)
+        {
+            result.Draggable.DragStart -= OnDragStart;
+        }
+        else
+        {
+            result.Draggable.AllowDragging = false;
+        }
         return result;
     }
 
@@ -154,12 +175,39 @@ public partial class ModuleBuilder : Node2D
 
     public void SetupShip()
     {
-
         if (coreBody.module.behaviour is EXEBehaviour moduleCore)
         {
             moduleCore.SetupShip(usedModules);
         }
 
+    }
+
+    public void NPCOverwriteModules(Module.Module[] modules)
+    {
+        usedModules = new SortedList<(int, int), ModuleBody>();
+        foreach (var module in modules)
+        {
+            ModuleBody body = moduleBodyPrefab.Instantiate<ModuleBody>();
+            if (module.fileExtension == FileExtension.EXE)
+            {
+                coreBody = new ModuleBody();
+                coreBody.Name = "CoreModuleBody";
+            }
+            body.Setup(module);
+            SetModule(new Vector2I(module.x, module.y), body);
+        }
+    }
+
+    public void NPCClearModules()
+    {
+        foreach (ModuleBody body in usedModules.Values)
+        {
+            if (body.module.fileExtension == FileExtension.EXE)
+            {
+                //TODO delete rigidbody
+            }
+            body.QueueFree();
+        }
     }
 
     private Vector2 GridToLocalPosition(Vector2I index)
