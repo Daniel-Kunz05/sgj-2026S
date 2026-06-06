@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://btcv6x6so88d5" path="res://05 Module Builder/Module_Body.tscn" id="2_en8rs"]
 [ext_resource type="PackedScene" uid="uid://68deu6fevow4" path="res://04 Drag And Drop/DragAndDropManager.tscn" id="3_en8f7"]
 [ext_resource type="PackedScene" uid="uid://bgtqrl5ms0kqe" path="res://11 TooltipManager/tooltipManager.tscn" id="4_pt350"]
+[ext_resource type="PackedScene" uid="uid://csvly2ibaxwql" path="res://05 Module Builder/Module Builder.tscn" id="5_pt350"]
 
 [node name="ShopTest" type="Node2D" unique_id=2084930354]
 
@@ -17,13 +18,15 @@ position = Vector2(960, 850)
 position = Vector2(1079, 545)
 
 [node name="Open Button" type="Button" parent="." unique_id=496784105]
-offset_left = 60.0
-offset_top = 55.0
-offset_right = 206.0
-offset_bottom = 151.0
+offset_left = 858.0
+offset_top = 158.0
+offset_right = 1004.0
+offset_bottom = 254.0
 text = "open shop
 "
 
 [node name="TooltipManager" parent="." unique_id=1883395475 instance=ExtResource("4_pt350")]
+
+[node name="ModuleBuilder" parent="." unique_id=188737696 instance=ExtResource("5_pt350")]
 
 [connection signal="pressed" from="Open Button" to="Shop" method="OpenAndGenerateShop"]
