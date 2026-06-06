@@ -72,7 +72,7 @@ public partial class MainCmdlineController : Node
 			timer = 0;
 		}
 		timer += delta;
-		cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{Database.Instance.userName}@PC[/color]:[color=#11d116]{Database.Instance.gamePath}[/color]$ {currentCommand.Substring(0, (int)(currentCommand.Length * double.Clamp(timer / COMMAND_DURATION, 0, 1)))}[/font]";
+		cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{userName}@PC[/color]:[color=#11d116]{currentPath}[/color]$ {currentCommand.Substring(0, (int)(currentCommand.Length * double.Clamp(timer / COMMAND_DURATION, 0, 1)))}[/font]";
 		if (timer > TOTAL_COMMAND_TIME)
 		{
 			nextCallback();
