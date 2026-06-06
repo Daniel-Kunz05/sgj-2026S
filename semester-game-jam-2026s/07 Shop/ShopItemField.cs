@@ -22,6 +22,11 @@ public partial class ShopItemField : Node2D
 
 	public void OnItemPlaced(Area2D _, Area2D draggable)
 	{
+		if (currentStoredModuleBody != null)
+		{
+			return;
+		}
+
 		// Check if parent is module body
 		if (draggable.GetParent() is ModuleBody moduleBody)
 		{
