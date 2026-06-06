@@ -69,7 +69,7 @@ public partial class Database : Node
 
 	public static (string name, string progress, Module.Module[] modules) GetFighter(string progress)
 	{
-		return GetFighter(Instance.SaveData.Where((e) => e.Value.progress == progress).Select(e => e.Key).PickRandom());
+		return GetFighter(Instance.SaveData.Where((e) => e.Value.progress.Count('/') == progress.Count('/')).Select(e => e.Key).PickRandom());
 	}
 
 
