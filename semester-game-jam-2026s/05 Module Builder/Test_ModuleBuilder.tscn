@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bwk680osgmolx"]
 
 [ext_resource type="PackedScene" uid="uid://68deu6fevow4" path="res://04 Drag And Drop/DragAndDropManager.tscn" id="1_0ruv0"]
-[ext_resource type="Shader" uid="uid://bagk85xk4afh6" path="res://shaders/screen_shader.gdshader" id="1_y7xlx"]
+[ext_resource type="Shader" uid="uid://bagk85xk4afh6" path="res://20 Shaders/screen_shader.gdshader" id="1_y7xlx"]
 [ext_resource type="PackedScene" uid="uid://csvly2ibaxwql" path="res://05 Module Builder/Module Builder.tscn" id="2_0ruv0"]
 [ext_resource type="PackedScene" uid="uid://btcv6x6so88d5" path="res://05 Module Builder/Module_Body.tscn" id="3_6dnla"]
 
