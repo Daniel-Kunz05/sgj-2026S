@@ -181,6 +181,8 @@ public partial class ModuleBuilder : Node2D
     {
         foreach (ModuleBody body in usedModules.Values)
         {
+            body.module.behaviour.Reset();
+            
             Vector2I index = new Vector2I(body.module.x, body.module.y);
             if (body.GetParent() != null)
             {
@@ -191,9 +193,26 @@ public partial class ModuleBuilder : Node2D
                 AddChild(body);
             }
             body.Position = GridToLocalPosition(index) + ModuleBody.moduleSize / 2;
-            body.SetActive(false);
+            body.BattleMode(false);
         }
     }
 
+    public void ShowBuilder()
+    {
+        // Animate open builder
+        Scale = new Vector2(0, 1);
+        Visible = true;
+        var tween = CreateTween();
+        tween.TweenProperty(this, "scale:x", 1, 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
+        tween.Play();
+    }
 
+    public void HideBuilder()
+    {
+        // Animate close builder
+        var tween = CreateTween();
+        tween.TweenProperty(this, "scale:x", 0, 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.In);
+        tween.Play();
+        tween.TweenCallback(new Callable(this, "Hide"));
+    }
 }

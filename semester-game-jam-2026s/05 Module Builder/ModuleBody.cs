@@ -22,7 +22,7 @@ public partial class ModuleBody : Node2D, IToolTippable
     public string ToolTipText => $"[b]{module.fileName}[/b]\n{module.fileExtension.ToolTip}";
 
 
-    public void SetActive(bool val)
+    public void BattleMode(bool val)
     {
 	    Draggable.AllowDragging = !val;
 	    Draggable.Monitorable = val;
@@ -46,45 +46,7 @@ public partial class ModuleBody : Node2D, IToolTippable
 	    {
 		    module.EmitSignalOnModuleHitExtern(module, body.module);
 	    }
-
-	    Vector2? colPos = GetOverlapCenter(Draggable, other,
-		    (RectangleShape2D)Draggable.GetChild<CollisionShape2D>(0).Shape,
-		    (RectangleShape2D)other.GetChild<CollisionShape2D>(0).Shape);
-
-		
-	    if (colPos != null)
-	    {
-		    EmitSignalOnCollision(colPos.Value);
-	    }
     }
-
-    public static Vector2? GetOverlapCenter(
-	    Area2D areaA,
-	    Area2D areaB,
-	    RectangleShape2D shapeA,
-	    RectangleShape2D shapeB)
-    {
-	    Vector2 sizeA = shapeA.Size;
-	    Vector2 sizeB = shapeB.Size;
-
-	    Rect2 rectA = new Rect2(
-		    areaA.GlobalPosition - sizeA / 2,
-		    sizeA
-	    );
-
-	    Rect2 rectB = new Rect2(
-		    areaB.GlobalPosition - sizeB / 2,
-		    sizeB
-	    );
-
-	    Rect2 intersection = rectA.Intersection(rectB);
-
-	    if (intersection.Size.X <= 0 || intersection.Size.Y <= 0)
-		    return null;
-
-	    return intersection.GetCenter();
-    }
-
 
 
 }

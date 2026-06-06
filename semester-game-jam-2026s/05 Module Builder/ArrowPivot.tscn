@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://cqkqutp2w2tq"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_u741x"]
+size = Vector2(500, 800)
+
+[node name="ArrowPivot" type="Node2D" unique_id=253471180]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1622007516]
+position = Vector2(184, -0.99999994)
+scale = Vector2(0.1, 0.1)
+texture = SubResource("PlaceholderTexture2D_u741x")

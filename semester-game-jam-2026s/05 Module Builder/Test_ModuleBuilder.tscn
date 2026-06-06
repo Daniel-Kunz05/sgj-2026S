@@ -69,26 +69,34 @@ icon = ExtResource("5_7g8tc")
 
 [node name="ArenaBorders" type="Node2D" parent="." unique_id=1008961197]
 
-[node name="Left" type="Area2D" parent="ArenaBorders" unique_id=1891746433]
+[node name="Left" type="StaticBody2D" parent="ArenaBorders" unique_id=1604421873]
 position = Vector2(-100, 540)
+collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ArenaBorders/Left" unique_id=237922020]
 shape = SubResource("RectangleShape2D_62bcv")
 
-[node name="Bottom" type="Area2D" parent="ArenaBorders" unique_id=902807200]
+[node name="Bottom" type="StaticBody2D" parent="ArenaBorders" unique_id=874544803]
 position = Vector2(960, 1180)
+collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ArenaBorders/Bottom" unique_id=168014866]
 shape = SubResource("RectangleShape2D_7lrvo")
 
-[node name="Top" type="Area2D" parent="ArenaBorders" unique_id=646196333]
+[node name="Top" type="StaticBody2D" parent="ArenaBorders" unique_id=55510024]
 position = Vector2(960, -100)
+collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ArenaBorders/Top" unique_id=1504656203]
 shape = SubResource("RectangleShape2D_7lrvo")
 
-[node name="Right" type="Area2D" parent="ArenaBorders" unique_id=1017789162]
+[node name="Right" type="StaticBody2D" parent="ArenaBorders" unique_id=262906195]
 position = Vector2(2020, 540)
+collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ArenaBorders/Right" unique_id=1686545436]
 shape = SubResource("RectangleShape2D_62bcv")

@@ -20,12 +20,13 @@ public partial class MainMenuAnimator : Node
 	private const double TITLE_TEXT_DURATION = 3;
 	private const double CONFIRM_TEXT_DELAY = 0.5;
 	private const double CONFIRM_TEXT_DURATION = 2;
-	private const double TOTAL_DELAY = START_COMMAND_DELAY
-									 + START_COMMAND_DURATION
-									 + TITLE_TEXT_DELAY
-									 + TITLE_TEXT_DURATION
-									 + CONFIRM_TEXT_DELAY
-									 + CONFIRM_TEXT_DURATION;
+	private const double TOTAL_DELAY = 0;
+	// private const double TOTAL_DELAY = START_COMMAND_DELAY
+	// 								 + START_COMMAND_DURATION
+	// 								 + TITLE_TEXT_DELAY
+	// 								 + TITLE_TEXT_DURATION
+	// 								 + CONFIRM_TEXT_DELAY
+	// 								 + CONFIRM_TEXT_DURATION;
 	private static readonly string title_text = @"███████╗██╗██╗     ███████╗    ███████╗██████╗ ███████╗███╗   ██╗███████╗██╗   ██╗
 ██╔════╝██║██║     ██╔════╝    ██╔════╝██╔══██╗██╔════╝████╗  ██║╚══███╔╝╚██╗ ██╔╝
 █████╗  ██║██║     █████╗      █████╗  ██████╔╝█████╗  ██╔██╗ ██║  ███╔╝  ╚████╔╝ 

@@ -41,7 +41,7 @@ public partial class MainCmdlineController : Node
 		currentPath = Database.Instance.gamePath;
 		UpdateCmdline();
 		EnqueueCommand($"mkdir {playerName}");
-		EnqueueCommand($"cd {playerName}", CmdlineAction.PUSH_PLAYER_DIR);
+		EnqueueCommand($"cd {playerName}", CmdlineAction.PUSH_PLAYER_DIR, GameManager.instance.StartGame);
 	}
 
 	private void UpdateCmdline()

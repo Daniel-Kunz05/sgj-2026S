@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://b6yn7k4qf44od"]
+
+[ext_resource type="Script" uid="uid://cyh84ahxgv0sk" path="res://TestRigiBodyFollow.cs" id="1_yna6g"]
+[ext_resource type="Texture2D" uid="uid://cepkipiydjsto" path="res://icon.svg" id="2_80v68"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wev1w"]
+size = Vector2(200, 1200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vc4un"]
+size = Vector2(2400, 200)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_yna6g"]
+friction = 0.0
+rough = true
+bounce = 1.05
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yna6g"]
+size = Vector2(72, 96)
+
+[node name="Node2D" type="Node2D" unique_id=662116495]
+
+[node name="ArenaBorders" type="Node2D" parent="." unique_id=1130296405]
+
+[node name="Left" type="StaticBody2D" parent="ArenaBorders" unique_id=1221338192]
+position = Vector2(-100, 540)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ArenaBorders/Left" unique_id=678439817]
+shape = SubResource("RectangleShape2D_wev1w")
+
+[node name="Bottom" type="StaticBody2D" parent="ArenaBorders" unique_id=1041452612]
+position = Vector2(960, 1180)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ArenaBorders/Bottom" unique_id=1861894069]
+shape = SubResource("RectangleShape2D_vc4un")
+
+[node name="Right" type="StaticBody2D" parent="ArenaBorders" unique_id=161519717]
+position = Vector2(2020, 540)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ArenaBorders/Right" unique_id=1677536520]
+shape = SubResource("RectangleShape2D_wev1w")
+
+[node name="Top" type="StaticBody2D" parent="ArenaBorders" unique_id=1892235014]
+position = Vector2(960, -100)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ArenaBorders/Top" unique_id=786411716]
+shape = SubResource("RectangleShape2D_vc4un")
+
+[node name="Node2D" type="Node2D" parent="." unique_id=791373387 node_paths=PackedStringArray("_rigidBody2D")]
+position = Vector2(576, 288)
+script = ExtResource("1_yna6g")
+_rigidBody2D = NodePath("RigidBody2D")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Node2D" unique_id=1249990462]
+physics_material_override = SubResource("PhysicsMaterial_yna6g")
+gravity_scale = 0.0
+lock_rotation = true
+continuous_cd = 2
+linear_velocity = Vector2(50, 50)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/RigidBody2D" unique_id=1405378595]
+position = Vector2(4, 0)
+shape = SubResource("RectangleShape2D_yna6g")
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D" unique_id=1184774683]
+texture = ExtResource("2_80v68")
+
+[node name="Area2D" type="Area2D" parent="Node2D" unique_id=1646273733]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Area2D" unique_id=980319949]
+position = Vector2(4, 0)
+shape = SubResource("RectangleShape2D_yna6g")

@@ -13,4 +13,5 @@ public abstract partial class Behaviour(Module.Module module) : Node
 	public abstract void OnModuleHit(Module.Module m1, Module.Module m2);
 	public abstract void Tick(double delta);
 	public abstract void OnModuleDeath(Module.Module cause);
+	public abstract void Reset();
 }
