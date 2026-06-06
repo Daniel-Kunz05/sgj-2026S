@@ -26,7 +26,7 @@ public enum FileExtension
 {
 	PDF,
 	MP3,
-	[Behaviour(typeof(TXTBehaviour))] TXT,
+	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/txt.png")] TXT,
 	MP4,
 	SH,
 	ZIP,
