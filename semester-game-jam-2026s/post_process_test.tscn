@@ -4,6 +4,7 @@
 [ext_resource type="Shader" uid="uid://ck1kxxgjwa2bu" path="res://shaders/node_pixelate.gdshader" id="2_qjeev"]
 [ext_resource type="Shader" uid="uid://bagk85xk4afh6" path="res://shaders/screen_shader.gdshader" id="3_nklrh"]
 [ext_resource type="Texture2D" uid="uid://dupdilpyqwvmy" path="res://sprites/filetypes/txt.png" id="3_wrey1"]
+[ext_resource type="Script" uid="uid://boy0y6jvj1d7o" path="res://Testing Scripts/TestDirectoryLabel.cs" id="5_g50i3"]
 
 [sub_resource type="Environment" id="Environment_vpven"]
 background_mode = 3
@@ -27,7 +28,7 @@ shader_parameter/handle_edges = false
 shader = ExtResource("3_nklrh")
 shader_parameter/screen_resolution = Vector2(1920, 1080)
 shader_parameter/scanline_intensity = 0.2150000102125
-shader_parameter/color_bleed_weight = 0.10800000512999999
+shader_parameter/color_bleed_weight = 0.10800000513
 
 [node name="PostProcessTest" type="Node2D" unique_id=59728923]
 
@@ -55,6 +56,14 @@ offset_left = 25.0
 offset_top = 14.0
 offset_right = 976.0
 offset_bottom = 129.0
+text = "/home/test/Documents"
+label_settings = SubResource("LabelSettings_nklrh")
+
+[node name="Label2" type="Label" parent="CanvasLayer" unique_id=655693282]
+offset_left = 676.83
+offset_top = 465.13
+offset_right = 1495.8301
+offset_bottom = 519.1301
 text = "/home/test/Documents"
 label_settings = SubResource("LabelSettings_nklrh")
 
@@ -95,3 +104,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="TestDirectoryLabel" type="Node" parent="." unique_id=235209104 node_paths=PackedStringArray("label", "label2")]
+script = ExtResource("5_g50i3")
+label = NodePath("../CanvasLayer/Label")
+label2 = NodePath("../CanvasLayer/Label2")
+metadata/_custom_type_script = "uid://boy0y6jvj1d7o"
