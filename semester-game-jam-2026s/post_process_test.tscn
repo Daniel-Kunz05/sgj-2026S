@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://duv1snyfo3lbe"]
 
-[ext_resource type="Texture2D" uid="uid://cy4a3ywvhlawt" path="res://sprites/filetypes/pdf.png" id="1_vpven"]
-[ext_resource type="Shader" uid="uid://ck1kxxgjwa2bu" path="res://shaders/node_pixelate.gdshader" id="2_qjeev"]
-[ext_resource type="Shader" uid="uid://bagk85xk4afh6" path="res://shaders/screen_shader.gdshader" id="3_nklrh"]
-[ext_resource type="Texture2D" uid="uid://dupdilpyqwvmy" path="res://sprites/filetypes/txt.png" id="3_wrey1"]
+[ext_resource type="Texture2D" uid="uid://cy4a3ywvhlawt" path="res://06 Modules/Sprites/Filetypes/pdf.png" id="1_vpven"]
+[ext_resource type="Shader" uid="uid://ck1kxxgjwa2bu" path="res://20 Shaders/node_pixelate.gdshader" id="2_qjeev"]
+[ext_resource type="Shader" uid="uid://bagk85xk4afh6" path="res://20 Shaders/screen_shader.gdshader" id="3_nklrh"]
+[ext_resource type="Texture2D" uid="uid://dupdilpyqwvmy" path="res://06 Modules/Sprites/Filetypes/txt.png" id="3_wrey1"]
 [ext_resource type="Script" uid="uid://boy0y6jvj1d7o" path="res://Testing Scripts/TestDirectoryLabel.cs" id="5_g50i3"]
 
 [sub_resource type="Environment" id="Environment_vpven"]

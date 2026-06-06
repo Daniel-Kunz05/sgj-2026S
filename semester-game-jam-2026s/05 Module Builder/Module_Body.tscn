@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://btcv6x6so88d5"]
 
 [ext_resource type="Script" uid="uid://c33vbahi7sror" path="res://05 Module Builder/ModuleBody.cs" id="1_j1uiu"]
-[ext_resource type="Texture2D" uid="uid://cy4a3ywvhlawt" path="res://sprites/filetypes/pdf.png" id="2_l8ad1"]
-[ext_resource type="Shader" uid="uid://ck1kxxgjwa2bu" path="res://shaders/node_pixelate.gdshader" id="2_ldrhc"]
+[ext_resource type="Texture2D" uid="uid://cy4a3ywvhlawt" path="res://06 Modules/Sprites/Filetypes/pdf.png" id="2_l8ad1"]
+[ext_resource type="Shader" uid="uid://ck1kxxgjwa2bu" path="res://20 Shaders/node_pixelate.gdshader" id="2_ldrhc"]
 [ext_resource type="Script" uid="uid://chy2271kalv7r" path="res://04 Drag And Drop/Draggable.cs" id="3_ig6jt"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ldrhc"]
