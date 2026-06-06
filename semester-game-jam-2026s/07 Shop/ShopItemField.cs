@@ -8,6 +8,8 @@ public partial class ShopItemField : Node2D
 
 	[Export] private ModuleBody? currentStoredModuleBody;
 
+	public ModuleBody? CurrentStoredModuleBody => currentStoredModuleBody;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -20,6 +22,11 @@ public partial class ShopItemField : Node2D
 
 	public void OnItemPlaced(Area2D _, Area2D draggable)
 	{
+		if (currentStoredModuleBody != null)
+		{
+			return;
+		}
+
 		// Check if parent is module body
 		if (draggable.GetParent() is ModuleBody moduleBody)
 		{

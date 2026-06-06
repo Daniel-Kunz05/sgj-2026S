@@ -12,5 +12,4 @@ public partial class ButtonWithToolTip : Button, IToolTippable
         base._Ready();
 		((IToolTippable)this).SetupToolTipConnection();
     }
-
 }

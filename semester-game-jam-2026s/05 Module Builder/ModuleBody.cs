@@ -27,17 +27,7 @@ public partial class ModuleBody : Node2D, IToolTippable
 	    Draggable.AllowDragging = !val;
 	    Draggable.Monitorable = val;
 	    Draggable.Monitoring = val;
-    }
-
-    public override void _Ready()
-    {
-	    base._Ready();
-	    if (module != null)
-	    {
-		    Setup(module);
-	    }
-    }
-    
+    }    
     
     public void Setup(Module module)
     {
