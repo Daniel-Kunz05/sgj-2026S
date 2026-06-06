@@ -10,6 +10,8 @@ public partial class TooltipManager : Node
 	public static TooltipManager instance;
 	[Export] ToolTip toolTip;
 
+	private Node currentCaller;
+
 	//[Export(PropertyHint.MultilineText)] public Godot.Collections.Array<string> texts;
 
 	Vector2 mousePos;
@@ -33,16 +35,20 @@ public partial class TooltipManager : Node
 	{
 	}
 
-	public void ShowToolTip(string text)
+	public void ShowToolTip(Node caller, string text)
 	{
+		currentCaller = caller;
 		//GD.Print("Mouse entered");
 		toolTip.Toggle(true);
 		toolTip.setText(text);
 	}
 
-	public void HideToolTip()
+	public void HideToolTip(Node caller)
 	{
-		//GD.Print("Mouse exited");
-		toolTip.Toggle(false);
+		if (currentCaller == caller)
+		{
+			//GD.Print("Mouse exited");
+			toolTip.Toggle(false);
+		}
 	}
 }
