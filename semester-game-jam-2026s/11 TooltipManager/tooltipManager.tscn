@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bgtqrl5ms0kqe"]
+
+[ext_resource type="Script" uid="uid://cy4t36uy4nfqm" path="res://11 TooltipManager/TooltipManager.cs" id="1_0y2x2"]
+[ext_resource type="PackedScene" uid="uid://52klbpqtxwar" path="res://11 TooltipManager/tooltip.tscn" id="2_xefmb"]
+
+[node name="TooltipManager" type="Node" unique_id=1883395475 node_paths=PackedStringArray("toolTip")]
+script = ExtResource("1_0y2x2")
+toolTip = NodePath("ToolTip")
+modules = {}
+
+[node name="ToolTip" parent="." unique_id=1250218207 instance=ExtResource("2_xefmb")]
