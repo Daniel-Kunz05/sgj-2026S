@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cx761cf51bsw"]
+
+[ext_resource type="Script" uid="uid://1cftx6acxd06" path="res://99 Testing/TestEnemybuilder.cs" id="1_8o2um"]
+[ext_resource type="PackedScene" uid="uid://csvly2ibaxwql" path="res://05 Module Builder/Module Builder.tscn" id="1_ltq8f"]
+
+[node name="TestEnemybuilder" type="Node2D" unique_id=676935315 node_paths=PackedStringArray("_builder")]
+script = ExtResource("1_8o2um")
+_builder = NodePath("ModuleBuilder")
+
+[node name="ModuleBuilder" parent="." unique_id=188737696 instance=ExtResource("1_ltq8f")]
+position = Vector2(1408, 192)
+isPlayer = false
+
+[node name="Button" type="Button" parent="." unique_id=369981368]
+offset_right = 328.0
+offset_bottom = 168.0
+text = "FUCKCKCCKKCK"
+
+[connection signal="button_down" from="Button" to="." method="OnButton"]

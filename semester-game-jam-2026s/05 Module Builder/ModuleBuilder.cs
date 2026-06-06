@@ -16,7 +16,7 @@ public partial class ModuleBuilder : Node2D
     private SortedList<(int, int), ModuleBody> usedModules;
     public SortedList<(int, int), ModuleBody> UsedModules => usedModules;
 
-    private ModuleBody coreBody;
+    public ModuleBody coreBody { get; private set; }
 
     public enum BuildErrorCode
     {
@@ -175,6 +175,9 @@ public partial class ModuleBuilder : Node2D
 
     public void SetupShip()
     {
+        GD.Print(coreBody);
+        GD.Print(coreBody.module);
+        GD.Print(coreBody.module.behaviour);
         if (coreBody.module.behaviour is EXEBehaviour moduleCore)
         {
             moduleCore.SetupShip(usedModules);
@@ -182,7 +185,7 @@ public partial class ModuleBuilder : Node2D
 
     }
 
-    public void NPCOverwriteModules(Module.Module[] modules)
+    public void NPCOverwriteModules(Module[] modules)
     {
         usedModules = new SortedList<(int, int), ModuleBody>();
         foreach (var module in modules)
