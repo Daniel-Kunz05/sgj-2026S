@@ -84,7 +84,7 @@ public partial class DragAndDropManager : Node2D
 			{
 				receiver.Receive(currentDragged);
 			}
-			if (!currentDragged.answerReceived)
+			if (!currentDragged.AnswerReceived)
 			{
 				currentDragged.Decline();
 			}
@@ -117,7 +117,7 @@ public partial class DragAndDropManager : Node2D
 		{
 			Node collider = hit["collider"].As<Node>();
 
-			if (collider is Draggable draggable)
+			if (collider is Draggable draggable && draggable.AllowDragging)
 			{
 				return draggable;
 			}

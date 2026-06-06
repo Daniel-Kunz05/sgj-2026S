@@ -39,7 +39,7 @@ public enum FileExtension
 	OBJ,
 	GODOT,
 	JSON,
-	[Behaviour(typeof(EXEBehaviour))] EXE,
+	[Behaviour(typeof(EXEBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/test.png")] EXE,
 }
 
 public static class BehaviourTypeExtensions

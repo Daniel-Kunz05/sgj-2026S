@@ -4,6 +4,7 @@
 [ext_resource type="Shader" uid="uid://bagk85xk4afh6" path="res://20 Shaders/screen_shader.gdshader" id="1_y7xlx"]
 [ext_resource type="PackedScene" uid="uid://csvly2ibaxwql" path="res://05 Module Builder/Module Builder.tscn" id="2_0ruv0"]
 [ext_resource type="PackedScene" uid="uid://btcv6x6so88d5" path="res://05 Module Builder/Module_Body.tscn" id="3_6dnla"]
+[ext_resource type="Script" uid="uid://b1ibg824mcjsu" path="res://01 Module Data Backend/Module.cs" id="4_62bcv"]
 [ext_resource type="Texture2D" uid="uid://cepkipiydjsto" path="res://icon.svg" id="5_7g8tc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6dnla"]
@@ -19,6 +20,12 @@ tonemap_exposure = 0.84
 glow_enabled = true
 glow_intensity = 2.13
 glow_bloom = 0.18
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_62bcv"]
+size = Vector2(200, 1200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7lrvo"]
+size = Vector2(2400, 200)
 
 [node name="TestModuleBuilder" type="Node2D" unique_id=127139524]
 
@@ -40,11 +47,17 @@ metadata/_edit_use_anchors_ = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="PostProcessLayer" unique_id=384016041]
 environment = SubResource("Environment_7g8tc")
 
-[node name="ModuleBody" parent="." unique_id=2008233099 instance=ExtResource("3_6dnla")]
+[node name="ModuleBody" parent="." unique_id=2008233099 node_paths=PackedStringArray("module") instance=ExtResource("3_6dnla")]
 position = Vector2(1244, 622)
+module = NodePath("Node")
+
+[node name="Node" type="Node2D" parent="ModuleBody" unique_id=65490085]
+script = ExtResource("4_62bcv")
+fileExtension = 2
+fileName = "test"
 
 [node name="ModuleBuilder" parent="." unique_id=188737696 instance=ExtResource("2_0ruv0")]
-position = Vector2(431, 205)
+position = Vector2(97, 102)
 
 [node name="Button" type="Button" parent="." unique_id=72511401]
 offset_left = 1684.0
@@ -53,5 +66,31 @@ offset_right = 1864.0
 offset_bottom = 1043.0
 text = "Build"
 icon = ExtResource("5_7g8tc")
+
+[node name="ArenaBorders" type="Node2D" parent="." unique_id=1008961197]
+
+[node name="Left" type="Area2D" parent="ArenaBorders" unique_id=1891746433]
+position = Vector2(-100, 540)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ArenaBorders/Left" unique_id=237922020]
+shape = SubResource("RectangleShape2D_62bcv")
+
+[node name="Bottom" type="Area2D" parent="ArenaBorders" unique_id=902807200]
+position = Vector2(960, 1180)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ArenaBorders/Bottom" unique_id=168014866]
+shape = SubResource("RectangleShape2D_7lrvo")
+
+[node name="Top" type="Area2D" parent="ArenaBorders" unique_id=646196333]
+position = Vector2(960, -100)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ArenaBorders/Top" unique_id=1504656203]
+shape = SubResource("RectangleShape2D_7lrvo")
+
+[node name="Right" type="Area2D" parent="ArenaBorders" unique_id=1017789162]
+position = Vector2(2020, 540)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ArenaBorders/Right" unique_id=1686545436]
+shape = SubResource("RectangleShape2D_62bcv")
 
 [connection signal="button_down" from="Button" to="ModuleBuilder" method="OnBuildButtonPress"]

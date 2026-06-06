@@ -31,13 +31,13 @@ public partial class ModuleBuilder : Node2D
             for (int j = 0; j < gridSize.Y; j++)
             {
                 Node2D node = cell.Instantiate<Node2D>();
-                node.Position = new Vector2(ModuleBody.moduleSize.X * i, ModuleBody.moduleSize.Y * j) + ModuleBody.moduleSize / 2;
                 AddChild(node);
+                node.Position = new Vector2(ModuleBody.moduleSize.X * i, ModuleBody.moduleSize.Y * j) + ModuleBody.moduleSize / 2;
             }
         }
 
         coreBody = moduleBodyPrefab.Instantiate<ModuleBody>();
-
+        coreBody.Name = "CoreModuleBody";
         Module coreModule = new Module(FileExtension.EXE, "CoreTest", -1, -1);
         coreBody.Setup(coreModule);
 
@@ -126,13 +126,23 @@ public partial class ModuleBuilder : Node2D
         }
     }
 
+    private bool b = true;
     public void OnBuildButtonPress()
     {
-        GD.Print("buttons");
-        if (coreBody.module.behaviour is EXEBehaviour moduleCore)
+        if (b)
         {
-            moduleCore.SetupShip(usedModules);
+            if (coreBody.module.behaviour is EXEBehaviour moduleCore)
+            {
+                moduleCore.SetupShip(usedModules);
+            }
         }
+        else
+        {
+            ResetModules();
+        }
+
+        b = !b;
+
     }
 
     private Vector2 GridToLocalPosition(Vector2I index)
@@ -165,6 +175,24 @@ public partial class ModuleBuilder : Node2D
         int y = Math.Clamp((int)Math.Round(pos.Y / ModuleBody.moduleSize.Y), -1, gridSize.Y);
         return new Vector2I(x, y);
 
+    }
+
+    public void ResetModules()
+    {
+        foreach (ModuleBody body in usedModules.Values)
+        {
+            Vector2I index = new Vector2I(body.module.x, body.module.y);
+            if (body.GetParent() != null)
+            {
+                body.Reparent(this);
+            }
+            else
+            {
+                AddChild(body);
+            }
+            body.Position = GridToLocalPosition(index) + ModuleBody.moduleSize / 2;
+            body.SetActive(false);
+        }
     }
 
 
