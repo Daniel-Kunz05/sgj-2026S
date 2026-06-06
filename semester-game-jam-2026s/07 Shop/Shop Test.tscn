@@ -78,6 +78,14 @@ shape = SubResource("RectangleShape2D_s8bx7")
 [node name="ModuleBody" parent="." unique_id=2008233099 instance=ExtResource("2_en8rs")]
 position = Vector2(1079, 545)
 
+[node name="Button" type="Button" parent="." unique_id=496784105]
+offset_left = 60.0
+offset_top = 55.0
+offset_right = 206.0
+offset_bottom = 151.0
+text = "open shop
+"
+
 [connection signal="ItemPlaced" from="Shop/Shop Elements Holder/ShopItemField" to="Shop" method="OnItemPlacedInField"]
 [connection signal="ItemRemoved" from="Shop/Shop Elements Holder/ShopItemField" to="Shop" method="OnItemRemovedFromField"]
 [connection signal="ReceivedDraggable" from="Shop/Shop Elements Holder/ShopItemField/Area2D" to="Shop/Shop Elements Holder/ShopItemField" method="OnItemPlaced"]
@@ -87,3 +95,4 @@ position = Vector2(1079, 545)
 [connection signal="ItemPlaced" from="Shop/Shop Elements Holder/ShopItemField3" to="Shop" method="OnItemPlacedInField"]
 [connection signal="ItemRemoved" from="Shop/Shop Elements Holder/ShopItemField3" to="Shop" method="OnItemRemovedFromField"]
 [connection signal="ReceivedDraggable" from="Shop/Shop Elements Holder/ShopItemField3/Area2D" to="Shop/Shop Elements Holder/ShopItemField3" method="OnItemPlaced"]
+[connection signal="pressed" from="Button" to="Shop" method="OpenAndGenerateShop"]

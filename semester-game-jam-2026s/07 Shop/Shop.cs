@@ -9,14 +9,16 @@ public partial class Shop : Node2D
 {
 	[Export] private PackedScene moduleBodyScene;
 
-	private HashSet<ModuleBody> originalDroppedItems = new();
+	private HashSet<Module> originalDroppedItems = new();
 
-	public override void _Ready()
+	private List<Node2D> itemsInSlots = new();
+
+	public void OpenAndGenerateShop()
 	{
+		ClearShop();
 		SetupShop();
 		AnimateOpenShop();
 	}
-
 
 	public void SetupShop()
 	{
@@ -30,14 +32,32 @@ public partial class Shop : Node2D
 		}
 	}
 
+	public void ClearShop()
+	{
+		foreach (var item in itemsInSlots)
+		{
+			item.QueueFree();
+		}
+		itemsInSlots.Clear();
+		originalDroppedItems.Clear();
+	}
+
 	public void OnItemPlacedInField(ShopItemField shopItemField, ModuleBody moduleBody)
 	{
+		itemsInSlots.Add(moduleBody);
 		GD.Print($"Item placed in shop: {shopItemField.Name}, module body: {moduleBody.Name}");
 	}
 
 	public void OnItemRemovedFromField(ShopItemField shopItemField, ModuleBody moduleBody)
 	{
-		GD.Print($"Item removed from shop: {shopItemField.Name}, module body: {moduleBody.Name}");
+		if (itemsInSlots.Remove(moduleBody))
+		{
+			GD.Print($"Item removed from shop: {shopItemField.Name}, module body: {moduleBody.Name}");
+		}
+		else
+		{
+			GD.Print($"Attempted to remove item that was not in shop: {shopItemField.Name}, module body: {moduleBody.Name}");
+		}
 	}
 
 	private void GenerateRandomModuleBody(ShopItemField attachTo)
@@ -45,9 +65,12 @@ public partial class Shop : Node2D
 		var instance = moduleBodyScene.Instantiate<ModuleBody>();
 		var chosenFileExtension = (FileExtension)(GD.Randi() % (Enum.GetValues<FileExtension>().Length - 2)); // -2 to exclude EXE as core
 		var module = new Module(chosenFileExtension, FilenameGenerator.Generate(chosenFileExtension), -1, -1);
+		originalDroppedItems.Add(module);
 		instance.Setup(module);
 		attachTo.AddChild(instance);
 
+		originalDroppedItems.Add(module);
+		itemsInSlots.Add(instance);
 		attachTo.OnItemPlaced(null, instance.GetNode<Area2D>("Area2D"));
 	}
 
