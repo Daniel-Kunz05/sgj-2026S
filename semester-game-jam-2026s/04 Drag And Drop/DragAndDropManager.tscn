@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://68deu6fevow4"]
+
+[ext_resource type="Script" uid="uid://c605j1byvdnbm" path="res://04 Drag And Drop/DragAndDropManager.cs" id="1_qhr3i"]
+
+[node name="DragAndDropManager" type="Node2D" unique_id=1681545607]
+script = ExtResource("1_qhr3i")

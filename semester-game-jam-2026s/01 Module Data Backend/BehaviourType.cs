@@ -18,7 +18,7 @@ public enum BehaviourType
 
 public static class BehaviourTypeExtensions
 {
-	extension(BehaviourType type)
+	extension (BehaviourType type)
 	{
 		private T? GetAttr<T>() where T : Attribute
 		{
