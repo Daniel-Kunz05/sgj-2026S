@@ -196,9 +196,11 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
 
     public override void Tick(double delta)
     {
+        
         // tick all modules in ship
         foreach (ModuleBody body in moduleBodiesList)
         {
+            if (body == Body) return;
             body.module.behaviour?.Tick(delta);
         }
     }
