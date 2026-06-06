@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dcv1eewxp6bt8"]
+
+[ext_resource type="PackedScene" uid="uid://c1y1ji6a1u5ca" path="res://12 Particle System/BoomParticle.tscn" id="1_b5ssk"]
+[ext_resource type="Script" uid="uid://5exhfr0b6xfh" path="res://12 Particle System/TestBoom.cs" id="2_ng3ws"]
+
+[node name="Node" type="Node" unique_id=1724598289]
+
+[node name="GPUParticles2D" parent="." unique_id=686034547 instance=ExtResource("1_b5ssk")]
+visible = false
+lifetime = 1.0
+explosiveness = 0.9
+
+[node name="TestBoom" type="Node2D" parent="." unique_id=976639693]
+unique_name_in_owner = true
+position = Vector2(857.99994, 498.99997)
+scale = Vector2(5, 5)
+script = ExtResource("2_ng3ws")
