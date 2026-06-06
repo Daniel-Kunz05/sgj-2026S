@@ -10,6 +10,16 @@ file class BehaviourAttribute(Type @class) : Attribute
 	public readonly Func<Module.Module, Behaviour> constructor = (module) =>
 		(Behaviour)@class.GetConstructor(BindingFlags.Public | BindingFlags.Instance, [typeof(Module.Module)])!.Invoke([module]);
 }
+[AttributeUsage(AttributeTargets.Field)]
+file class IconAttribute(string iconPath) : Attribute
+{
+	public readonly string iconPath = iconPath;
+}
+[AttributeUsage(AttributeTargets.Field)]
+file class CostAttribute(int cost) : Attribute
+{
+	public readonly int cost = cost;
+}
 
 
 public enum FileExtension
@@ -36,5 +46,7 @@ public static class BehaviourTypeExtensions
 		}
 
 		public Func<Module.Module, Behaviour> Constructor => type.GetAttr<BehaviourAttribute>()?.constructor ?? throw new Exception();
+		public string IconPath => type.GetAttr<IconAttribute>()?.iconPath ?? throw new Exception();
+		public int Cost => type.GetAttr<CostAttribute>()?.cost ?? throw new Exception();
 	}
 }
