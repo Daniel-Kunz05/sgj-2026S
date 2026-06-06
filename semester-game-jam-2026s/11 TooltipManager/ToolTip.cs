@@ -52,7 +52,6 @@ public partial class ToolTip : Control
 
 	public void setText(string newText)
 	{
-		GD.Print(newText);
 		text.Text = newText;
 	}
 

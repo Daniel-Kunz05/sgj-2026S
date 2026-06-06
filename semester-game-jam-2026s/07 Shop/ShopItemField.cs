@@ -66,5 +66,21 @@ public partial class ShopItemField : Node2D
 		EmitSignalItemRemoved(this, moduleBody);
 	}
 
+	public void RemoveCurrentItem()
+	{
+		if (currentStoredModuleBody == null)
+		{
+			return;
+		}
+
+		var moduleBody = currentStoredModuleBody;
+
+		currentStoredModuleBody = null;
+
+		moduleBody.QueueFree();
+
+		EmitSignalItemRemoved(this, moduleBody);
+	}
+
 
 }

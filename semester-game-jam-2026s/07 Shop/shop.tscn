@@ -1,0 +1,92 @@
+[gd_scene format=3 uid="uid://b2cv7yg2167us"]
+
+[ext_resource type="Script" uid="uid://cp65xuqvrx51r" path="res://07 Shop/Shop.cs" id="1_avg1m"]
+[ext_resource type="PackedScene" uid="uid://btcv6x6so88d5" path="res://05 Module Builder/Module_Body.tscn" id="2_6om5j"]
+[ext_resource type="Script" uid="uid://cns72ow1v8ds3" path="res://07 Shop/ShopItemField.cs" id="3_3eskr"]
+[ext_resource type="Texture2D" uid="uid://dxtbb572cq53p" path="res://07 Shop/LootField.png" id="4_hkrxk"]
+[ext_resource type="Script" uid="uid://dglem1k2cvc7n" path="res://04 Drag And Drop/DropReceiver.cs" id="5_ng0ng"]
+[ext_resource type="Texture2D" uid="uid://r26uotii504w" path="res://07 Shop/reroll.png" id="6_3v7t6"]
+
+[sub_resource type="Gradient" id="Gradient_m1kl7"]
+offsets = PackedFloat32Array(0, 0.6686747, 1)
+colors = PackedColorArray(0.097259365, 0.030641057, 0.10215049, 1, 0.107480906, 0.10747927, 0.10747967, 1, 0.23312858, 0.13497919, 0.13440758, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bl2o8"]
+gradient = SubResource("Gradient_m1kl7")
+fill_from = Vector2(0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s8bx7"]
+size = Vector2(120, 120)
+
+[node name="Shop" type="Node2D" unique_id=2021783419 node_paths=PackedStringArray("rerollButton")]
+script = ExtResource("1_avg1m")
+moduleBodyScene = ExtResource("2_6om5j")
+rerollButton = NodePath("Reroll Button")
+
+[node name="Shop Background" type="Sprite2D" parent="." unique_id=251877048]
+scale = Vector2(10, 6)
+texture = SubResource("GradientTexture2D_bl2o8")
+
+[node name="Shop Elements Holder" type="Node2D" parent="." unique_id=1728597438]
+
+[node name="ShopItemField" type="Node2D" parent="Shop Elements Holder" unique_id=1295736506]
+position = Vector2(-200, 0)
+script = ExtResource("3_3eskr")
+
+[node name="Sprite2D" type="Sprite2D" parent="Shop Elements Holder/ShopItemField" unique_id=533785540]
+scale = Vector2(0.23, 0.23)
+texture = ExtResource("4_hkrxk")
+
+[node name="Area2D" type="Area2D" parent="Shop Elements Holder/ShopItemField" unique_id=418927205]
+script = ExtResource("5_ng0ng")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop Elements Holder/ShopItemField/Area2D" unique_id=38015428]
+shape = SubResource("RectangleShape2D_s8bx7")
+
+[node name="ShopItemField2" type="Node2D" parent="Shop Elements Holder" unique_id=979256186]
+script = ExtResource("3_3eskr")
+
+[node name="Sprite2D" type="Sprite2D" parent="Shop Elements Holder/ShopItemField2" unique_id=837701212]
+scale = Vector2(0.23, 0.23)
+texture = ExtResource("4_hkrxk")
+
+[node name="Area2D" type="Area2D" parent="Shop Elements Holder/ShopItemField2" unique_id=117798407]
+script = ExtResource("5_ng0ng")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop Elements Holder/ShopItemField2/Area2D" unique_id=2091904824]
+shape = SubResource("RectangleShape2D_s8bx7")
+
+[node name="ShopItemField3" type="Node2D" parent="Shop Elements Holder" unique_id=500453831]
+position = Vector2(200, 0)
+script = ExtResource("3_3eskr")
+
+[node name="Sprite2D" type="Sprite2D" parent="Shop Elements Holder/ShopItemField3" unique_id=1999868756]
+scale = Vector2(0.23, 0.23)
+texture = ExtResource("4_hkrxk")
+
+[node name="Area2D" type="Area2D" parent="Shop Elements Holder/ShopItemField3" unique_id=445786681]
+script = ExtResource("5_ng0ng")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop Elements Holder/ShopItemField3/Area2D" unique_id=661728617]
+shape = SubResource("RectangleShape2D_s8bx7")
+
+[node name="Reroll Button" type="Button" parent="." unique_id=131157190]
+offset_left = 199.0
+offset_top = -181.0
+offset_right = 311.0
+offset_bottom = -124.0
+text = "(3/3)"
+icon = ExtResource("6_3v7t6")
+alignment = 0
+expand_icon = true
+
+[connection signal="ItemPlaced" from="Shop Elements Holder/ShopItemField" to="." method="OnItemPlacedInField"]
+[connection signal="ItemRemoved" from="Shop Elements Holder/ShopItemField" to="." method="OnItemRemovedFromField"]
+[connection signal="ReceivedDraggable" from="Shop Elements Holder/ShopItemField/Area2D" to="Shop Elements Holder/ShopItemField" method="OnItemPlaced"]
+[connection signal="ItemPlaced" from="Shop Elements Holder/ShopItemField2" to="." method="OnItemPlacedInField"]
+[connection signal="ItemRemoved" from="Shop Elements Holder/ShopItemField2" to="." method="OnItemRemovedFromField"]
+[connection signal="ReceivedDraggable" from="Shop Elements Holder/ShopItemField2/Area2D" to="Shop Elements Holder/ShopItemField2" method="OnItemPlaced"]
+[connection signal="ItemPlaced" from="Shop Elements Holder/ShopItemField3" to="." method="OnItemPlacedInField"]
+[connection signal="ItemRemoved" from="Shop Elements Holder/ShopItemField3" to="." method="OnItemRemovedFromField"]
+[connection signal="ReceivedDraggable" from="Shop Elements Holder/ShopItemField3/Area2D" to="Shop Elements Holder/ShopItemField3" method="OnItemPlaced"]
+[connection signal="pressed" from="Reroll Button" to="." method="RerollShop"]
