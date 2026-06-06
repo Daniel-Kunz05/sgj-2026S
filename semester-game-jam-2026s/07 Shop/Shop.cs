@@ -11,8 +11,14 @@ public partial class Shop : Node2D
 
 	private HashSet<ModuleBody> originalDroppedItems = new();
 
-	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
+	{
+		SetupShop();
+		AnimateOpenShop();
+	}
+
+
+	public void SetupShop()
 	{
 		var children = FindChild("Shop Elements Holder").GetChildren();
 		for (int i = 0; i < children.Count; i++)
@@ -22,11 +28,6 @@ public partial class Shop : Node2D
 				GenerateRandomModuleBody(shopItemField);
 			}
 		}
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
 	}
 
 	public void OnItemPlacedInField(ShopItemField shopItemField, ModuleBody moduleBody)
@@ -42,11 +43,33 @@ public partial class Shop : Node2D
 	private void GenerateRandomModuleBody(ShopItemField attachTo)
 	{
 		var instance = moduleBodyScene.Instantiate<ModuleBody>();
-		var chosenFileExtension = (FileExtension) (GD.Randi() % (Enum.GetValues<FileExtension>().Length - 2)); // -2 to exclude EXE as core
+		var chosenFileExtension = (FileExtension)(GD.Randi() % (Enum.GetValues<FileExtension>().Length - 2)); // -2 to exclude EXE as core
 		var module = new Module(chosenFileExtension, FilenameGenerator.Generate(chosenFileExtension), -1, -1);
 		instance.Setup(module);
 		attachTo.AddChild(instance);
 
 		attachTo.OnItemPlaced(null, instance.GetNode<Area2D>("Area2D"));
+	}
+
+	private void AnimateOpenShop()
+	{
+		var originalScale = Scale;
+		Scale = new Vector2(0, originalScale.Y);
+		Visible = true;
+
+		// Wait a bit before starting the animation
+		var timer = new Timer();
+		timer.WaitTime = 0.2f;
+		timer.OneShot = true;
+		AddChild(timer);
+		timer.Start();
+		timer.Timeout += () =>
+		{
+
+			var tween = CreateTween();
+			tween.TweenProperty(this, "scale:x", originalScale.X, 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
+
+			tween.Play();
+		};
 	}
 }

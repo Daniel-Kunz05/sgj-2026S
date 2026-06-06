@@ -21,6 +21,7 @@ size = Vector2(120, 120)
 [node name="ShopTest" type="Node2D" unique_id=2084930354]
 
 [node name="Shop" type="Node2D" parent="." unique_id=131476478]
+visible = false
 position = Vector2(960, 850)
 script = ExtResource("1_urcb5")
 moduleBodyScene = ExtResource("2_en8rs")
