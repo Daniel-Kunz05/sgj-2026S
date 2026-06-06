@@ -1,7 +1,11 @@
 [gd_scene format=3 uid="uid://bprlnlcioabbs"]
 
-[ext_resource type="Script" uid="uid://dyffyp4gm3c61" path="res://07 Shop/ShopElementsArranger.cs" id="1_bl2o8"]
+[ext_resource type="Script" uid="uid://cp65xuqvrx51r" path="res://07 Shop/Shop.cs" id="1_urcb5"]
+[ext_resource type="Texture2D" uid="uid://dxtbb572cq53p" path="res://07 Shop/LootField.png" id="2_en8f7"]
 [ext_resource type="PackedScene" uid="uid://btcv6x6so88d5" path="res://05 Module Builder/Module_Body.tscn" id="2_en8rs"]
+[ext_resource type="Script" uid="uid://cns72ow1v8ds3" path="res://07 Shop/ShopItemField.cs" id="2_urcb5"]
+[ext_resource type="PackedScene" uid="uid://68deu6fevow4" path="res://04 Drag And Drop/DragAndDropManager.tscn" id="3_en8f7"]
+[ext_resource type="Script" uid="uid://dglem1k2cvc7n" path="res://04 Drag And Drop/DropReceiver.cs" id="3_s8bx7"]
 
 [sub_resource type="Gradient" id="Gradient_m1kl7"]
 offsets = PackedFloat32Array(0, 0.6686747, 1)
@@ -11,31 +15,84 @@ colors = PackedColorArray(0.097259365, 0.030641057, 0.10215049, 1, 0.107480906, 
 gradient = SubResource("Gradient_m1kl7")
 fill_from = Vector2(0, 1)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s8bx7"]
+size = Vector2(120, 120)
+
 [node name="ShopTest" type="Node2D" unique_id=2084930354]
 
-[node name="Node2D" type="Node2D" parent="." unique_id=131476478]
-position = Vector2(960, 911)
+[node name="Shop" type="Node2D" parent="." unique_id=131476478]
+visible = false
+position = Vector2(960, 850)
+script = ExtResource("1_urcb5")
+moduleBodyScene = ExtResource("2_en8rs")
 
-[node name="Shop Background" type="Sprite2D" parent="Node2D" unique_id=1039969026]
+[node name="Shop Background" type="Sprite2D" parent="Shop" unique_id=1039969026]
 scale = Vector2(10, 6)
 texture = SubResource("GradientTexture2D_bl2o8")
 
-[node name="Shop Elements Arranger" type="Node2D" parent="Node2D" unique_id=1675738275]
-script = ExtResource("1_bl2o8")
-shopWidthHeight = Vector2(500, 250)
+[node name="Shop Elements Holder" type="Node2D" parent="Shop" unique_id=1675738275]
 
-[node name="ModuleBody" parent="Node2D/Shop Elements Arranger" unique_id=2008233099 instance=ExtResource("2_en8rs")]
+[node name="ShopItemField" type="Node2D" parent="Shop/Shop Elements Holder" unique_id=1022217115]
+position = Vector2(-200, 0)
+script = ExtResource("2_urcb5")
 
-[node name="ModuleBody2" parent="Node2D/Shop Elements Arranger" unique_id=422989868 instance=ExtResource("2_en8rs")]
+[node name="Sprite2D" type="Sprite2D" parent="Shop/Shop Elements Holder/ShopItemField" unique_id=1310508325]
+scale = Vector2(0.23, 0.23)
+texture = ExtResource("2_en8f7")
 
-[node name="ModuleBody3" parent="Node2D/Shop Elements Arranger" unique_id=537017527 instance=ExtResource("2_en8rs")]
+[node name="Area2D" type="Area2D" parent="Shop/Shop Elements Holder/ShopItemField" unique_id=990492798]
+script = ExtResource("3_s8bx7")
 
-[node name="ModuleBody4" parent="Node2D/Shop Elements Arranger" unique_id=443069556 instance=ExtResource("2_en8rs")]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Shop Elements Holder/ShopItemField/Area2D" unique_id=631547560]
+shape = SubResource("RectangleShape2D_s8bx7")
 
-[node name="ModuleBody5" parent="Node2D/Shop Elements Arranger" unique_id=1620557777 instance=ExtResource("2_en8rs")]
+[node name="ShopItemField2" type="Node2D" parent="Shop/Shop Elements Holder" unique_id=505719359]
+script = ExtResource("2_urcb5")
 
-[node name="ModuleBody6" parent="Node2D/Shop Elements Arranger" unique_id=1101819447 instance=ExtResource("2_en8rs")]
+[node name="Sprite2D" type="Sprite2D" parent="Shop/Shop Elements Holder/ShopItemField2" unique_id=200583852]
+scale = Vector2(0.23, 0.23)
+texture = ExtResource("2_en8f7")
 
-[node name="ModuleBody7" parent="Node2D/Shop Elements Arranger" unique_id=1905959209 instance=ExtResource("2_en8rs")]
+[node name="Area2D" type="Area2D" parent="Shop/Shop Elements Holder/ShopItemField2" unique_id=1674182233]
+script = ExtResource("3_s8bx7")
 
-[node name="ModuleBody8" parent="Node2D/Shop Elements Arranger" unique_id=1955425864 instance=ExtResource("2_en8rs")]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Shop Elements Holder/ShopItemField2/Area2D" unique_id=911162840]
+shape = SubResource("RectangleShape2D_s8bx7")
+
+[node name="ShopItemField3" type="Node2D" parent="Shop/Shop Elements Holder" unique_id=1546614016]
+position = Vector2(200, 0)
+script = ExtResource("2_urcb5")
+
+[node name="Sprite2D" type="Sprite2D" parent="Shop/Shop Elements Holder/ShopItemField3" unique_id=581162139]
+scale = Vector2(0.23, 0.23)
+texture = ExtResource("2_en8f7")
+
+[node name="Area2D" type="Area2D" parent="Shop/Shop Elements Holder/ShopItemField3" unique_id=959016097]
+script = ExtResource("3_s8bx7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Shop Elements Holder/ShopItemField3/Area2D" unique_id=189123896]
+shape = SubResource("RectangleShape2D_s8bx7")
+
+[node name="DragAndDropManager" parent="." unique_id=1681545607 instance=ExtResource("3_en8f7")]
+
+[node name="ModuleBody" parent="." unique_id=2008233099 instance=ExtResource("2_en8rs")]
+position = Vector2(1079, 545)
+
+[node name="Button" type="Button" parent="." unique_id=496784105]
+offset_left = 60.0
+offset_top = 55.0
+offset_right = 206.0
+offset_bottom = 151.0
+text = "open shop
+"
+
+[connection signal="ItemPlaced" from="Shop/Shop Elements Holder/ShopItemField" to="Shop" method="OnItemPlacedInField"]
+[connection signal="ItemRemoved" from="Shop/Shop Elements Holder/ShopItemField" to="Shop" method="OnItemRemovedFromField"]
+[connection signal="ReceivedDraggable" from="Shop/Shop Elements Holder/ShopItemField/Area2D" to="Shop/Shop Elements Holder/ShopItemField" method="OnItemPlaced"]
+[connection signal="ItemPlaced" from="Shop/Shop Elements Holder/ShopItemField2" to="Shop" method="OnItemPlacedInField"]
+[connection signal="ItemRemoved" from="Shop/Shop Elements Holder/ShopItemField2" to="Shop" method="OnItemRemovedFromField"]
+[connection signal="ReceivedDraggable" from="Shop/Shop Elements Holder/ShopItemField2/Area2D" to="Shop/Shop Elements Holder/ShopItemField2" method="OnItemPlaced"]
+[connection signal="ItemPlaced" from="Shop/Shop Elements Holder/ShopItemField3" to="Shop" method="OnItemPlacedInField"]
+[connection signal="ItemRemoved" from="Shop/Shop Elements Holder/ShopItemField3" to="Shop" method="OnItemRemovedFromField"]
+[connection signal="ReceivedDraggable" from="Shop/Shop Elements Holder/ShopItemField3/Area2D" to="Shop/Shop Elements Holder/ShopItemField3" method="OnItemPlaced"]
+[connection signal="pressed" from="Button" to="Shop" method="OpenAndGenerateShop"]

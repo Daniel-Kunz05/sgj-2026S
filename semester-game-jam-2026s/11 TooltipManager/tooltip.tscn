@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://52klbpqtxwar"]
+
+[ext_resource type="Script" uid="uid://d6dbjfi4khie" path="res://11 TooltipManager/ToolTip.cs" id="1_s5dj4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_owes1"]
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(1, 1, 1, 0.3882353)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="Control" type="Control" unique_id=1250218207 node_paths=PackedStringArray("text")]
+top_level = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_s5dj4")
+text = NodePath("ToolTip/Content")
+
+[node name="ToolTip" type="PanelContainer" parent="." unique_id=1901512040]
+layout_mode = 0
+offset_right = 360.0
+offset_bottom = 150.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_owes1")
+
+[node name="Content" type="RichTextLabel" parent="ToolTip" unique_id=1287429105]
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+text = "[b]Module name[/b]
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam"
+fit_content = true
+scroll_active = false
