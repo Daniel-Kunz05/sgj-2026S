@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://bprlnlcioabbs"]
 
+[ext_resource type="Script" uid="uid://cp65xuqvrx51r" path="res://07 Shop/Shop.cs" id="1_urcb5"]
 [ext_resource type="Texture2D" uid="uid://dxtbb572cq53p" path="res://07 Shop/LootField.png" id="2_en8f7"]
 [ext_resource type="PackedScene" uid="uid://btcv6x6so88d5" path="res://05 Module Builder/Module_Body.tscn" id="2_en8rs"]
 [ext_resource type="Script" uid="uid://cns72ow1v8ds3" path="res://07 Shop/ShopItemField.cs" id="2_urcb5"]
@@ -21,6 +22,8 @@ size = Vector2(120, 120)
 
 [node name="Shop" type="Node2D" parent="." unique_id=131476478]
 position = Vector2(960, 850)
+script = ExtResource("1_urcb5")
+moduleBodyScene = ExtResource("2_en8rs")
 
 [node name="Shop Background" type="Sprite2D" parent="Shop" unique_id=1039969026]
 scale = Vector2(10, 6)
@@ -74,6 +77,12 @@ shape = SubResource("RectangleShape2D_s8bx7")
 [node name="ModuleBody" parent="." unique_id=2008233099 instance=ExtResource("2_en8rs")]
 position = Vector2(1079, 545)
 
+[connection signal="ItemPlaced" from="Shop/Shop Elements Holder/ShopItemField" to="Shop" method="OnItemPlacedInField"]
+[connection signal="ItemRemoved" from="Shop/Shop Elements Holder/ShopItemField" to="Shop" method="OnItemRemovedFromField"]
 [connection signal="ReceivedDraggable" from="Shop/Shop Elements Holder/ShopItemField/Area2D" to="Shop/Shop Elements Holder/ShopItemField" method="OnItemPlaced"]
+[connection signal="ItemPlaced" from="Shop/Shop Elements Holder/ShopItemField2" to="Shop" method="OnItemPlacedInField"]
+[connection signal="ItemRemoved" from="Shop/Shop Elements Holder/ShopItemField2" to="Shop" method="OnItemRemovedFromField"]
 [connection signal="ReceivedDraggable" from="Shop/Shop Elements Holder/ShopItemField2/Area2D" to="Shop/Shop Elements Holder/ShopItemField2" method="OnItemPlaced"]
+[connection signal="ItemPlaced" from="Shop/Shop Elements Holder/ShopItemField3" to="Shop" method="OnItemPlacedInField"]
+[connection signal="ItemRemoved" from="Shop/Shop Elements Holder/ShopItemField3" to="Shop" method="OnItemRemovedFromField"]
 [connection signal="ReceivedDraggable" from="Shop/Shop Elements Holder/ShopItemField3/Area2D" to="Shop/Shop Elements Holder/ShopItemField3" method="OnItemPlaced"]

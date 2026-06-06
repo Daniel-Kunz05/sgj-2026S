@@ -3,8 +3,8 @@ using System;
 
 public partial class ShopItemField : Node2D
 {
-	[Signal] public delegate void ItemRemovedEventHandler(ShopItemField shopItemField, Area2D draggable);
-	[Signal] public delegate void ItemPlacedEventHandler(ShopItemField shopItemField, Area2D draggable);
+	[Signal] public delegate void ItemRemovedEventHandler(ShopItemField shopItemField, ModuleBody moduleBody);
+	[Signal] public delegate void ItemPlacedEventHandler(ShopItemField shopItemField, ModuleBody moduleBody);
 
 	[Export] private ModuleBody? currentStoredModuleBody;
 
@@ -16,11 +16,6 @@ public partial class ShopItemField : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-	}
-
-	public void OnItemRemoved(Area2D _, Area2D draggable)
-	{
-		EmitSignalItemRemoved(this, draggable);
 	}
 
 	public void OnItemPlaced(Area2D _, Area2D draggable)
@@ -36,12 +31,14 @@ public partial class ShopItemField : Node2D
 			return;
 		}
 
+		(draggable as Draggable)?.DragStart += (_) => EmitSignalItemRemoved(this, moduleBody);
+
 		// Move to the shop item field and reparent to the shop item field
 		moduleBody.GetParent().RemoveChild(moduleBody);
 		AddChild(moduleBody);
 		moduleBody.Position = Vector2.Zero;
 
-		EmitSignalItemPlaced(this, draggable);
+		EmitSignalItemPlaced(this, moduleBody);
 	}
 
 
