@@ -106,7 +106,7 @@ public partial class Shop : Node2D
 		//var chosenFileExtension = (FileExtension)(GD.Randi() % (Enum.GetValues<FileExtension>().Length - 2)); // -2 to exclude EXE as core
 		var chosenFileExtension = FileExtension.MP3;
 		var module = new Module(chosenFileExtension, FilenameGenerator.Generate(chosenFileExtension), -1, -1);
-		instance.Setup(module);
+		instance.Setup(module, true);
 		attachTo.AddChild(instance);
 
 		attachTo.OnItemPlaced(null, instance.GetNode<Area2D>("Area2D"));
