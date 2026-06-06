@@ -1,4 +1,5 @@
 using Godot;
+using sgj;
 using System;
 
 [GlobalClass]
@@ -17,11 +18,14 @@ public partial class TestDirectoryLabel : Node
 	public override void _Ready()
 	{
 		Change();
+		command = $"./{Database.Instance.playerName}.exe";
+		username = Database.Instance.userName;
 	}
 
 	public void Change()
 	{
-		(username, currentPath) = sgj.NameGeneration.PathGenerator.Generate();
+		var (uname, curPath) = sgj.NameGeneration.PathGenerator.Generate();
+		currentPath = curPath.Replace($"/home/{uname}", $"/home/{Database.Instance.userName}");
 		currentFname = sgj.NameGeneration.FilenameGenerator.Generate(sgj.Behaviour.FileExtension.TXT);
 	}
 

@@ -4,11 +4,11 @@ using System;
 [GlobalClass]
 public partial class MainMenuAnimator : Node
 {
-	private const string NextScene = "res://post_process_test.tscn";
+	private const string NextScene = "res://intro.tscn";
 	[Export] public RichTextLabel startCommand = null!;
 	[Export] public RichTextLabel titleText = null!;
 	[Export] public RichTextLabel confirm = null!;
-	private double timer;
+	[Export] public double timer;
 	private bool yesInput;
 	private bool noInput;
 	private bool ctrl_cd;
@@ -46,6 +46,7 @@ Is this ok [y/N]:";
 		yesInput = false;
 		noInput = false;
 		ctrl_cd = false;
+		cctimer = 0;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -102,7 +103,8 @@ Is this ok [y/N]:";
 			confirm.Text = $"[font=res://NotoSansMono.ttf]{string.Join("\n", split[..(int)(split.Length * (timer - bar) / CONFIRM_TEXT_DURATION)])}[/font]";
 			return;
 		}
-		confirm.Text = $"[font=res://NotoSansMono.ttf]{confirm_text}[/font]";
+		if (!yesInput && !noInput)
+		{ confirm.Text = $"[font=res://NotoSansMono.ttf]{confirm_text}[/font]"; }
 	}
 
 	public override void _Input(InputEvent @event)

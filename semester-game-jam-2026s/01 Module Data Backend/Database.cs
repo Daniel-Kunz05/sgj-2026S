@@ -15,6 +15,9 @@ public partial class Database : Node
 	private string path = null!;
 	private string filename = "fighters.json";
 	private string fullPath = null!;
+	public string playerName = null!;
+	public string userName = null!;
+	public string gamePath = null!;
 
 	public SaveType SaveData { get; private set; } = [];
 	// Called when the node enters the scene tree for the first time.

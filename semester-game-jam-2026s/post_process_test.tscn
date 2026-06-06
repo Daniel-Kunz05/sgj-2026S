@@ -73,10 +73,12 @@ label_settings = SubResource("LabelSettings_nklrh")
 horizontal_alignment = 1
 
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer" unique_id=983585005]
-offset_right = 1711.0
+offset_right = 1920.0
 offset_bottom = 99.0
 theme_override_font_sizes/normal_font_size = 39
 bbcode_enabled = true
+scroll_active = false
+autowrap_mode = 1
 
 [node name="RigidBody2D" type="RigidBody2D" parent="." unique_id=1972867564]
 position = Vector2(516, 339)

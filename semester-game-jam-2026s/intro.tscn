@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://c1367elycm3b2"]
+
+[ext_resource type="Shader" uid="uid://bagk85xk4afh6" path="res://20 Shaders/screen_shader.gdshader" id="1_ayt76"]
+[ext_resource type="Script" uid="uid://babuvjv1f3qv4" path="res://09 Intro/IntroController.cs" id="2_ayt76"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7vrkn"]
+shader = ExtResource("1_ayt76")
+shader_parameter/screen_resolution = Vector2(1920, 1080)
+shader_parameter/scanline_intensity = 0.2150000102125
+shader_parameter/color_bleed_weight = 0.10800000513
+
+[sub_resource type="Environment" id="Environment_fu7sn"]
+background_mode = 3
+tonemap_mode = 3
+tonemap_exposure = 0.84
+glow_enabled = true
+glow_intensity = 2.05
+glow_bloom = 0.18
+
+[node name="MainMenu" type="Node2D" unique_id=292561450]
+
+[node name="startCommand" type="RichTextLabel" parent="." unique_id=654473973]
+offset_right = 1924.0
+offset_bottom = 99.0
+theme_override_font_sizes/normal_font_size = 39
+bbcode_enabled = true
+text = "[font=res://NotoSansMono.ttf][color=#11d116]user@PC[/color]:[color=#11d116]path[/color]$ [/font]"
+scroll_active = false
+autowrap_mode = 1
+
+[node name="PostProcessLayer" type="CanvasLayer" parent="." unique_id=1915908207]
+layer = 2
+
+[node name="ColorRect" type="ColorRect" parent="PostProcessLayer" unique_id=539763528]
+material = SubResource("ShaderMaterial_7vrkn")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=311474692]
+environment = SubResource("Environment_fu7sn")
+
+[node name="IntroController" type="Node" parent="." unique_id=750878027 node_paths=PackedStringArray("cmdline")]
+script = ExtResource("2_ayt76")
+cmdline = NodePath("../startCommand")
+metadata/_custom_type_script = "uid://babuvjv1f3qv4"
