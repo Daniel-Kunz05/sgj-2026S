@@ -2,9 +2,14 @@
 
 [ext_resource type="Texture2D" uid="uid://cy4a3ywvhlawt" path="res://sprites/filetypes/pdf.png" id="1_vpven"]
 [ext_resource type="Shader" uid="uid://ck1kxxgjwa2bu" path="res://shaders/node_pixelate.gdshader" id="2_qjeev"]
+[ext_resource type="Texture2D" uid="uid://bpp2w376brhsf" path="res://sprites/filetypes/mp4.png" id="3_g50i3"]
 [ext_resource type="Shader" uid="uid://bagk85xk4afh6" path="res://shaders/screen_shader.gdshader" id="3_nklrh"]
+<<<<<<< HEAD
 [ext_resource type="Texture2D" uid="uid://dupdilpyqwvmy" path="res://sprites/filetypes/txt.png" id="3_wrey1"]
 [ext_resource type="Script" uid="uid://boy0y6jvj1d7o" path="res://Testing Scripts/TestDirectoryLabel.cs" id="5_g50i3"]
+=======
+[ext_resource type="Texture2D" uid="uid://cjuy3lnvjsal3" path="res://sprites/filetypes/test.png" id="4_wlcro"]
+>>>>>>> e6864f3 (Add more icons)
 
 [sub_resource type="Environment" id="Environment_vpven"]
 background_mode = 3
@@ -85,13 +90,56 @@ position = Vector2(871, 378)
 gravity_scale = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D2" unique_id=1799983810]
-scale = Vector2(5, 5)
 shape = SubResource("RectangleShape2D_qjeev")
 
 [node name="Sprite2D" type="Sprite2D" parent="RigidBody2D2/CollisionShape2D" unique_id=1765773092]
 material = SubResource("ShaderMaterial_qjeev")
-scale = Vector2(0.04, 0.04)
-texture = ExtResource("3_wrey1")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_g50i3")
+
+[node name="RigidBody2D3" type="RigidBody2D" parent="." unique_id=85559210]
+position = Vector2(1006, 376)
+gravity_scale = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D3" unique_id=1535938823]
+shape = SubResource("RectangleShape2D_qjeev")
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D3/CollisionShape2D" unique_id=845297093]
+material = SubResource("ShaderMaterial_qjeev")
+texture = ExtResource("4_wlcro")
+
+[node name="RigidBody2D4" type="RigidBody2D" parent="." unique_id=2000796858]
+position = Vector2(1146, 376)
+gravity_scale = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D4" unique_id=191867303]
+shape = SubResource("RectangleShape2D_qjeev")
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D4/CollisionShape2D" unique_id=253595289]
+material = SubResource("ShaderMaterial_qjeev")
+texture = ExtResource("4_wlcro")
+
+[node name="RigidBody2D5" type="RigidBody2D" parent="." unique_id=502406877]
+position = Vector2(1299, 376)
+gravity_scale = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D5" unique_id=1730576541]
+shape = SubResource("RectangleShape2D_qjeev")
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D5/CollisionShape2D" unique_id=1610658121]
+material = SubResource("ShaderMaterial_qjeev")
+texture = ExtResource("4_wlcro")
+
+[node name="RigidBody2D6" type="RigidBody2D" parent="." unique_id=1455033419]
+position = Vector2(726, 376)
+gravity_scale = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D6" unique_id=410855819]
+shape = SubResource("RectangleShape2D_qjeev")
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D6/CollisionShape2D" unique_id=1814501033]
+material = SubResource("ShaderMaterial_qjeev")
+texture = ExtResource("4_wlcro")
 
 [node name="PostProcessLayer" type="CanvasLayer" parent="." unique_id=699186179]
 layer = 2
