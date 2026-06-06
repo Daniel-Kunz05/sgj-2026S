@@ -29,16 +29,16 @@ file class ToolTipAttribute(string tooltipBody) : Attribute
 
 public enum FileExtension
 {
-	[ToolTip("awesome")] PDF,
-	MP3,
+	[Icon("res://06 Modules/Sprites/Filetypes/pdf.png"), ToolTip("awesome")] PDF,
+	[Icon("res://06 Modules/Sprites/Filetypes/mp3.png")] MP3,
 	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/txt.png")] TXT,
-	MP4,
-	SH,
-	ZIP,
-	PNG,
-	OBJ,
-	GODOT,
-	JSON,
+	[Icon("res://06 Modules/Sprites/Filetypes/mp4.png")] MP4,
+	[Icon("res://06 Modules/Sprites/Filetypes/sh.png")] SH,
+	[Icon("res://06 Modules/Sprites/Filetypes/zip.png")] ZIP,
+	[Icon("res://06 Modules/Sprites/Filetypes/png.png")] PNG,
+	[Icon("res://06 Modules/Sprites/Filetypes/obj.png")] OBJ,
+	[Icon("res://06 Modules/Sprites/Filetypes/godot.png")] GODOT,
+	[Icon("res://06 Modules/Sprites/Filetypes/json.png")] JSON,
 	[Behaviour(typeof(EXEBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/test.png")] EXE,
 }
 
