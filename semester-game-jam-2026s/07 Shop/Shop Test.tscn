@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://bprlnlcioabbs"]
+
+[ext_resource type="Script" uid="uid://dyffyp4gm3c61" path="res://07 Shop/ShopElementsArranger.cs" id="1_bl2o8"]
+[ext_resource type="PackedScene" uid="uid://btcv6x6so88d5" path="res://05 Module Builder/Module_Body.tscn" id="2_en8rs"]
+
+[sub_resource type="Gradient" id="Gradient_m1kl7"]
+offsets = PackedFloat32Array(0, 0.6686747, 1)
+colors = PackedColorArray(0.097259365, 0.030641057, 0.10215049, 1, 0.107480906, 0.10747927, 0.10747967, 1, 0.23312858, 0.13497919, 0.13440758, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bl2o8"]
+gradient = SubResource("Gradient_m1kl7")
+fill_from = Vector2(0, 1)
+
+[node name="ShopTest" type="Node2D" unique_id=2084930354]
+
+[node name="Node2D" type="Node2D" parent="." unique_id=131476478]
+position = Vector2(960, 911)
+
+[node name="Shop Background" type="Sprite2D" parent="Node2D" unique_id=1039969026]
+scale = Vector2(10, 6)
+texture = SubResource("GradientTexture2D_bl2o8")
+
+[node name="Shop Elements Arranger" type="Node2D" parent="Node2D" unique_id=1675738275]
+script = ExtResource("1_bl2o8")
+shopWidthHeight = Vector2(500, 250)
+
+[node name="ModuleBody" parent="Node2D/Shop Elements Arranger" unique_id=2008233099 instance=ExtResource("2_en8rs")]
+
+[node name="ModuleBody2" parent="Node2D/Shop Elements Arranger" unique_id=422989868 instance=ExtResource("2_en8rs")]
+
+[node name="ModuleBody3" parent="Node2D/Shop Elements Arranger" unique_id=537017527 instance=ExtResource("2_en8rs")]
+
+[node name="ModuleBody4" parent="Node2D/Shop Elements Arranger" unique_id=443069556 instance=ExtResource("2_en8rs")]
+
+[node name="ModuleBody5" parent="Node2D/Shop Elements Arranger" unique_id=1620557777 instance=ExtResource("2_en8rs")]
+
+[node name="ModuleBody6" parent="Node2D/Shop Elements Arranger" unique_id=1101819447 instance=ExtResource("2_en8rs")]
+
+[node name="ModuleBody7" parent="Node2D/Shop Elements Arranger" unique_id=1905959209 instance=ExtResource("2_en8rs")]
+
+[node name="ModuleBody8" parent="Node2D/Shop Elements Arranger" unique_id=1955425864 instance=ExtResource("2_en8rs")]
