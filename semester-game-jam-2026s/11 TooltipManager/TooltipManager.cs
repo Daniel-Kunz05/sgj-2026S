@@ -20,12 +20,13 @@ public partial class TooltipManager : Node
 	{
 		instance = this;
 		toolTip = GetNode<ToolTip>("ToolTip");
-		foreach (var pair in modules)
+		/*foreach (var pair in modules)
 		{
 			Control c = GetNode(pair.Key) as Control;
 			c.MouseEntered += () => TargetMouseEntered(String.Join('\n', pair.Value));
 			c.MouseExited += () => TargetMouseExited();
 		}
+		*/
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -33,16 +34,16 @@ public partial class TooltipManager : Node
 	{
 	}
 
-	private void TargetMouseEntered(string text)
+	public void ShowToolTip(string text)
 	{
-		GD.Print("Mouse entered");
+		//GD.Print("Mouse entered");
 		toolTip.Toggle(true);
 		toolTip.setText(text);
 	}
 
-	private void TargetMouseExited()
+	public void HideToolTip()
 	{
-		GD.Print("Mouse exited");
+		//GD.Print("Mouse exited");
 		toolTip.Toggle(false);
 	}
 }
