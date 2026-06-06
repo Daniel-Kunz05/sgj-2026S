@@ -31,7 +31,7 @@ public partial class ShopItemField : Node2D
 			return;
 		}
 
-		(draggable as Draggable)?.DragStart += (_) => EmitSignalItemRemoved(this, moduleBody);
+		(draggable as Draggable)?.DragStart += OnItemRemoved;
 
 		// Move to the shop item field and reparent to the shop item field
 		moduleBody.GetParent().RemoveChild(moduleBody);
@@ -39,6 +39,24 @@ public partial class ShopItemField : Node2D
 		moduleBody.Position = Vector2.Zero;
 
 		EmitSignalItemPlaced(this, moduleBody);
+	}
+
+	private void OnItemRemoved(Draggable originalDraggable)
+	{
+		if (currentStoredModuleBody == null)
+		{
+			GD.PrintErr("No module body stored in shop item field");
+			return;
+		}
+
+		var moduleBody = currentStoredModuleBody;
+
+		currentStoredModuleBody = null;
+
+		// Unsubscribe from the event
+		originalDraggable.DragStart -= OnItemRemoved;
+
+		EmitSignalItemRemoved(this, moduleBody);
 	}
 
 
