@@ -7,6 +7,8 @@
 
 [node name="MusicProjectile" type="Area2D" unique_id=1933811180]
 script = ExtResource("1_8fgk2")
+speed = 600.0
+lifetime = 2.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=608536924]
 shape = SubResource("RectangleShape2D_8fgk2")
