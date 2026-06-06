@@ -7,6 +7,7 @@ namespace sgj.Behaviour;
 public abstract partial class Behaviour(Module.Module module) : Node
 {
 	public readonly Module.Module module = module;
+	public ModuleBody? Body => GetParent().GetParent() as ModuleBody;
 	public static Behaviour Instantiate(FileExtension type, Module.Module module) => type.Constructor(module);
 
 	public abstract void OnModuleHit(Module.Module m1, Module.Module m2);

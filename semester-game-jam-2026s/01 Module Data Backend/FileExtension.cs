@@ -34,6 +34,7 @@ public enum FileExtension
 	OBJ,
 	GODOT,
 	JSON,
+	[Behaviour(typeof(EXEBehaviour))] EXE,
 }
 
 public static class BehaviourTypeExtensions

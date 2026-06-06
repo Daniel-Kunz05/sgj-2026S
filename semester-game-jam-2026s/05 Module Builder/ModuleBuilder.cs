@@ -1,25 +1,25 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using sgj.Behaviour;
 using sgj.Module;
 public partial class ModuleBuilder : Node2D
 {
     [Export] private PackedScene cell;
-    [Export] private Module moduleTest;
-    [Export] private PackedScene bodyTest;
+    [Export] private PackedScene moduleBodyPrefab;
 
-    [Export] private Vector2I moduleSize;
     [Export] private Vector2I gridSize;
 
     [Export] private CollisionShape2D _collisionShape2D;
 
     SortedList<(int, int), ModuleBody> usedModules;
+    private ModuleBody coreBody;
 
 
     public override void _Ready()
     {
         RectangleShape2D shape = new RectangleShape2D();
-        shape.Size = new Vector2(moduleSize.X * gridSize.X, moduleSize.Y * gridSize.Y);
+        shape.Size = new Vector2(ModuleBody.moduleSize.X * gridSize.X, ModuleBody.moduleSize.Y * gridSize.Y);
         _collisionShape2D.Shape = shape;
         _collisionShape2D.Position = shape.Size / 2;
 
@@ -31,10 +31,17 @@ public partial class ModuleBuilder : Node2D
             for (int j = 0; j < gridSize.Y; j++)
             {
                 Node2D node = cell.Instantiate<Node2D>();
-                node.Position = new Vector2(moduleSize.X * i, moduleSize.Y * j) + moduleSize / 2;
+                node.Position = new Vector2(ModuleBody.moduleSize.X * i, ModuleBody.moduleSize.Y * j) + ModuleBody.moduleSize / 2;
                 AddChild(node);
             }
         }
+
+        coreBody = moduleBodyPrefab.Instantiate<ModuleBody>();
+
+        Module coreModule = new Module(FileExtension.EXE, "CoreTest", -1, -1);
+        coreBody.Setup(coreModule);
+
+        SetModule(gridSize / 2, coreBody);
     }
 
 
@@ -71,8 +78,15 @@ public partial class ModuleBuilder : Node2D
     }
     private void SetModule(Vector2I index, ModuleBody body)
     {
-        body.Reparent(this);
-        body.Position = GridToLocalPosition(index) + moduleSize / 2;
+        if (body.GetParent() != null)
+        {
+            body.Reparent(this);
+        }
+        else
+        {
+           AddChild(body);
+        }
+        body.Position = GridToLocalPosition(index) + ModuleBody.moduleSize / 2;
         usedModules.Add((index.X, index.Y), body);
         body.module.x = index.X;
         body.module.y = index.Y;
@@ -112,9 +126,18 @@ public partial class ModuleBuilder : Node2D
         }
     }
 
+    public void OnBuildButtonPress()
+    {
+        GD.Print("buttons");
+        if (coreBody.module.behaviour is EXEBehaviour moduleCore)
+        {
+            moduleCore.SetupShip(usedModules);
+        }
+    }
+
     private Vector2 GridToLocalPosition(Vector2I index)
     {
-        return new Vector2(moduleSize.X * index.X, moduleSize.Y * index.Y);
+        return new Vector2(ModuleBody.moduleSize.X * index.X, ModuleBody.moduleSize.Y * index.Y);
     }
 
     private bool IsFree(Vector2I index)
@@ -136,10 +159,10 @@ public partial class ModuleBuilder : Node2D
 
     private Vector2I LocalToGrid(Vector2 worldPos)
     {
-        Vector2 pos = worldPos - moduleSize / 2;
+        Vector2 pos = worldPos - ModuleBody.moduleSize / 2;
 
-        int x = Math.Clamp((int)Math.Round(pos.X / moduleSize.X), -1, gridSize.X);
-        int y = Math.Clamp((int)Math.Round(pos.Y / moduleSize.Y), -1, gridSize.Y);
+        int x = Math.Clamp((int)Math.Round(pos.X / ModuleBody.moduleSize.X), -1, gridSize.X);
+        int y = Math.Clamp((int)Math.Round(pos.Y / ModuleBody.moduleSize.Y), -1, gridSize.Y);
         return new Vector2I(x, y);
 
     }
