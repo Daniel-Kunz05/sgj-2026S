@@ -23,7 +23,7 @@ public partial class MainCmdlineController : Node
 	private Action nextCallback = delegate { };
 	private string userName = null!;
 	private string playerName = null!;
-	private string currentPath = null!;
+	public string CurrentPath { get; private set; } = null!;
 	private const double CC_DELAY = 0.3;
 	private const double COMMAND_DURATION = 0.5;
 	private const double COMMAND_DELAY = 0.25;
@@ -38,7 +38,7 @@ public partial class MainCmdlineController : Node
 		currentCommand = "";
 		userName = Database.Instance.userName;
 		playerName = Database.Instance.playerName;
-		currentPath = Database.Instance.gamePath;
+		CurrentPath = Database.Instance.gamePath;
 		UpdateCmdline();
 		EnqueueCommand($"mkdir {playerName}");
 		EnqueueCommand($"cd {playerName}", CmdlineAction.PUSH_PLAYER_DIR, GameManager.instance.StartGame);
@@ -46,7 +46,7 @@ public partial class MainCmdlineController : Node
 
 	private void UpdateCmdline()
 	{
-		cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{userName}@PC[/color]:[color=#11d116]{currentPath}[/color]$ {currentCommand}[/font]";
+		cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{userName}@PC[/color]:[color=#11d116]{CurrentPath}[/color]$ {currentCommand}[/font]";
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -72,30 +72,30 @@ public partial class MainCmdlineController : Node
 			timer = 0;
 		}
 		timer += delta;
-		cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{userName}@PC[/color]:[color=#11d116]{currentPath}[/color]$ {currentCommand.Substring(0, (int)(currentCommand.Length * double.Clamp(timer / COMMAND_DURATION, 0, 1)))}[/font]";
+		cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{userName}@PC[/color]:[color=#11d116]{CurrentPath}[/color]$ {currentCommand.Substring(0, (int)(currentCommand.Length * double.Clamp(timer / COMMAND_DURATION, 0, 1)))}[/font]";
 		if (timer > TOTAL_COMMAND_TIME)
 		{
-			nextCallback();
 			switch (nextAction)
 			{
 				case CmdlineAction.PUSH_PLAYER_DIR:
 					{
-						if (currentPath == "/") { currentPath = $"/{playerName}"; }
-						else { currentPath = $"{currentPath}/{playerName}"; }
+						if (CurrentPath == "/") { CurrentPath = $"/{playerName}"; }
+						else { CurrentPath = $"{CurrentPath}/{playerName}"; }
 						UpdateCmdline();
 					}
 					break;
 				case CmdlineAction.POP_DIR:
 					{
-						int i = currentPath.LastIndexOf('/');
-						currentPath = currentPath[..i];
-						if (currentPath == "") { currentPath = "/"; }
+						int i = CurrentPath.LastIndexOf('/');
+						CurrentPath = CurrentPath[..i];
+						if (CurrentPath == "") { CurrentPath = "/"; }
 						UpdateCmdline();
 					}
 					break;
 				default:
 					break;
 			}
+			nextCallback();
 		}
 	}
 	public override void _Input(InputEvent @event)
