@@ -1,35 +1,18 @@
 [gd_scene format=3 uid="uid://csvly2ibaxwql"]
 
 [ext_resource type="Script" uid="uid://cncrscj1r4d3a" path="res://05 Module Builder/ModuleBuilder.cs" id="1_5nk00"]
-[ext_resource type="PackedScene" uid="uid://btcv6x6so88d5" path="res://05 Module Builder/Module_Body.tscn" id="1_pefnb"]
-[ext_resource type="Shader" uid="uid://bagk85xk4afh6" path="res://shaders/screen_shader.gdshader" id="2_5nk00"]
 [ext_resource type="PackedScene" uid="uid://b6yl6btkqug8q" path="res://05 Module Builder/GridCellTest.tscn" id="2_vvfak"]
 [ext_resource type="Script" uid="uid://b1ibg824mcjsu" path="res://01 Module Data Backend/Module.cs" id="3_pmms3"]
+[ext_resource type="Script" uid="uid://dglem1k2cvc7n" path="res://04 Drag And Drop/DropReceiver.cs" id="5_pmms3"]
 
 [sub_resource type="Resource" id="Resource_qrthr"]
 script = ExtResource("3_pmms3")
 metadata/_custom_type_script = "uid://b1ibg824mcjsu"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ak7ym"]
-shader = ExtResource("2_5nk00")
-shader_parameter/screen_resolution = Vector2(1920, 1080)
-shader_parameter/scanline_intensity = 0.2150000102125
-shader_parameter/color_bleed_weight = 0.10800000513
-
-[sub_resource type="Environment" id="Environment_5nk00"]
-background_mode = 3
-tonemap_mode = 3
-tonemap_exposure = 0.84
-glow_enabled = true
-glow_intensity = 2.13
-glow_bloom = 0.18
-
 [node name="ModuleBuilder" type="Node2D" unique_id=188737696 node_paths=PackedStringArray("_collisionShape2D")]
-position = Vector2(406, 200)
 script = ExtResource("1_5nk00")
 cell = ExtResource("2_vvfak")
 moduleTest = SubResource("Resource_qrthr")
-bodyTest = ExtResource("1_pefnb")
 moduleSize = Vector2i(125, 125)
 gridSize = Vector2i(5, 5)
 _collisionShape2D = NodePath("Area2D/CollisionShape2D")
@@ -37,22 +20,9 @@ _collisionShape2D = NodePath("Area2D/CollisionShape2D")
 [node name="Area2D" type="Area2D" parent="." unique_id=1220133850]
 monitoring = false
 monitorable = false
+script = ExtResource("5_pmms3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1889485125]
 debug_color = Color(0.46971214, 0.54352176, 0.63127977, 0.1882353)
 
-[node name="PostProcessLayer" type="CanvasLayer" parent="." unique_id=1101233454]
-layer = 2
-
-[node name="ColorRect" type="ColorRect" parent="PostProcessLayer" unique_id=559370050]
-material = SubResource("ShaderMaterial_ak7ym")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-metadata/_edit_use_anchors_ = true
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="PostProcessLayer" unique_id=905138301]
-environment = SubResource("Environment_5nk00")
+[connection signal="ReceivedDraggable" from="Area2D" to="." method="OnDraggableReceived"]

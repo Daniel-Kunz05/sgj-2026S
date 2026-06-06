@@ -16,8 +16,6 @@ public partial class ModuleBuilder : Node2D
     SortedList<(int, int), Module> usedModules;
 
 
-
-
     public override void _Ready()
     {
         RectangleShape2D shape = new RectangleShape2D();
@@ -39,18 +37,35 @@ public partial class ModuleBuilder : Node2D
         }
     }
 
-    public override void _UnhandledInput(InputEvent @event)
+
+    public void OnDraggableReceived(DropReceiver receiver, Draggable draggable)
     {
-        if (@event is InputEventMouseButton eventKey)
+        bool accepted = false;
+        if (draggable.OwnerParent is ModuleBody body)
         {
-            if (eventKey.Pressed && eventKey.ButtonIndex == MouseButton.Left)
+
+            Vector2 mousePos = GetLocalMousePosition();
+
+            Vector2I index = LocalToGrid(mousePos);
+
+            if (!OutOfBounds(index))
             {
-                OnModuleDropped();
+                if (!IsFree(index))
+                {
+                    SwapModule(index, moduleTest);
+                }
+                else
+                {
+                    SetModule(index, moduleTest);
+                    body.Reparent(this);
+                    body.Position = GridToLocalPosition(index) + moduleSize / 2;
+                    accepted = true;
+                }
             }
         }
+        if (accepted) draggable.Accept();
+        else draggable.Decline();
     }
-
-
     public void OnModuleDropped()
     {
         Vector2 mousePos = GetLocalMousePosition();
@@ -68,8 +83,6 @@ public partial class ModuleBuilder : Node2D
                 SetModule(index, moduleTest);
             }
         }
-
-
     }
 
     private void SwapModule(Vector2I index, Module module)
@@ -79,10 +92,6 @@ public partial class ModuleBuilder : Node2D
     private void SetModule(Vector2I index, Module module)
     {
         usedModules.Add((index.X, index.Y), module);
-        ModuleBody body = bodyTest.Instantiate<ModuleBody>();
-
-        AddChild(body);
-        body.Position = GridToLocalPosition(index) + moduleSize / 2;
 
     }
 
@@ -93,7 +102,7 @@ public partial class ModuleBuilder : Node2D
 
     private bool IsFree(Vector2I index)
     {
-        return usedModules.ContainsKey((index.X, index.Y));
+        return !usedModules.ContainsKey((index.X, index.Y));
     }
 
     private bool OutOfBounds(Vector2I index)
