@@ -33,5 +33,5 @@ public partial class Module : Node2D
         OnModuleDeath += behaviour.OnModuleDeath;
     }
 
-    public Module() : this(FileExtension.TXT, "", 0, 0) { }
+    public Module() : this(FileExtension.TXT, "", -1, -1) { }
 }

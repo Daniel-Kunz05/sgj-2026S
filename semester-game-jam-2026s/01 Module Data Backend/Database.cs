@@ -30,14 +30,18 @@ public partial class Database : Node
 	{
 		if (!File.Exists(Instance.fullPath))
 		{
-			File.Create(Instance.fullPath);
+			//GD.Print("HELLO");
+			{ using var _ = File.Create(Instance.fullPath); }
 			// Create default fighters here:
-			Instance.SaveData = [];
+			Instance.SaveData = new()
+			{
+				[Guid.Parse("00000000-0000-0000-0000-000000000001")] = ("test", "/home/daniel", [])
+			};
 			Save();
 			return;
 		}
 		using FileStream openStream = File.OpenRead(Instance.fullPath);
-		var data = JsonSerializer.Deserialize<SaveType>(openStream);
+		var data = JsonSerializer.Deserialize<SaveType>(openStream, new JsonSerializerOptions() { IncludeFields = true });
 		if (data is null) return;
 		Instance.SaveData = data;
 	}
@@ -45,7 +49,7 @@ public partial class Database : Node
 	public static void Save()
 	{
 		using FileStream createStream = File.Create(Instance.fullPath);
-		JsonSerializer.Serialize(createStream, Instance.SaveData);
+		JsonSerializer.Serialize(createStream, Instance.SaveData, new JsonSerializerOptions() { IncludeFields = true });
 	}
 
 	public static void AddFighter(string name, string progress, Module.Module[] modules)
