@@ -17,6 +17,7 @@ public partial class Database : Node
 	private string fullPath = null!;
 	public string playerName = null!;
 	public string userName = null!;
+	public string initialGamePath = null!;
 	public string gamePath = null!;
 	public Module.Module[] modules = null!;
 

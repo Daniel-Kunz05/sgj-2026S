@@ -203,13 +203,16 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
         // tick all modules in ship
         foreach (ModuleBody body in moduleBodiesList)
         {
-            if (body == Body) return;
-            body.module.behaviour?.Tick(delta);
+            if (body == Body) continue;
+            body.module.behaviour.Tick(delta);
         }
     }
 
     public override void OnModuleDeath(Module cause)
     {
+        Database.AddFighter(Database.Instance.playerName, Database.Instance.gamePath, Database.Instance.modules);
+        GetTree().ChangeSceneToFile("res://you_lose.tscn");
+        return;
         throw new System.NotImplementedException();
     }
 

@@ -23,7 +23,8 @@ public partial class IntroController : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		(Database.Instance.userName, Database.Instance.gamePath) = sgj.NameGeneration.PathGenerator.Generate();
+		(Database.Instance.userName, Database.Instance.initialGamePath) = sgj.NameGeneration.PathGenerator.Generate();
+		Database.Instance.gamePath = Database.Instance.initialGamePath;
 		cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{Database.Instance.userName}@PC[/color]:[color=#11d116]{Database.Instance.gamePath}[/color]$ [/font]";
 		timer = 0;
 		blinkTimer = 0;

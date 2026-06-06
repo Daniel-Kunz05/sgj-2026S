@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 using sgj.Behaviour;
 using sgj.Module;
@@ -6,8 +7,9 @@ public partial class MP3Behaviour(Module module) : Behaviour(module)
 {
     private double spawnInterval = 0.5f;
     private double spawnTimer = 0;
-
     private bool isDead = false;
+
+    private HashSet<Projectile> projectiles = new HashSet<Projectile>();
 
     private PackedScene musicProjectileScene = GD.Load<PackedScene>("res://05 Module Builder/Projectiles/music_projectile.tscn");
 
@@ -29,6 +31,11 @@ public partial class MP3Behaviour(Module module) : Behaviour(module)
 
     public override void Tick(double delta)
     {
+        foreach (Projectile projectile in projectiles)
+        {
+            projectile.ApplyTick(delta);
+        }
+
         if (isDead) return;
 
         spawnTimer += (float)delta;
@@ -42,9 +49,17 @@ public partial class MP3Behaviour(Module module) : Behaviour(module)
                 GD.Print("Spawning music projectile");
                 var projectile = musicProjectileScene.Instantiate<Projectile>();
 
+                GetTree().Root.GetNode("Main").AddChild(projectile);
+                projectiles.Add(item: projectile);
+
                 projectile.Position = Body.GlobalPosition;
                 projectile.Setup(this, Body.GlobalRotation + Mathf.Pi / 2 * i);
             }
         }
+    }
+
+    public void RemoveProjectile(Projectile projectile)
+    {
+        projectiles.Remove(projectile);
     }
 }

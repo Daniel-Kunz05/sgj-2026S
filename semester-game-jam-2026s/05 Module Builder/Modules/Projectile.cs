@@ -19,7 +19,14 @@ public partial class Projectile : Area2D
         var timer = new Timer();
         timer.WaitTime = lifetime;
         timer.OneShot = true;
-        timer.Timeout += () => QueueFree();
+        timer.Timeout += () => {
+            QueueFree();
+            // Terrible way to do this but I don't wanna
+            if (originatingBehaviour is MP3Behaviour mp3Behaviour)
+            {
+                mp3Behaviour.RemoveProjectile(this);
+            }
+        };
         AddChild(timer);
         timer.Start();
     }

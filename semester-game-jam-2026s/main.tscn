@@ -32,7 +32,7 @@ size = Vector2(2400, 200)
 
 [node name="startCommand" type="RichTextLabel" parent="." unique_id=1574045834]
 offset_right = 1924.0
-offset_bottom = 99.0
+offset_bottom = 108.0
 theme_override_font_sizes/normal_font_size = 39
 bbcode_enabled = true
 text = "[font=res://NotoSansMono.ttf][color=#11d116]user@PC[/color]:[color=#11d116]path[/color]$ [/font]"

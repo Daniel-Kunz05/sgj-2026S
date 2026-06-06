@@ -98,9 +98,9 @@ public partial class ModuleBuilder : Node2D
                         accepted = true;
                     }
                 }
-            } 
+            }
         }
-        
+
         if (accepted) draggable.Accept();
         else draggable.Decline();
     }
