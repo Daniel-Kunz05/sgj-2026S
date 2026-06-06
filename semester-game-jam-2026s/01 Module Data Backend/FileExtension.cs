@@ -30,7 +30,7 @@ file class ToolTipAttribute(string tooltipBody) : Attribute
 public enum FileExtension
 {
 	[Icon("res://06 Modules/Sprites/Filetypes/pdf.png"), ToolTip("awesome")] PDF,
-	[Icon("res://06 Modules/Sprites/Filetypes/mp3.png")] MP3,
+	[Behaviour(typeof(MP3Behaviour)), Icon("res://06 Modules/Sprites/Filetypes/mp3.png")] MP3,
 	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/txt.png")] TXT,
 	[Icon("res://06 Modules/Sprites/Filetypes/mp4.png")] MP4,
 	[Icon("res://06 Modules/Sprites/Filetypes/sh.png")] SH,

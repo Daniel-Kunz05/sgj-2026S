@@ -12,7 +12,9 @@ public partial class ModuleBuilder : Node2D
 
     [Export] private CollisionShape2D _collisionShape2D;
 
-    SortedList<(int, int), ModuleBody> usedModules;
+    private SortedList<(int, int), ModuleBody> usedModules;
+    public SortedList<(int, int), ModuleBody> UsedModules => usedModules;
+
     private ModuleBody coreBody;
 
     public enum BuildErrorCode

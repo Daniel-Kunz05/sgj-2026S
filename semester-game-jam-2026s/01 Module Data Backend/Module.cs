@@ -39,4 +39,9 @@ public partial class Module : Node2D
 	{
 		EmitSignalOnModuleHit(hitter, hitted);
 	}
+
+    internal void EmitSignalOnModuleDeathExtern(Module m1)
+    {
+        EmitSignalOnModuleDeath(m1);
+    }
 }

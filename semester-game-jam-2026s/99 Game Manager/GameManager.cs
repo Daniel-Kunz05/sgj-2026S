@@ -88,7 +88,8 @@ public partial class GameManager : Node
 					// moduleBuilder.SetupShip();
 
 					// Todo wait for battle end
-					EndBattlePhase();
+					//EndBattlePhase();
+					
 
 				});
 

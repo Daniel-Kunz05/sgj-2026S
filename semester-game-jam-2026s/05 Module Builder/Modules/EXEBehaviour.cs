@@ -56,6 +56,8 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
 
     private List<CollisionShape2D> _shape2Ds;
 
+    private List<ModuleBody> moduleBodiesList = new List<ModuleBody>();
+
     private Node2D arrowPivot;
 
     public override void _Ready()
@@ -110,6 +112,11 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
         {
             arrowPivot.Rotation = (Body.GetGlobalMousePosition() - arrowPivot.GlobalPosition).Angle();
         }
+        else if (State == CoreState.FIGHTING)
+        {
+            GD.Print("Ticking ship");
+            Tick(delta);
+        }
     }
     
     public override void _UnhandledInput(InputEvent @event)
@@ -139,14 +146,18 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
 
     public void SetupShip(SortedList<(int,int), ModuleBody> moduleBodies)
     {
+
         if (State == CoreState.DRAGGING)
         {
             _shape2Ds = new List<CollisionShape2D>();
-        
+            moduleBodiesList = new List<ModuleBody>();
+
             foreach (ModuleBody body in moduleBodies.Values)
             {
+                moduleBodiesList.Add(body);
                 if (body != Body)
                 {
+                    GD.Print("asdfasdfasfasdf");
                     body.Reparent(Body);
                     body.Position = GetRelativePosition(new Vector2I(body.module.x, body.module.y));
                 
@@ -185,7 +196,11 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
 
     public override void Tick(double delta)
     {
-        throw new System.NotImplementedException();
+        // tick all modules in ship
+        foreach (ModuleBody body in moduleBodiesList)
+        {
+            body.module.behaviour?.Tick(delta);
+        }
     }
 
     public override void OnModuleDeath(Module cause)
@@ -201,4 +216,6 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
             shape.Free();
         }
     }
+
+
 }
