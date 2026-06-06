@@ -64,12 +64,13 @@ text = "/home/test/Documents"
 label_settings = SubResource("LabelSettings_nklrh")
 
 [node name="Label2" type="Label" parent="CanvasLayer" unique_id=655693282]
-offset_left = 676.83
+offset_left = 498.0
 offset_top = 465.13
-offset_right = 1495.8301
+offset_right = 1239.0
 offset_bottom = 519.1301
 text = "/home/test/Documents"
 label_settings = SubResource("LabelSettings_nklrh")
+horizontal_alignment = 1
 
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer" unique_id=983585005]
 offset_right = 1711.0

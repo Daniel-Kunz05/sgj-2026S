@@ -8,7 +8,7 @@ namespace sgj.NameGeneration;
 public partial class PathGenerator : Node
 {
 	public static readonly string PREFIX = "/home";
-	public static readonly string USER = "daniel";
+	public static readonly string[] USERS = ["alex", "victor", "dawin", "felix", "meilun", "wafiro", "quirlight", "phillip"];
 	public static readonly string[] HOME_DIRECTORIES = [
 		"anaconda3",
 		"Desktop",
@@ -35,9 +35,10 @@ public partial class PathGenerator : Node
 		["Videos"] = ["Screencasts", "minecraft", "supertux", "cube earth evidence"],
 		["tum"] = ["EIST", "GDB", "GBS", "GRNVS", "SGJ202%1[0-6]", "PGDP"]
 	};
-	public static string Generate()
+	public static (string username, string path) Generate()
 	{
 		string home_dir = HOME_DIRECTORIES.PickRandom();
-		return FormatUtil.Format(PREFIX + "/" + USER + "/" + home_dir + "/" + SUBDIRECTORIES[home_dir].PickRandom());
+		string user = USERS.PickRandom();
+		return (user, FormatUtil.Format(PREFIX + "/" + user + "/" + home_dir + "/" + SUBDIRECTORIES[home_dir].PickRandom()));
 	}
 }
