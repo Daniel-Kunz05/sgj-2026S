@@ -25,6 +25,7 @@ public partial class Module : Node2D
 
     public override void _Ready()
     {
+        //
         behaviour = fileExtension.Constructor(this);
         AddChild(behaviour);
         OnModuleHit += behaviour.OnModuleHit;
