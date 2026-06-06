@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cns72ow1v8ds3" path="res://07 Shop/ShopItemField.cs" id="2_urcb5"]
 [ext_resource type="PackedScene" uid="uid://68deu6fevow4" path="res://04 Drag And Drop/DragAndDropManager.tscn" id="3_en8f7"]
 [ext_resource type="Script" uid="uid://dglem1k2cvc7n" path="res://04 Drag And Drop/DropReceiver.cs" id="3_s8bx7"]
+[ext_resource type="Texture2D" uid="uid://r26uotii504w" path="res://07 Shop/reroll.png" id="6_rllck"]
 
 [sub_resource type="Gradient" id="Gradient_m1kl7"]
 offsets = PackedFloat32Array(0, 0.6686747, 1)
@@ -21,11 +22,10 @@ size = Vector2(120, 120)
 [node name="ShopTest" type="Node2D" unique_id=2084930354]
 
 [node name="Shop" type="Node2D" parent="." unique_id=131476478 node_paths=PackedStringArray("rerollButton")]
-visible = false
 position = Vector2(960, 850)
 script = ExtResource("1_urcb5")
 moduleBodyScene = ExtResource("2_en8rs")
-rerollButton = NodePath("../Reroll Button")
+rerollButton = NodePath("Reroll Button")
 
 [node name="Shop Background" type="Sprite2D" parent="Shop" unique_id=1039969026]
 scale = Vector2(10, 6)
@@ -74,6 +74,16 @@ script = ExtResource("3_s8bx7")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Shop Elements Holder/ShopItemField3/Area2D" unique_id=189123896]
 shape = SubResource("RectangleShape2D_s8bx7")
 
+[node name="Reroll Button" type="Button" parent="Shop" unique_id=1693745231]
+offset_left = 199.0
+offset_top = -181.0
+offset_right = 311.0
+offset_bottom = -124.0
+text = "(3/3)"
+icon = ExtResource("6_rllck")
+alignment = 0
+expand_icon = true
+
 [node name="DragAndDropManager" parent="." unique_id=1681545607 instance=ExtResource("3_en8f7")]
 
 [node name="ModuleBody" parent="." unique_id=2008233099 instance=ExtResource("2_en8rs")]
@@ -87,13 +97,6 @@ offset_bottom = 151.0
 text = "open shop
 "
 
-[node name="Reroll Button" type="Button" parent="." unique_id=1693745231]
-offset_left = 99.0
-offset_top = 229.0
-offset_right = 245.0
-offset_bottom = 325.0
-text = "Reroll (3/3)"
-
 [connection signal="ItemPlaced" from="Shop/Shop Elements Holder/ShopItemField" to="Shop" method="OnItemPlacedInField"]
 [connection signal="ItemRemoved" from="Shop/Shop Elements Holder/ShopItemField" to="Shop" method="OnItemRemovedFromField"]
 [connection signal="ReceivedDraggable" from="Shop/Shop Elements Holder/ShopItemField/Area2D" to="Shop/Shop Elements Holder/ShopItemField" method="OnItemPlaced"]
@@ -103,5 +106,5 @@ text = "Reroll (3/3)"
 [connection signal="ItemPlaced" from="Shop/Shop Elements Holder/ShopItemField3" to="Shop" method="OnItemPlacedInField"]
 [connection signal="ItemRemoved" from="Shop/Shop Elements Holder/ShopItemField3" to="Shop" method="OnItemRemovedFromField"]
 [connection signal="ReceivedDraggable" from="Shop/Shop Elements Holder/ShopItemField3/Area2D" to="Shop/Shop Elements Holder/ShopItemField3" method="OnItemPlaced"]
+[connection signal="pressed" from="Shop/Reroll Button" to="Shop" method="RerollShop"]
 [connection signal="pressed" from="Open Button" to="Shop" method="OpenAndGenerateShop"]
-[connection signal="pressed" from="Reroll Button" to="Shop" method="RerollShop"]
