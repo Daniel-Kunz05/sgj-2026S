@@ -197,5 +197,22 @@ public partial class ModuleBuilder : Node2D
         }
     }
 
+    public void ShowBuilder()
+    {
+        // Animate open builder
+        Scale = new Vector2(0, 1);
+        Visible = true;
+        var tween = CreateTween();
+        tween.TweenProperty(this, "scale:x", 1, 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
+        tween.Play();
+    }
 
+    public void HideBuilder()
+    {
+        // Animate close builder
+        var tween = CreateTween();
+        tween.TweenProperty(this, "scale:x", 0, 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.In);
+        tween.Play();
+        tween.TweenCallback(new Callable(this, "Hide"));
+    }
 }

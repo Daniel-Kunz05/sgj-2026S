@@ -2,6 +2,11 @@
 
 [ext_resource type="Shader" uid="uid://bagk85xk4afh6" path="res://20 Shaders/screen_shader.gdshader" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://baw4e05j5ph6l" path="res://09 Cmdline/MainCmdlineController.cs" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://csvly2ibaxwql" path="res://05 Module Builder/Module Builder.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://b2cv7yg2167us" path="res://07 Shop/shop.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://68deu6fevow4" path="res://04 Drag And Drop/DragAndDropManager.tscn" id="5_7mycd"]
+[ext_resource type="PackedScene" uid="uid://bgtqrl5ms0kqe" path="res://11 TooltipManager/tooltipManager.tscn" id="6_272bh"]
+[ext_resource type="Script" uid="uid://dmgwe0sdar3vr" path="res://PlaceholderButtonNextPhase.cs" id="7_272bh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0xm2m"]
 shader = ExtResource("1_ig7tw")
@@ -17,7 +22,7 @@ glow_enabled = true
 glow_intensity = 2.05
 glow_bloom = 0.18
 
-[node name="Node2D" type="Node2D" unique_id=1287528612]
+[node name="Main" type="Node2D" unique_id=1287528612]
 
 [node name="startCommand" type="RichTextLabel" parent="." unique_id=1574045834]
 offset_right = 1924.0
@@ -47,3 +52,23 @@ environment = SubResource("Environment_h2yge")
 script = ExtResource("2_0xm2m")
 cmdline = NodePath("../startCommand")
 metadata/_custom_type_script = "uid://baw4e05j5ph6l"
+
+[node name="ModuleBuilder" parent="." unique_id=188737696 instance=ExtResource("3_h2yge")]
+visible = false
+position = Vector2(108, 187)
+
+[node name="Shop" parent="." unique_id=2021783419 instance=ExtResource("4_1bvp3")]
+visible = false
+position = Vector2(960, 895)
+
+[node name="DragAndDropManager" parent="." unique_id=1681545607 instance=ExtResource("5_7mycd")]
+
+[node name="TooltipManager" parent="." unique_id=1883395475 instance=ExtResource("6_272bh")]
+
+[node name="Debug Next phase Button" type="Button" parent="." unique_id=1397113647]
+offset_left = 1507.0
+offset_top = 47.0
+offset_right = 1515.0
+offset_bottom = 55.0
+text = "next phase"
+script = ExtResource("7_272bh")
