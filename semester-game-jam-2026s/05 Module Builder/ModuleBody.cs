@@ -35,7 +35,7 @@ public partial class ModuleBody : Node2D, IToolTippable
 	    BattleMode(false);
     }
 
-    public void Setup(Module module)
+    public void Setup(Module module, bool isPlayer)
     {
 	    this.module = module;
 	    ((IToolTippable) this).SetupToolTipConnection();
@@ -43,6 +43,18 @@ public partial class ModuleBody : Node2D, IToolTippable
 	    else AddChild(module);
 
 	    sprite.Texture = ResourceLoader.Load<Texture2D>(module.fileExtension.IconPath);
+
+	    if (isPlayer)
+	    {
+		    Draggable.CollisionLayer = (1 << 0);
+		    Draggable.CollisionMask = (1 << 3);
+	    }
+	    else
+	    {
+		    Draggable.CollisionLayer = (1 << 3);
+		    Draggable.CollisionMask = (1 << 0);
+		    
+	    }
 
     }
     public void OnAreaEntered(Area2D other)

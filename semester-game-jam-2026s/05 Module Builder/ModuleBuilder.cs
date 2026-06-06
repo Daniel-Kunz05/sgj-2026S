@@ -68,7 +68,7 @@ public partial class ModuleBuilder : Node2D
             coreBody = moduleBodyPrefab.Instantiate<ModuleBody>();
             coreBody.Name = "CoreModuleBody";
             Module coreModule = new Module(FileExtension.EXE, "CoreTest", -1, -1);
-            coreBody.Setup(coreModule);
+            coreBody.Setup(coreModule, isPlayer);
             SetModule(gridSize / 2, coreBody);
         }
     }
@@ -193,7 +193,7 @@ public partial class ModuleBuilder : Node2D
                 coreBody = new ModuleBody();
                 coreBody.Name = "CoreModuleBody";
             }
-            body.Setup(module);
+            body.Setup(module, isPlayer);
             SetModule(new Vector2I(module.x, module.y), body);
         }
     }
