@@ -1,13 +1,13 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-
+using sgj.Module;
 public partial class ModuleBuilder : Node2D
 {
     [Export] private PackedScene cell;
     [Export] private Module moduleTest;
     [Export] private PackedScene bodyTest;
-    
+
     [Export] private Vector2I moduleSize;
     [Export] private Vector2I gridSize;
 
@@ -26,19 +26,19 @@ public partial class ModuleBuilder : Node2D
         _collisionShape2D.Position = shape.Size / 2;
 
         usedModules = new SortedList<(int, int), Module>();
-        
+
 
         for (int i = 0; i < gridSize.X; i++)
         {
             for (int j = 0; j < gridSize.Y; j++)
             {
                 Node2D node = cell.Instantiate<Node2D>();
-                node.Position = new Vector2(moduleSize.X * i, moduleSize.Y * j) + moduleSize /2;
+                node.Position = new Vector2(moduleSize.X * i, moduleSize.Y * j) + moduleSize / 2;
                 AddChild(node);
             }
         }
     }
-    
+
     public override void _UnhandledInput(InputEvent @event)
     {
         if (@event is InputEventMouseButton eventKey)
@@ -68,7 +68,7 @@ public partial class ModuleBuilder : Node2D
                 SetModule(index, moduleTest);
             }
         }
-        
+
 
     }
 
@@ -78,11 +78,11 @@ public partial class ModuleBuilder : Node2D
     }
     private void SetModule(Vector2I index, Module module)
     {
-        usedModules.Add((index.X,index.Y), module);
+        usedModules.Add((index.X, index.Y), module);
         ModuleBody body = bodyTest.Instantiate<ModuleBody>();
-        
+
         AddChild(body);
-        body.Position = GridToLocalPosition(index) + moduleSize /2;
+        body.Position = GridToLocalPosition(index) + moduleSize / 2;
 
     }
 
@@ -93,24 +93,24 @@ public partial class ModuleBuilder : Node2D
 
     private bool IsFree(Vector2I index)
     {
-        return usedModules.ContainsKey((index.X,index.Y));
+        return usedModules.ContainsKey((index.X, index.Y));
     }
-    
+
     private bool OutOfBounds(Vector2I index)
     {
         return index.X < 0 || index.X >= gridSize.X || index.Y < 0 || index.Y >= gridSize.Y;
     }
-    
-    
+
+
     private Vector2I LocalToGrid(Vector2 worldPos)
     {
         Vector2 pos = worldPos - moduleSize / 2;
-        
+
         int x = Math.Clamp((int)Math.Round(pos.X / moduleSize.X), -1, gridSize.X);
         int y = Math.Clamp((int)Math.Round(pos.Y / moduleSize.Y), -1, gridSize.Y);
-        return new Vector2I(x,y);
+        return new Vector2I(x, y);
 
     }
-    
-    
+
+
 }

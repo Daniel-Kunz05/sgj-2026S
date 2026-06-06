@@ -1,13 +1,14 @@
 using Godot;
 using System;
 using System.Reflection;
+using sgj.Module;
 namespace sgj.Behaviour;
 
 [AttributeUsage(AttributeTargets.Field)]
 file class BehaviourAttribute(Type @class) : Attribute
 {
-	public readonly Func<Behaviour> constructor = () =>
-		(Behaviour)@class.GetConstructor(BindingFlags.Public | BindingFlags.Instance, [])!.Invoke([]);
+	public readonly Func<Module.Module, Behaviour> constructor = (module) =>
+		(Behaviour)@class.GetConstructor(BindingFlags.Public | BindingFlags.Instance, [typeof(Module.Module)])!.Invoke([module]);
 }
 
 
@@ -15,7 +16,7 @@ public enum FileExtension
 {
 	PDF,
 	MP3,
-	TXT,
+	[Behaviour(typeof(TXTBehaviour))] TXT,
 	MP4,
 	SH,
 	ZIP,
@@ -34,6 +35,6 @@ public static class BehaviourTypeExtensions
 			return typeof(FileExtension).GetMember(type.ToString())[0]?.GetCustomAttribute<T>();
 		}
 
-		public Func<Behaviour> constructor => type.GetAttr<BehaviourAttribute>()?.constructor ?? throw new Exception();
+		public Func<Module.Module, Behaviour> Constructor => type.GetAttr<BehaviourAttribute>()?.constructor ?? throw new Exception();
 	}
 }
