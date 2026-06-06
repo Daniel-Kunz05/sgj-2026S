@@ -25,17 +25,13 @@ public partial class ToolTip : Control
 		}
     }
 
-	public async void Toggle(bool on)
+	public void Toggle(bool on)
 	{
 		if (on)
 		{
 			Show();
-			Modulate = new Color(1, 1, 1, 0);
-			TweenOpacity(new Color(1, 1, 1, 1));
 		} else
 		{
-			Modulate = new Color(1, 1, 1, 1);
-			await ToSignal(TweenOpacity(new Color(1, 1, 1, 0)), Tween.SignalName.Finished);
 			Hide();
 		}
 	}
