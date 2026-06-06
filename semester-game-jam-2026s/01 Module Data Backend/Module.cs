@@ -10,13 +10,15 @@ public partial class Module : Node2D
     [Signal] public delegate void TickEventHandler(double delta);
     [Signal] public delegate void OnModuleDeathEventHandler(Module m);
     [Export] public FileExtension fileExtension;
+    [Export] public string fileName;
     [Export] public int x;
     [Export] public int y;
     public Behaviour.Behaviour behaviour = null!;
 
-    public Module(FileExtension fileExtension, int x, int y)
+    public Module(FileExtension fileExtension, string fileName, int x, int y)
     {
         this.fileExtension = fileExtension;
+        this.fileName = fileName;
         this.x = x;
         this.y = y;
     }
@@ -30,5 +32,5 @@ public partial class Module : Node2D
         OnModuleDeath += behaviour.OnModuleDeath;
     }
 
-    public Module() : this(FileExtension.TXT, 0, 0) { }
+    public Module() : this(FileExtension.TXT, "", 0, 0) { }
 }
