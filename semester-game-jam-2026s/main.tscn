@@ -22,6 +22,12 @@ glow_enabled = true
 glow_intensity = 2.05
 glow_bloom = 0.18
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_272bh"]
+size = Vector2(200, 1200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5vw27"]
+size = Vector2(2400, 200)
+
 [node name="Main" type="Node2D" unique_id=1287528612]
 
 [node name="startCommand" type="RichTextLabel" parent="." unique_id=1574045834]
@@ -54,7 +60,6 @@ cmdline = NodePath("../startCommand")
 metadata/_custom_type_script = "uid://baw4e05j5ph6l"
 
 [node name="ModuleBuilder" parent="." unique_id=188737696 instance=ExtResource("3_h2yge")]
-visible = false
 position = Vector2(108, 187)
 
 [node name="Shop" parent="." unique_id=2021783419 instance=ExtResource("4_1bvp3")]
@@ -72,3 +77,37 @@ offset_right = 1515.0
 offset_bottom = 55.0
 text = "next phase"
 script = ExtResource("7_272bh")
+
+[node name="ArenaBorders" type="Node2D" parent="." unique_id=288830574]
+
+[node name="Left" type="StaticBody2D" parent="ArenaBorders" unique_id=1489330856]
+position = Vector2(-100, 540)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ArenaBorders/Left" unique_id=152341296]
+shape = SubResource("RectangleShape2D_272bh")
+
+[node name="Bottom" type="StaticBody2D" parent="ArenaBorders" unique_id=900420234]
+position = Vector2(960, 1180)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ArenaBorders/Bottom" unique_id=1946455366]
+shape = SubResource("RectangleShape2D_5vw27")
+
+[node name="Top" type="StaticBody2D" parent="ArenaBorders" unique_id=1175976166]
+position = Vector2(960, 9)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ArenaBorders/Top" unique_id=2000961779]
+shape = SubResource("RectangleShape2D_5vw27")
+
+[node name="Right" type="StaticBody2D" parent="ArenaBorders" unique_id=1025073173]
+position = Vector2(2020, 540)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ArenaBorders/Right" unique_id=251373363]
+shape = SubResource("RectangleShape2D_272bh")

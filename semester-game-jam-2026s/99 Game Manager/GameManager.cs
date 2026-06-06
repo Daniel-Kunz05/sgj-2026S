@@ -71,6 +71,8 @@ public partial class GameManager : Node
 		else
 		{
 			shop.CloseShop();
+			moduleBuilder.SetupShip();
+
 			moduleBuilder.HideBuilder();
 
 			// Command animation
@@ -82,10 +84,12 @@ public partial class GameManager : Node
 				{
 					isBattlePhase = true;
 
-					// Start battle
+					// Start battle (aim phase)
+					// moduleBuilder.SetupShip();
 
-					// TODO remove
+					// Todo wait for battle end
 					EndBattlePhase();
+
 				});
 
 			});
@@ -95,12 +99,14 @@ public partial class GameManager : Node
 	private void EndBattlePhase()
 	{
 		battlePhaseNumber--;
-		NextPhase();
+		moduleBuilder.ResetModules();
 
 		if (battlePhaseNumber == 0)
 		{
 			// End game, TODO
 			GD.Print("You won!");
 		}
+
+		NextPhase();
 	}
 }

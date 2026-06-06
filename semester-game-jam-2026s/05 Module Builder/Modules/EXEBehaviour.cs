@@ -51,6 +51,9 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
     private float speed = 300;
 
     private RigidBody2D? _rigidBody2D;
+
+    public RigidBody2D RigidBody2D => _rigidBody2D!;
+
     private List<CollisionShape2D> _shape2Ds;
 
     private Node2D arrowPivot;

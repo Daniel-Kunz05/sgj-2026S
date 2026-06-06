@@ -25,13 +25,13 @@ public partial class ModuleBuilder : Node2D
 
         usedModules = new SortedList<(int, int), ModuleBody>();
 
-
+        var root = FindChild("GridBackground") as Node2D;
         for (int i = 0; i < gridSize.X; i++)
         {
             for (int j = 0; j < gridSize.Y; j++)
             {
                 Node2D node = cell.Instantiate<Node2D>();
-                AddChild(node);
+                root.AddChild(node);
                 node.Position = new Vector2(ModuleBody.moduleSize.X * i, ModuleBody.moduleSize.Y * j) + ModuleBody.moduleSize / 2;
             }
         }
@@ -84,7 +84,7 @@ public partial class ModuleBuilder : Node2D
         }
         else
         {
-           AddChild(body);
+            AddChild(body);
         }
         body.Position = GridToLocalPosition(index) + ModuleBody.moduleSize / 2;
         usedModules.Add((index.X, index.Y), body);
@@ -99,9 +99,9 @@ public partial class ModuleBuilder : Node2D
         usedModules.Remove((index.X, index.Y));
         result.module.x = -1;
         result.module.y = -1;
-        
+
         result.Draggable.OwnerParent.Reparent(GetTree().Root);
-        
+
         result.Draggable.DragStart -= OnDragStart;
         return result;
     }
@@ -126,22 +126,13 @@ public partial class ModuleBuilder : Node2D
         }
     }
 
-    private bool b = true;
-    public void OnBuildButtonPress()
+    public void SetupShip()
     {
-        if (b)
-        {
-            if (coreBody.module.behaviour is EXEBehaviour moduleCore)
-            {
-                moduleCore.SetupShip(usedModules);
-            }
-        }
-        else
-        {
-            ResetModules();
-        }
 
-        b = !b;
+        if (coreBody.module.behaviour is EXEBehaviour moduleCore)
+        {
+            moduleCore.SetupShip(usedModules);
+        }
 
     }
 
@@ -162,7 +153,7 @@ public partial class ModuleBuilder : Node2D
 
     private Vector2I GetIndex(ModuleBody body)
     {
-        (int,int) tuple = usedModules.GetKeyAtIndex(usedModules.IndexOfValue(body));
+        (int, int) tuple = usedModules.GetKeyAtIndex(usedModules.IndexOfValue(body));
         return new Vector2I(tuple.Item1, tuple.Item2);
     }
 
@@ -181,8 +172,9 @@ public partial class ModuleBuilder : Node2D
     {
         foreach (ModuleBody body in usedModules.Values)
         {
-            body.module.behaviour.Reset();
-            
+            GD.Print($"Resetting module: {body.Name} at index {GetIndex(body)}");
+            body.module.behaviour?.Reset();
+
             Vector2I index = new Vector2I(body.module.x, body.module.y);
             if (body.GetParent() != null)
             {
@@ -200,19 +192,23 @@ public partial class ModuleBuilder : Node2D
     public void ShowBuilder()
     {
         // Animate open builder
-        Scale = new Vector2(0, 1);
-        Visible = true;
+        var grid = FindChild("GridBackground") as Node2D;
+        grid.Scale = new Vector2(0, 1);
+        grid.Visible = true;
         var tween = CreateTween();
-        tween.TweenProperty(this, "scale:x", 1, 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
+        tween.TweenProperty(grid, "scale:x", 1, 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
         tween.Play();
     }
 
     public void HideBuilder()
     {
+        ((EXEBehaviour)coreBody.module.behaviour).RigidBody2D.Reparent(GetTree().Root.GetNode("Main"));
+
         // Animate close builder
         var tween = CreateTween();
-        tween.TweenProperty(this, "scale:x", 0, 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.In);
+        var grid = FindChild("GridBackground") as Node2D;
+        tween.TweenProperty(grid, "scale:x", 0, 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.In);
         tween.Play();
-        tween.TweenCallback(new Callable(this, "Hide"));
+        tween.TweenCallback(new Callable(grid, "Hide"));
     }
 }

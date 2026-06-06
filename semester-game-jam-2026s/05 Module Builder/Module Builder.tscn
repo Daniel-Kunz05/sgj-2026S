@@ -20,4 +20,7 @@ script = ExtResource("5_pmms3")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1889485125]
 debug_color = Color(0.46971214, 0.54352176, 0.63127977, 0.1882353)
 
+[node name="GridBackground" type="Node2D" parent="." unique_id=2093160007]
+visible = false
+
 [connection signal="ReceivedDraggable" from="Area2D" to="." method="OnDraggableReceived"]

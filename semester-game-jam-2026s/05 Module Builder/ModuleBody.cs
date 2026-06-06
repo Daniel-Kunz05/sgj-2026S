@@ -6,8 +6,8 @@ using sgj.Behaviour;
 public partial class ModuleBody : Node2D, IToolTippable
 {
 
-	public const int moduleSizeX = 125;
-	public const int moduleSizeY = 125;
+	public const int moduleSizeX = 82;
+	public const int moduleSizeY = 82;
 	public static Vector2I moduleSize = new Vector2I(ModuleBody.moduleSizeX, ModuleBody.moduleSizeY);
 	
 	[Signal] public delegate void ModuleDeathEventHandler();
