@@ -20,6 +20,12 @@ public partial class Shop : Node2D
 		AnimateOpenShop();
 	}
 
+	public void CloseShop()
+	{
+		AnimateCloseShop();
+		ClearShop();
+	}
+
 	public void SetupShop()
 	{
 		var children = FindChild("Shop Elements Holder").GetChildren();
@@ -34,6 +40,7 @@ public partial class Shop : Node2D
 
 	public void ClearShop()
 	{
+		GD.Print($"Clearing shop, items in slots: {itemsInSlots.Count}, original dropped items: {originalDroppedItems.Count}");
 		foreach (var item in itemsInSlots)
 		{
 			item.QueueFree();
@@ -70,29 +77,26 @@ public partial class Shop : Node2D
 		attachTo.AddChild(instance);
 
 		originalDroppedItems.Add(module);
-		itemsInSlots.Add(instance);
 		attachTo.OnItemPlaced(null, instance.GetNode<Area2D>("Area2D"));
 	}
 
 	private void AnimateOpenShop()
 	{
-		var originalScale = Scale;
-		Scale = new Vector2(0, originalScale.Y);
+		Scale = new Vector2(0, 1);
 		Visible = true;
 
-		// Wait a bit before starting the animation
-		var timer = new Timer();
-		timer.WaitTime = 0.2f;
-		timer.OneShot = true;
-		AddChild(timer);
-		timer.Start();
-		timer.Timeout += () =>
-		{
+		var tween = CreateTween();
+		tween.TweenProperty(this, "scale:x", 1, 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
 
-			var tween = CreateTween();
-			tween.TweenProperty(this, "scale:x", originalScale.X, 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
+		tween.Play();
 
-			tween.Play();
-		};
+	}
+
+	private void AnimateCloseShop()
+	{
+		var tween = CreateTween();
+		tween.TweenProperty(this, "scale:x", 0, 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.In);
+		tween.TweenCallback(new Callable(this, nameof(Hide)));
+		tween.Play();
 	}
 }
