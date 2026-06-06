@@ -203,8 +203,8 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
         // tick all modules in ship
         foreach (ModuleBody body in moduleBodiesList)
         {
-            if (body == Body) return;
-            body.module.behaviour?.Tick(delta);
+            if (body == Body) continue;
+            body.module.behaviour.Tick(delta);
         }
     }
 
