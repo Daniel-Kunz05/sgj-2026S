@@ -13,6 +13,7 @@ public partial class IntroController : Node
 	private bool ctrl_cd;
 	private double cctimer;
 	private string playerName = null!;
+	private const string REGISTER_COMMAND = "/usr/bin/start-virus --name";
 	private const int MAX_PLAYER_NAME_LENGTH = 20;
 	private const double CC_DELAY = 0.3;
 	private const double START_COMMAND_DELAY = 1;
@@ -45,7 +46,7 @@ public partial class IntroController : Node
 		}
 		if (timer > TOTAL_DELAY)
 		{
-			cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{Database.Instance.userName}@PC[/color]:[color=#11d116]{Database.Instance.gamePath}[/color]$ /usr/bin/register-player {playerName}{(showCursor ? "█" : "")}[/font]";
+			cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{Database.Instance.userName}@PC[/color]:[color=#11d116]{Database.Instance.gamePath}[/color]$ {REGISTER_COMMAND} {playerName}{(showCursor ? "█" : "")}[/font]";
 			if (blinkTimer > 1)
 			{
 				blinkTimer = 0;
@@ -62,7 +63,7 @@ public partial class IntroController : Node
 		double bar = START_COMMAND_DELAY;
 		if (timer < bar + START_COMMAND_DURATION)
 		{
-			string register_player = "/usr/bin/register-player █";
+			string register_player = $"{REGISTER_COMMAND} █";
 			cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{Database.Instance.userName}@PC[/color]:[color=#11d116]{Database.Instance.gamePath}[/color]$ {register_player.Substring(0, (int)(register_player.Length * ((timer - bar) / START_COMMAND_DURATION)))}[/font]";
 			return;
 		}
