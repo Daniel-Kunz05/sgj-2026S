@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +9,9 @@ public partial class TooltipManager : Node
 {
 	public TooltipManager instance;
 	[Export] ToolTip toolTip;
-	[Export] Godot.Collections.Dictionary<NodePath, string> modules;
+	[Export] Godot.Collections.Dictionary<NodePath, Array<string>> modules;
+
+	//[Export(PropertyHint.MultilineText)] public Godot.Collections.Array<string> texts;
 
 	Vector2 mousePos;
 	
@@ -20,7 +23,7 @@ public partial class TooltipManager : Node
 		foreach (var pair in modules)
 		{
 			Control c = GetNode(pair.Key) as Control;
-			c.MouseEntered += () => TargetMouseEntered(pair.Value);
+			c.MouseEntered += () => TargetMouseEntered(String.Join('\n', pair.Value));
 			c.MouseExited += () => TargetMouseExited();
 		}
 	}

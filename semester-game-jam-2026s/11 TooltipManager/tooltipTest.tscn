@@ -6,7 +6,7 @@
 
 [node name="TooltipManager" parent="." unique_id=1883395475 instance=ExtResource("1_g4rrn")]
 modules = {
-NodePath("../CanvasLayer/VBoxContainer/HBoxContainer/1/Button"): "fdsfsfsf"
+NodePath("../CanvasLayer/VBoxContainer/HBoxContainer/1/Button"): ["hallo", "tschüss", "bye"]
 }
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1225661356]
