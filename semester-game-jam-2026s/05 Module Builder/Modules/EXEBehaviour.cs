@@ -210,6 +210,9 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
 
     public override void OnModuleDeath(Module cause)
     {
+        Database.AddFighter(Database.Instance.playerName, Database.Instance.gamePath, Database.Instance.modules);
+        GetTree().ChangeSceneToFile("res://you_lose.tscn");
+        return;
         throw new System.NotImplementedException();
     }
 

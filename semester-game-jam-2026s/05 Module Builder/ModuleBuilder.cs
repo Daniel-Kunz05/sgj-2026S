@@ -98,9 +98,9 @@ public partial class ModuleBuilder : Node2D
                         accepted = true;
                     }
                 }
-            } 
+            }
         }
-        
+
         if (accepted) draggable.Accept();
         else draggable.Decline();
     }
@@ -182,7 +182,7 @@ public partial class ModuleBuilder : Node2D
 
     }
 
-    public void NPCOverwriteModules(Module.Module[] modules)
+    public void NPCOverwriteModules(Module[] modules)
     {
         usedModules = new SortedList<(int, int), ModuleBody>();
         foreach (var module in modules)
