@@ -12,6 +12,7 @@ public partial class Shop : Node2D
 	[Export] private Button rerollButton;
 
 	private List<Node2D> itemsInSlots = new();
+	private List<Node2D> itemsOutOfSlots = new();
 
 	private int rerollTries = 3;
 
@@ -73,7 +74,16 @@ public partial class Shop : Node2D
 				shopItemField.RemoveCurrentItem();
 			}
 		}
+
+		foreach (ModuleBody body in itemsOutOfSlots)
+		{
+			if (!body.locked)
+			{
+				body.QueueFree();
+			}
+		}
 		itemsInSlots.Clear();
+		itemsOutOfSlots.Clear();
 	}
 
 	public void OnItemPlacedInField(ShopItemField shopItemField, ModuleBody moduleBody)
@@ -89,6 +99,7 @@ public partial class Shop : Node2D
 	{
 		if (itemsInSlots.Remove(moduleBody))
 		{
+			itemsOutOfSlots.Add(moduleBody);
 			GD.Print($"Item removed from shop: {shopItemField.Name}, module body: {moduleBody.Name}");
 		}
 		else
@@ -111,6 +122,7 @@ public partial class Shop : Node2D
 
 		attachTo.OnItemPlaced(null, instance.GetNode<Area2D>("Area2D"));
 	}
+	
 
 	private void AnimateOpenShop()
 	{

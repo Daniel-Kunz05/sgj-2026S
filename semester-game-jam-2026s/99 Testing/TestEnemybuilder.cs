@@ -12,25 +12,30 @@ public partial class TestEnemybuilder : Node2D
     {
         base._Ready();
 
-        modules = new Module[3];
-        modules[0] = new Module(FileExtension.EXE, "CORE", 1, 1);
         
-        int x = 2;
-        int y = 1;
-        for (int i = 1; i < modules.Length; i++)
-        {
-            modules[i] = new Module(FileExtension.TXT, "bruh" + i, x, y + i);
-        }
         
         _builder.ShowBuilder();
     }
 
 
-    private int stage = 0;
+    private int stage = -1;
     public void OnButton()
     {
+        GD.Print(stage);
         switch (stage)
         {
+            case -1: 
+                modules = new Module[3];
+                modules[0] = new Module(FileExtension.EXE, "CORE", 1, 1);
+        
+                int x = 2;
+                int y = 1;
+                for (int i = 1; i < modules.Length; i++)
+                {
+                    modules[i] = new Module(FileExtension.TXT, "bruh" + i, x, y + i);
+                }
+
+                break;
             case 0: 
                 _builder.NPCOverwriteModules(modules);
                 break;
@@ -46,8 +51,8 @@ public partial class TestEnemybuilder : Node2D
                 break;
             case 4:
                 _builder.NPCClearModules();
-                stage = 0;
-                break;
+                stage = -1;
+                return;
         }
 
         stage++;

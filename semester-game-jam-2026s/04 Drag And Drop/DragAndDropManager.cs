@@ -62,7 +62,6 @@ public partial class DragAndDropManager : Node2D
 		{
 			isDragging = true;
 			currentDragged = hit;
-			currentDragged.Monitorable = false;
 			currentDragged.OnDragStart();
 			currentDragged.OwnerParent.Reparent(this);
 		}
@@ -91,11 +90,17 @@ public partial class DragAndDropManager : Node2D
 			
 			currentDragged.OnDragEnd();
 			currentDragged.Reset();
-			currentDragged.Monitorable = true;
 			currentDragged = null;
 			
 		}
 		
+	}
+
+	public static void ResetDraggablePosition(Draggable draggable)
+	{ 
+		Vector2 pos = new Vector2(1920, 1080) / 2 +
+		              new Vector2(Random.Shared.Next(-100, 100), Random.Shared.Next(-100, 100));
+		draggable.OwnerParent.GlobalPosition = pos;
 	}
 
 	private Draggable? RaycastDraggable(Vector2 worldPos)

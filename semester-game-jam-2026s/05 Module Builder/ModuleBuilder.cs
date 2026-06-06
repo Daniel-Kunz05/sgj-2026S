@@ -107,7 +107,9 @@ public partial class ModuleBuilder : Node2D
 
     private void SwapModule(Vector2I index, ModuleBody module)
     {
+        ModuleBody body = RemoveModule(index);
         SetModule(index, module);
+        DragAndDropManager.ResetDraggablePosition(body.Draggable);
     }
     private void SetModule(Vector2I index, ModuleBody body)
     {
@@ -125,6 +127,7 @@ public partial class ModuleBuilder : Node2D
         body.module.y = index.Y;
         if (isPlayer)
         {
+            body.locked = true;
             body.Draggable.DragStart += OnDragStart;
         }
         else
@@ -145,6 +148,7 @@ public partial class ModuleBuilder : Node2D
         if (isPlayer)
         {
             result.Draggable.DragStart -= OnDragStart;
+            result.locked = false;
         }
         else
         {
@@ -193,7 +197,7 @@ public partial class ModuleBuilder : Node2D
             ModuleBody body = moduleBodyPrefab.Instantiate<ModuleBody>();
             if (module.fileExtension == FileExtension.EXE)
             {
-                coreBody = new ModuleBody();
+                coreBody = body;
                 coreBody.Name = "CoreModuleBody";
             }
             body.Setup(module, isPlayer);

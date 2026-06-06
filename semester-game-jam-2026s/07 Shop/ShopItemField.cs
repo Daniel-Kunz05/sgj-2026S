@@ -22,9 +22,30 @@ public partial class ShopItemField : Node2D
 
 	public void OnItemPlaced(Area2D _, Area2D draggable)
 	{
+		if (draggable is Draggable draggable1)
+		{
+			if (draggable1.OwnerParent is ModuleBody body)
+			{
+				if (body.module.behaviour is EXEBehaviour)
+				{
+					DragAndDropManager.ResetDraggablePosition(draggable1);
+					return;
+				}
+			}
+		}
+		
 		if (currentStoredModuleBody != null)
 		{
-			return;
+			var moduleBody1 = currentStoredModuleBody;
+			
+			// Unsubscribe from the event
+			currentStoredModuleBody.Draggable.DragStart -= OnItemRemoved;
+
+
+			EmitSignalItemRemoved(this, moduleBody1);
+			DragAndDropManager.ResetDraggablePosition(currentStoredModuleBody.Draggable);
+			currentStoredModuleBody = null;
+
 		}
 
 		// Check if parent is module body

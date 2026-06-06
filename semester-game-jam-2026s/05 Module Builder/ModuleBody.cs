@@ -16,6 +16,7 @@ public partial class ModuleBody : Node2D, IToolTippable
 	
 	[Export] public Module? module { get; private set; }
 	[Export] public Draggable Draggable { get; private set; }
+	public bool locked;
 	[Export] private Sprite2D sprite;
 	
 
