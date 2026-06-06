@@ -13,6 +13,8 @@ public partial class MainMenuAnimator : Node
 	private bool noInput;
 	private bool ctrl_cd;
 	private double cctimer;
+	private bool logo_on;
+	private double logo_blinking_timer;
 	private const double CC_DELAY = 0.3;
 	private const double START_COMMAND_DELAY = 0.5;
 	private const double START_COMMAND_DURATION = 1;
@@ -46,6 +48,8 @@ Is this ok [y/N]:";
 		noInput = false;
 		ctrl_cd = false;
 		cctimer = 0;
+		logo_on = true;
+		logo_blinking_timer = 0;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -60,11 +64,18 @@ Is this ok [y/N]:";
 			}
 			return;
 		}
-		if (timer > TOTAL_DELAY + 1)
+		logo_blinking_timer += delta;
+		if (logo_blinking_timer > 1)
 		{
-			return;
+			logo_blinking_timer = 0;
+			logo_on = !logo_on;
 		}
-		timer += delta;
+		if (timer < TOTAL_DELAY + 1)
+		{
+			timer += delta;
+			// return;
+		}
+
 		if (timer < START_COMMAND_DELAY)
 		{
 			return;
@@ -86,11 +97,11 @@ Is this ok [y/N]:";
 		var split = title_text.Split('\n');
 		if (timer < bar + TITLE_TEXT_DURATION)
 		{
-			titleText.Text = $"[font=res://NotoSansMono.ttf]{string.Join("\n", split[..(int)(split.Length * (timer - bar) / TITLE_TEXT_DURATION)])}[/font]";
+			titleText.Text = $"[font=res://NotoSansMono.ttf]{(logo_on ? "" : "[color=#888888]")}{string.Join("\n", split[..(int)(split.Length * (timer - bar) / TITLE_TEXT_DURATION)])}{(logo_on ? "" : "[/color]")}[/font]";
 			return;
 		}
 		bar += TITLE_TEXT_DURATION;
-		titleText.Text = $"[font=res://NotoSansMono.ttf]{title_text}[/font]";
+		titleText.Text = $"[font=res://NotoSansMono.ttf]{(logo_on ? "" : "[color=#888888]")}{title_text}{(logo_on ? "" : "[/color]")}[/font]";
 		if (timer < bar + CONFIRM_TEXT_DELAY)
 		{
 			return;

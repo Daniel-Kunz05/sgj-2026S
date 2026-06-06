@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://bu5t17q5ps3ym"]
+
+[ext_resource type="Shader" uid="uid://bagk85xk4afh6" path="res://20 Shaders/screen_shader.gdshader" id="1_vkac0"]
+[ext_resource type="Script" uid="uid://gspb75caxk5x" path="res://09 Cmdline/WinAnimator.cs" id="2_vkac0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_20tug"]
+shader = ExtResource("1_vkac0")
+shader_parameter/screen_resolution = Vector2(1920, 1080)
+shader_parameter/scanline_intensity = 0.2150000102125
+shader_parameter/color_bleed_weight = 0.10800000513
+
+[sub_resource type="Environment" id="Environment_e4xfp"]
+background_mode = 3
+tonemap_mode = 3
+tonemap_exposure = 0.84
+glow_enabled = true
+glow_intensity = 2.05
+glow_bloom = 0.18
+
+[node name="YouWin" type="Node2D" unique_id=1774090763]
+
+[node name="startCommand" type="RichTextLabel" parent="." unique_id=1055732338]
+offset_right = 1711.0
+offset_bottom = 99.0
+theme_override_font_sizes/normal_font_size = 39
+bbcode_enabled = true
+text = "[font=res://NotoSansMono.ttf][color=#8e44ad]root@PC[/color]:[color=#8e44ad]/bin[/color]# ./start-game[/font]"
+
+[node name="endCommand" type="RichTextLabel" parent="." unique_id=735882810]
+offset_top = 47.095
+offset_right = 1711.0
+offset_bottom = 146.095
+theme_override_font_sizes/normal_font_size = 39
+bbcode_enabled = true
+text = "[font=res://NotoSansMono.ttf][color=#8e44ad]root@PC[/color]:[color=#8e44ad]/bin[/color]# ./start-game[/font]"
+
+[node name="PostProcessLayer" type="CanvasLayer" parent="." unique_id=2126818647]
+layer = 2
+
+[node name="ColorRect" type="ColorRect" parent="PostProcessLayer" unique_id=337808920]
+material = SubResource("ShaderMaterial_20tug")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=302033768]
+environment = SubResource("Environment_e4xfp")
+
+[node name="confirmCommand" type="RichTextLabel" parent="." unique_id=1444147259]
+offset_top = 95.04
+offset_right = 1919.0
+offset_bottom = 320.0402
+theme_override_font_sizes/normal_font_size = 39
+bbcode_enabled = true
+text = "[font=res://NotoSansMono.ttf]Viruses run rampant on this disk.
+After this operation, only one will remain.
+Is this ok [y/N]:[/font]"
+
+[node name="WinAnimator" type="Node" parent="." unique_id=839872197 node_paths=PackedStringArray("endCommand", "confirm")]
+script = ExtResource("2_vkac0")
+endCommand = NodePath("../endCommand")
+confirm = NodePath("../confirmCommand")
+metadata/_custom_type_script = "uid://gspb75caxk5x"

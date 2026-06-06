@@ -105,6 +105,8 @@ public partial class GameManager : Node
 		{
 			// End game, TODO
 			GD.Print("You won!");
+			GetTree().ChangeSceneToFile("res://you_win.tscn");
+			return;
 		}
 
 		NextPhase();
