@@ -46,6 +46,9 @@ public partial class MainCmdlineController : Node
 
 	private void UpdateCmdline()
 	{
+		Database.Instance.userName = userName;
+		Database.Instance.userName = playerName;
+		Database.Instance.gamePath = CurrentPath;
 		cmdline.Text = $"[font=res://NotoSansMono.ttf][color=#11d116]{userName}@PC[/color]:[color=#11d116]{CurrentPath}[/color]$ {currentCommand}[/font]";
 	}
 

@@ -89,7 +89,7 @@ public partial class GameManager : Node
 
 					// Todo wait for battle end
 					//EndBattlePhase();
-					
+
 
 				});
 
@@ -106,6 +106,7 @@ public partial class GameManager : Node
 		{
 			// End game, TODO
 			GD.Print("You won!");
+			Database.AddFighter(Database.Instance.playerName, "/", Database.Instance.modules);
 			GetTree().ChangeSceneToFile("res://you_win.tscn");
 			return;
 		}

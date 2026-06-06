@@ -1,8 +1,10 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using Godot;
+using sgj;
 using sgj.Behaviour;
 using sgj.Module;
 using Vector2 = Godot.Vector2;
@@ -42,12 +44,12 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
                     _rigidBody2D.Freeze = true;
                     break;
             }
-            
+
         }
     }
-    
+
     public ModuleBuilder builder;
-    
+
     private float speed = 300;
 
     private RigidBody2D? _rigidBody2D;
@@ -63,7 +65,7 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
     public override void _Ready()
     {
         base._Ready();
-        
+
         Setup();
     }
 
@@ -88,11 +90,11 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
         Body.GetParent().AddChild(_rigidBody2D);
         _rigidBody2D.GlobalPosition = Body.GlobalPosition;
         Body.Reparent(_rigidBody2D);
-        
-        
+
+
         arrowPivot = ResourceLoader.Load<PackedScene>("res://05 Module Builder/ArrowPivot.tscn").Instantiate<Node2D>();
         Body.AddChild(arrowPivot);
-        
+
         State = CoreState.DRAGGING;
     }
 
@@ -118,7 +120,7 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
             Tick(delta);
         }
     }
-    
+
     public override void _UnhandledInput(InputEvent @event)
     {
         if (State != CoreState.AIMING) return;
@@ -134,23 +136,24 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
     public async void Shoot(float angle)
     {
         Vector2 pos = _rigidBody2D.GlobalPosition;
-        
+
         State = CoreState.FIGHTING;
         _rigidBody2D.LinearVelocity = Vector2.FromAngle(angle) * speed;
-        
+
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
         _rigidBody2D.GlobalPosition = pos;
 
     }
 
 
-    public void SetupShip(SortedList<(int,int), ModuleBody> moduleBodies)
+    public void SetupShip(SortedList<(int, int), ModuleBody> moduleBodies)
     {
 
         if (State == CoreState.DRAGGING)
         {
             _shape2Ds = new List<CollisionShape2D>();
             moduleBodiesList = new List<ModuleBody>();
+            Database.Instance.modules = [.. moduleBodies.Select((m) => m.Value.module!)];
 
             foreach (ModuleBody body in moduleBodies.Values)
             {
@@ -160,7 +163,7 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
                     GD.Print("asdfasdfasfasdf");
                     body.Reparent(Body);
                     body.Position = GetRelativePosition(new Vector2I(body.module.x, body.module.y));
-                
+
                     body.BattleMode(true);
                 }
 
@@ -181,14 +184,14 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
             State = CoreState.AIMING;
         }
     }
-    
+
     public Vector2 GetRelativePosition(Vector2I index)
     {
         index = index - new Vector2I(module.x, module.y);
         return new Vector2(ModuleBody.moduleSizeX * index.X, ModuleBody.moduleSizeY * index.Y) / Body.Scale;
     }
-    
-    
+
+
     public override void OnModuleHit(Module m1, Module m2)
     {
         throw new System.NotImplementedException();
@@ -196,7 +199,7 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
 
     public override void Tick(double delta)
     {
-        
+
         // tick all modules in ship
         foreach (ModuleBody body in moduleBodiesList)
         {

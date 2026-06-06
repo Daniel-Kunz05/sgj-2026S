@@ -18,6 +18,7 @@ public partial class Database : Node
 	public string playerName = null!;
 	public string userName = null!;
 	public string gamePath = null!;
+	public Module.Module[] modules = null!;
 
 	public SaveType SaveData { get; private set; } = [];
 	// Called when the node enters the scene tree for the first time.
