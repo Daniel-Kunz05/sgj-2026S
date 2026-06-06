@@ -48,13 +48,7 @@ public partial class Shop : Node2D
 		foreach (var shopItemField in itemHoldersWithItems)
 		{
 			// Remove the old item from the field
-			var oldItem = shopItemField.CurrentStoredModuleBody;
-			if (oldItem != null)
-			{
-				shopItemField.RemoveChild(oldItem);
-				itemsInSlots.Remove(oldItem);
-				oldItem.QueueFree();
-			}
+			shopItemField.RemoveCurrentItem();
 
 			// Generate a new item for the field
 			GenerateRandomModuleBody(shopItemField);
@@ -70,9 +64,14 @@ public partial class Shop : Node2D
 
 	public void ClearShop()
 	{
-		foreach (var item in itemsInSlots)
+		var itemHolders = FindChild("Shop Elements Holder").GetChildren();
+
+		foreach (var itemHolder in itemHolders)
 		{
-			item.QueueFree();
+			if (itemHolder is ShopItemField shopItemField)
+			{
+				shopItemField.RemoveCurrentItem();
+			}
 		}
 		itemsInSlots.Clear();
 	}
