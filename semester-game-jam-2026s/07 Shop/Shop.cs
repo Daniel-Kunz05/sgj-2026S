@@ -65,7 +65,7 @@ public partial class Shop : Node2D
 		rerollTries--;
 		rerollButton.Disabled = rerollTries <= 0;
 
-		rerollButton.Text = $"Reroll ({rerollTries}/3)";
+		rerollButton.Text = $"({rerollTries}/3)";
 	}
 
 	public void ClearShop()
