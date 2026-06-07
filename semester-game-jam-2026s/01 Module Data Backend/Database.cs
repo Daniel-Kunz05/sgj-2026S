@@ -40,7 +40,11 @@ public partial class Database : Node
 			// Create default fighters here:
 			Instance.SaveData = new()
 			{
-				[Guid.Parse("00000000-0000-0000-0000-000000000001")] = ("test", "/home/daniel", [])
+				[Guid.Parse("00000000-0000-0000-0000-000000000001")] = ("test", "/", [(FileExtension.EXE, "core.exe", 3, 3)]),
+				[Guid.Parse("00000000-0000-0000-0000-000000000001")] = ("test", "/home", [(FileExtension.EXE, "core.exe", 3, 3)]),
+				[Guid.Parse("00000000-0000-0000-0000-000000000001")] = ("test", "/home/daniel", [(FileExtension.EXE, "core.exe", 3, 3)]),
+				[Guid.Parse("00000000-0000-0000-0000-000000000001")] = ("test", "/home/daniel/Downloads", [(FileExtension.EXE, "core.exe", 3, 3)]),
+				[Guid.Parse("00000000-0000-0000-0000-000000000001")] = ("test", "/home/daniel/Downloads/abc", [(FileExtension.EXE, "core.exe", 3, 3)]),
 			};
 			Save();
 			return;
