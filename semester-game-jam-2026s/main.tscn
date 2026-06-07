@@ -116,3 +116,6 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ArenaBorders/Right" unique_id=251373363]
 shape = SubResource("RectangleShape2D_272bh")
+
+[node name="AudioListener2D" type="AudioListener2D" parent="." unique_id=480472591]
+current = true
