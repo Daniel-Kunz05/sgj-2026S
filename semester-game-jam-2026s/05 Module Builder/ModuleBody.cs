@@ -10,6 +10,7 @@ public partial class ModuleBody : Node2D, IToolTippable
 	public const int moduleSizeX = 105;
 	public const int moduleSizeY = 105;
 	public static Vector2I moduleSize = new Vector2I(ModuleBody.moduleSizeX, ModuleBody.moduleSizeY);
+	public CollisionShape2D physicsShape;
 	
 	[Signal] public delegate void OnCollisionEventHandler(Vector2 colPos);
 	
@@ -75,6 +76,15 @@ public partial class ModuleBody : Node2D, IToolTippable
 	    {
 		    QueueFree();
 	    }
+    }
+
+    public void KnockOut()
+    {
+	    Reparent(GetTree().Root);
+	    GlobalPosition = Vector2.One * -1000;
+	    physicsShape.Reparent(GetTree().Root);
+	    physicsShape.GlobalPosition = Vector2.One * -1000;
+	    BattleMode(false);
     }
 
     private bool isBlinking;

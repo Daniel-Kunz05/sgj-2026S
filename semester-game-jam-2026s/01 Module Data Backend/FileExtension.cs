@@ -32,15 +32,15 @@ public enum FileExtension
 {
 	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/pdf.png"), ToolTip("Does nothing special")] PDF,
 	[Behaviour(typeof(MP3Behaviour)), Icon("res://06 Modules/Sprites/Filetypes/mp3.png"), ToolTip("Shoots musical projectiles")] MP3,
-	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/txt.png"), ToolTip("The plainest of files")] TXT,
+	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/txt.png"), ToolTip("The plainest of files.\nTake more ")] TXT,
 	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/mp4.png"), ToolTip("Does nothing special")] MP4,
 	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/sh.png"), ToolTip("Does nothing special")] SH,
-	[Behaviour(typeof(ZIPBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/zip.png"), ToolTip("Does nothing special")] ZIP,
+	[Behaviour(typeof(ZIPBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/zip.png"), ToolTip("Explodes on impact.\nFriendly fire inbound.")] ZIP,
 	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/png.png"), ToolTip("Does nothing special")] PNG,
 	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/obj.png"), ToolTip("Does nothing special")] OBJ,
 	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/godot.png"), ToolTip("Does nothing special")] GODOT,
 	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/json.png"), ToolTip("Does nothing special")] JSON,
-	[Behaviour(typeof(EXEBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/exe.png"), ToolTip("The core of your system. It dies, you lose.")] EXE,
+	[Behaviour(typeof(EXEBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/exe.png"), ToolTip("The core of your system. If it dies, you lose.")] EXE,
 }
 
 public static class BehaviourTypeExtensions

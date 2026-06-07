@@ -7,7 +7,7 @@ public partial class PDFBehaviour(Module.Module module) : Behaviour.Behaviour(mo
     
     public override void OnModuleDeath(Module.Module cause)
     {
-
+        Body.KnockOut();
     }
 
     public override void Reset()

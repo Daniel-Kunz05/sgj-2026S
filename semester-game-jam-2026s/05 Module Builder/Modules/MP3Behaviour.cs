@@ -23,6 +23,7 @@ public partial class MP3Behaviour(Module module) : Behaviour(module)
         }
         GD.Print("MP3 death triggered");
         isDead = true;
+        Body.KnockOut();
     }
 
     public override void OnModuleHit(Module self, Module other)

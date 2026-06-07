@@ -9,7 +9,7 @@ using sgj.Behaviour;
 using sgj.Module;
 using Vector2 = Godot.Vector2;
 
-public partial class EXEBehaviour(Module module) : Behaviour(module)
+public partial class EXEBehaviour(Module module) : Behaviour(module), IExplodable
 {
 
     [Signal] public delegate void ShipShotEventHandler();
@@ -177,6 +177,7 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
                 shape.DebugColor = Colors.Goldenrod;
                 _shape2Ds.Add(shape);
                 _rigidBody2D.AddChild(shape);
+                body.physicsShape = shape;
                 shape.Position = GetRelativePosition(new Vector2I(body.module.x, body.module.y)) * Body.Scale;
 
             }
@@ -214,7 +215,8 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
 
     public override void OnModuleDeath(Module cause)
     {
-        //TODO Death animation explosion
+        ((IExplodable) this).SpawnExplosion(Body, Body.GlobalPosition);
+
         Body.QueueFree();
     }
 

@@ -8,7 +8,7 @@ public partial class TXTBehaviour(Module.Module module) : Behaviour(module)
     
     public override void OnModuleDeath(Module.Module cause)
     {
-
+        Body.KnockOut();
     }
 
     public override void Reset()

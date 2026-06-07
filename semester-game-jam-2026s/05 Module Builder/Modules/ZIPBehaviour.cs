@@ -19,39 +19,8 @@ public partial class ZIPBehaviour(Module.Module module) : Behaviour.Behaviour(mo
 
     public override void OnModuleDeath(Module.Module cause)
     {
-        if (Body != null)
-        {
-            ((IExplodable)this).SpawnExplosion(Body, Body.Position);
-            
-            var spaceState = module.GetWorld2D().DirectSpaceState;
-
-            var rectShape = new RectangleShape2D();
-            rectShape.Size = ((RectangleShape2D)((CollisionShape2D)Body.Draggable.GetChild(0)).Shape).Size * 2;
-
-            var query = new PhysicsShapeQueryParameters2D
-            {
-                Shape = rectShape,
-                Transform = new Transform2D(0, module.GlobalPosition),
-                CollideWithAreas = true,
-                CollideWithBodies = false
-            };
-
-            var results = spaceState.IntersectShape(query);
-
-            foreach (var hit in results)
-            {
-                var collider = (Node)hit["collider"];
-                GD.Print(collider);
-                if (collider is Draggable draggable)
-                {
-                    if (draggable.OwnerParent is ModuleBody body)
-                    {
-                        body.module.behaviour.TakeDamage(10);
-                    }
-                }
-            }
-
-        }
+        ((IExplodable) this).SpawnExplosion(Body, Body.GlobalPosition);
+        Body.KnockOut();
     }
 
     public override void Reset()
