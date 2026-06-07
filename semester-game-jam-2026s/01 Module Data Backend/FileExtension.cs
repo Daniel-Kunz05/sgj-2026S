@@ -30,16 +30,16 @@ file class ToolTipAttribute(string tooltipBody) : Attribute
 
 public enum FileExtension
 {
-	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/pdf.png"), ToolTip("Does nothing special")] PDF,
-	[Behaviour(typeof(MP3Behaviour)), Icon("res://06 Modules/Sprites/Filetypes/mp3.png"), ToolTip("Shoots musical projectiles")] MP3,
-	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/txt.png"), ToolTip("The plainest of files.\nTake more ")] TXT,
-	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/mp4.png"), ToolTip("Does nothing special")] MP4,
-	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/sh.png"), ToolTip("Does nothing special")] SH,
+	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/pdf.png"), ToolTip("More complex than a regular text file.")] PDF,
+	[Behaviour(typeof(MP3Behaviour)), Icon("res://06 Modules/Sprites/Filetypes/mp3.png"), ToolTip("Shoots musical projectiles.")] MP3,
+	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/txt.png"), ToolTip("The plainest of files.\nTake more.")] TXT,
+	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/mp4.png"), ToolTip("Like an image, but moving.")] MP4,
+	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/sh.png"), ToolTip("Executable code. Be careful ;)")] SH,
 	[Behaviour(typeof(ZIPBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/zip.png"), ToolTip("Explodes on impact.\nFriendly fire inbound.")] ZIP,
-	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/png.png"), ToolTip("Does nothing special")] PNG,
-	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/obj.png"), ToolTip("Does nothing special")] OBJ,
-	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/godot.png"), ToolTip("Does nothing special")] GODOT,
-	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/json.png"), ToolTip("Does nothing special")] JSON,
+	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/png.png"), ToolTip("A still image of something.")] PNG,
+	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/obj.png"), ToolTip("Like an image, but with more dimensions.")] OBJ,
+	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/godot.png"), ToolTip("The better game engine.")] GODOT,
+	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/json.png"), ToolTip("Stores structured data.")] JSON,
 	[Behaviour(typeof(EXEBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/exe.png"), ToolTip("The core of your system. If it dies, you lose.")] EXE,
 }
 
