@@ -10,8 +10,9 @@ public abstract partial class Behaviour(Module.Module module) : Node
 	public ModuleBody? Body => GetParent().GetParent() as ModuleBody;
 	public static Behaviour Instantiate(FileExtension type, Module.Module module) => type.Constructor(module);
 
-	public abstract void OnModuleHit(Module.Module m1, Module.Module m2);
+	public abstract void OnModuleHit(Module.Module self, Module.Module other);
 	public abstract void Tick(double delta);
 	public abstract void OnModuleDeath(Module.Module cause);
 	public abstract void Reset();
+	public abstract void TakeDamage(int amount);
 }

@@ -33,7 +33,7 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
                 case CoreState.AIMING:
                     _rigidBody2D.GlobalPosition = Body.GlobalPosition;
                     Body.Reparent(_rigidBody2D);
-                    arrowPivot.Modulate = new Color(1, 1, 1, 1);
+                    if (builder.isPlayer) arrowPivot.Modulate = new Color(1, 1, 1, 1);
                     _rigidBody2D.Freeze = true;
 
                     break;
@@ -118,7 +118,6 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
         }
         else if (State == CoreState.FIGHTING)
         {
-            GD.Print("Ticking ship");
             Tick(delta);
         }
     }
@@ -156,14 +155,12 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
         {
             _shape2Ds = new List<CollisionShape2D>();
             moduleBodiesList = new List<ModuleBody>();
-            Database.Instance.modules = [.. moduleBodies.Select((m) => m.Value.module!)];
 
             foreach (ModuleBody body in moduleBodies.Values)
             {
                 moduleBodiesList.Add(body);
                 if (body != Body)
-                {
-                    GD.Print("asdfasdfasfasdf");
+                { 
                     body.Reparent(Body);
                     body.Position = GetRelativePosition(new Vector2I(body.module.x, body.module.y));
 
@@ -195,9 +192,8 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
     }
 
 
-    public override void OnModuleHit(Module m1, Module m2)
+    public override void OnModuleHit(Module self, Module other)
     {
-        throw new System.NotImplementedException();
     }
 
     public override void Tick(double delta)
@@ -213,10 +209,8 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
 
     public override void OnModuleDeath(Module cause)
     {
-        Database.AddFighter(Database.Instance.playerName, Database.Instance.gamePath, Database.Instance.modules);
-        GetTree().ChangeSceneToFile("res://you_lose.tscn");
-        return;
-        throw new System.NotImplementedException();
+        //TODO Death animation explosion
+        Body.QueueFree();
     }
 
     public override void Reset()
@@ -228,5 +222,11 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
         }
     }
 
-
+    public override void TakeDamage(int amount)
+    {
+        if (amount > 0)
+        {
+            module.EmitSignalOnModuleDeathExtern(module);
+        }
+    }
 }

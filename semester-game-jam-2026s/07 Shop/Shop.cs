@@ -99,7 +99,11 @@ public partial class Shop : Node2D
 	{
 		if (itemsInSlots.Remove(moduleBody))
 		{
-			itemsOutOfSlots.Add(moduleBody);
+			if (!moduleBody.IsQueuedForDeletion())
+			{
+				itemsOutOfSlots.Add(moduleBody);
+
+			}
 			GD.Print($"Item removed from shop: {shopItemField.Name}, module body: {moduleBody.Name}");
 		}
 		else
@@ -114,8 +118,8 @@ public partial class Shop : Node2D
 	private void GenerateRandomModuleBody(ShopItemField attachTo)
 	{
 		var instance = moduleBodyScene.Instantiate<ModuleBody>();
-		//var chosenFileExtension = (FileExtension)(GD.Randi() % (Enum.GetValues<FileExtension>().Length - 2)); // -2 to exclude EXE as core
-		var chosenFileExtension = FileExtension.MP3;
+		var chosenFileExtension = (FileExtension)(GD.Randi() % (Enum.GetValues<FileExtension>().Length - 2)); // -2 to exclude EXE as core
+		//var chosenFileExtension = FileExtension.MP3;
 		var module = new Module(chosenFileExtension, FilenameGenerator.Generate(chosenFileExtension), -1, -1);
 		instance.Setup(module, true);
 		attachTo.AddChild(instance);

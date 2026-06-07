@@ -7,7 +7,7 @@ public partial class ModuleBuilder : Node2D
 {
     [Signal] public delegate void ShipShotEventHandler();
     
-    [Export] private bool isPlayer = true;
+    [Export] public bool isPlayer = true;
     [Export] private PackedScene cell;
     [Export] private PackedScene moduleBodyPrefab;
 
@@ -81,6 +81,7 @@ public partial class ModuleBuilder : Node2D
     private void SetupSignal()
     {
         EXEBehaviour behaviour = (EXEBehaviour)coreBody.module.behaviour;
+        behaviour.builder = this;
         behaviour.ShipShot += EmitSignalShipShot;
     }
 
@@ -189,9 +190,6 @@ public partial class ModuleBuilder : Node2D
 
     public void SetupShip()
     {
-        GD.Print(coreBody);
-        GD.Print(coreBody.module);
-        GD.Print(coreBody.module.behaviour);
         if (coreBody.module.behaviour is EXEBehaviour moduleCore)
         {
             moduleCore.SetupShip(usedModules);
@@ -209,7 +207,8 @@ public partial class ModuleBuilder : Node2D
             {
                 coreBody = body;
                 coreBody.Name = "CoreModuleBody";
-            }
+                CallDeferred("SetupSignal");
+            } 
             body.Setup(module, isPlayer);
             SetModule(new Vector2I(module.x, module.y), body);
         }

@@ -10,8 +10,6 @@ public partial class ModuleBody : Node2D, IToolTippable
 	public const int moduleSizeY = 82;
 	public static Vector2I moduleSize = new Vector2I(ModuleBody.moduleSizeX, ModuleBody.moduleSizeY);
 	
-	[Signal] public delegate void ModuleDeathEventHandler();
-
 	[Signal] public delegate void OnCollisionEventHandler(Vector2 colPos);
 	
 	[Export] public Module? module { get; private set; }

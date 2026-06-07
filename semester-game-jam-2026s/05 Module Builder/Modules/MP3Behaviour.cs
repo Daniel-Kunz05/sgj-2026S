@@ -18,15 +18,20 @@ public partial class MP3Behaviour(Module module) : Behaviour(module)
         isDead = true;
     }
 
-    public override void OnModuleHit(Module m1, Module _)
+    public override void OnModuleHit(Module self, Module other)
     {
-        m1.EmitSignalOnModuleDeathExtern(m1);    
+        self.EmitSignalOnModuleDeathExtern(self);    
     }
 
     public override void Reset()
     {
         isDead = false;
         spawnTimer = 0;
+    }
+
+    public override void TakeDamage(int amount)
+    {
+        throw new System.NotImplementedException();
     }
 
     public override void Tick(double delta)

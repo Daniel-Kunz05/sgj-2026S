@@ -64,6 +64,7 @@ position = Vector2(108, 187)
 
 [node name="EnemyBuilder" parent="." unique_id=365000547 instance=ExtResource("3_h2yge")]
 position = Vector2(1344, 184)
+isPlayer = false
 
 [node name="Shop" parent="." unique_id=2021783419 instance=ExtResource("4_1bvp3")]
 visible = false

@@ -1,6 +1,7 @@
 using Godot;
 using sgj;
 using System;
+using System.Linq;
 using sgj.Module;
 
 public partial class GameManager : Node
@@ -89,6 +90,7 @@ public partial class GameManager : Node
 			playerModuleBuilder.SetupShip();
 
 			playerModuleBuilder.HideBuilder();
+			
 			BattleSequence();
 			
 		}
@@ -107,13 +109,26 @@ public partial class GameManager : Node
 
 				enemyModuleBuilder.ShowBuilder();
 				enemyModuleBuilder.NPCOverwriteModules(currentFighter.modules);
+				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 				//TODO play enemy entry animation
+				enemyModuleBuilder.SetupShip();
+				enemyModuleBuilder.HideBuilder();
 
 				// Start battle (aim phase)
 				playerModuleBuilder.SetupShip();
 				await ToSignal(playerModuleBuilder, ModuleBuilder.SignalName.ShipShot);
-				GD.Print("yipiii");
+
+				if (enemyModuleBuilder.coreBody.module.behaviour is EXEBehaviour enemyEXE)
+				{
+					enemyEXE.Shoot(Random.Shared.Next((int)(Math.PI / 2f) * 100, (int)(Math.PI * 3f /2f)*100)/100f);
+				}
+				
+				Database.Instance.modules = [.. playerModuleBuilder.UsedModules.Select((m) => m.Value.module!)];
+				Database.AddFighter(Database.Instance.playerName, Database.Instance.gamePath, Database.Instance.modules);
+				
 				// Todo wait for battle end
+				enemyModuleBuilder.coreBody.module.OnModuleDeath += EndBattlePhase;
+				playerModuleBuilder.coreBody.module.OnModuleDeath += EndBattlePhase;
 				//EndBattlePhase();
 
 
@@ -122,20 +137,38 @@ public partial class GameManager : Node
 		});
 	}
 
-	private void EndBattlePhase()
+	private void EndBattlePhase(Module module)
 	{
-		battlePhaseNumber--;
-		playerModuleBuilder.ResetModules();
+		enemyModuleBuilder.coreBody.module.OnModuleDeath -= EndBattlePhase;
+		playerModuleBuilder.coreBody.module.OnModuleDeath -= EndBattlePhase;
 
-		if (battlePhaseNumber == 0)
+		if (module == playerModuleBuilder.coreBody.module)
 		{
-			// End game, TODO
-			GD.Print("You won!");
-			Database.AddFighter(Database.Instance.playerName, "/", Database.Instance.modules);
-			GetTree().ChangeSceneToFile("res://you_win.tscn");
-			return;
+			GameOver();
 		}
+		else
+		{
+			battlePhaseNumber--;
+			playerModuleBuilder.CallDeferred("ResetModules");
+			enemyModuleBuilder.CallDeferred("ResetModules");
+			enemyModuleBuilder.CallDeferred("NPCClearModules");
 
-		NextPhase();
+			if (battlePhaseNumber == 0)
+			{
+				// End game, TODO
+				GD.Print("You won!"); 
+				GetTree().ChangeSceneToFile("res://you_win.tscn");
+				return;
+			}
+
+			NextPhase();
+		}
+		
+	}
+
+	private void GameOver()
+	{
+		GetTree().ChangeSceneToFile("res://you_lose.tscn");
+
 	}
 }
