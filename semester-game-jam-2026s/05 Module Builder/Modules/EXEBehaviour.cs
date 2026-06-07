@@ -11,6 +11,8 @@ using Vector2 = Godot.Vector2;
 
 public partial class EXEBehaviour(Module module) : Behaviour(module)
 {
+    
+    [Signal] public delegate void ShipShotEventHandler();
     enum CoreState
     {
         DRAGGING,
@@ -142,6 +144,7 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
 
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
         _rigidBody2D.GlobalPosition = pos;
+        EmitSignalShipShot();
 
     }
 
