@@ -4,6 +4,12 @@
 [ext_resource type="Texture2D" uid="uid://cy4a3ywvhlawt" path="res://06 Modules/Sprites/Filetypes/pdf.png" id="2_l8ad1"]
 [ext_resource type="Shader" uid="uid://ck1kxxgjwa2bu" path="res://20 Shaders/node_pixelate.gdshader" id="2_ldrhc"]
 [ext_resource type="Script" uid="uid://chy2271kalv7r" path="res://04 Drag And Drop/Draggable.cs" id="3_ig6jt"]
+[ext_resource type="Script" uid="uid://bnwne68cq7lpi" path="res://05 Module Builder/ModuleAudioPlayer.cs" id="5_ir62q"]
+[ext_resource type="AudioStream" uid="uid://d2n0ue5rci0bf" path="res://21 Audio/explosion1.mp3" id="6_55yy8"]
+[ext_resource type="AudioStream" uid="uid://dwo4k7ocqgn27" path="res://21 Audio/explosion2.mp3" id="7_s3ael"]
+[ext_resource type="AudioStream" uid="uid://dm6j5dy21td87" path="res://21 Audio/explosion3.mp3" id="8_1ye3v"]
+[ext_resource type="AudioStream" uid="uid://b126e0vdwtfel" path="res://21 Audio/death.wav" id="9_bwyyo"]
+[ext_resource type="AudioStream" uid="uid://qwbij5llqaup" path="res://21 Audio/projectile.mp3" id="9_s3ael"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ldrhc"]
 shader = ExtResource("2_ldrhc")
@@ -13,12 +19,13 @@ shader_parameter/handle_edges = false
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ldrhc"]
 size = Vector2(500, 500)
 
-[node name="ModuleBody" type="Node2D" unique_id=2008233099 node_paths=PackedStringArray("Draggable", "sprite")]
+[node name="ModuleBody" type="Node2D" unique_id=2008233099 node_paths=PackedStringArray("Draggable", "sprite", "audioPlayer")]
 material = SubResource("ShaderMaterial_ldrhc")
 scale = Vector2(0.2, 0.2)
 script = ExtResource("1_j1uiu")
 Draggable = NodePath("Area2D")
 sprite = NodePath("Sprite2D")
+audioPlayer = NodePath("AudioStreamPlayer2D")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=723625127 node_paths=PackedStringArray("OwnerParent")]
 use_parent_material = true
@@ -32,5 +39,12 @@ shape = SubResource("RectangleShape2D_ldrhc")
 z_index = 1
 use_parent_material = true
 texture = ExtResource("2_l8ad1")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=4855161]
+attenuation = 0.0
+script = ExtResource("5_ir62q")
+explosionAudioStreams = Array[AudioStream]([ExtResource("6_55yy8"), ExtResource("7_s3ael"), ExtResource("8_1ye3v")])
+projectileAudioStream = ExtResource("9_s3ael")
+deathAudioStream = ExtResource("9_bwyyo")
 
 [connection signal="area_entered" from="Area2D" to="." method="OnAreaEntered"]

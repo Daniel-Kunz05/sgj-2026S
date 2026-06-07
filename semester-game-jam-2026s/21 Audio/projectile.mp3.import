@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://qwbij5llqaup"
+path="res://.godot/imported/projectile.mp3-6b547e728e7a33192d614ab8b348d431.mp3str"
+
+[deps]
+
+source_file="res://21 Audio/projectile.mp3"
+dest_files=["res://.godot/imported/projectile.mp3-6b547e728e7a33192d614ab8b348d431.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
