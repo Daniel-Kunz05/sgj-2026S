@@ -8,13 +8,6 @@ public partial class DragAndDropManager : Node2D
 	private Draggable? currentDragged;
 	
 	
-	public override void _Process(double delta)
-	{
-		if (currentDragged != null)
-		{
-			currentDragged.MoveTo(GetGlobalMousePosition());
-		}
-	}
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
@@ -26,6 +19,12 @@ public partial class DragAndDropManager : Node2D
 			} else if (!eventKey.Pressed && eventKey.ButtonIndex == MouseButton.Left)
 			{
 				OnMouseRelease();
+			}
+		} else if (@event is InputEventMouseMotion eventMouseMotion)
+		{
+			if (currentDragged != null)
+			{
+				currentDragged.MoveTo(eventMouseMotion.GlobalPosition);
 			}
 		}
 	}

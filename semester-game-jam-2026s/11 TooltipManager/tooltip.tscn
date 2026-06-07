@@ -22,15 +22,22 @@ corner_radius_bottom_left = 12
 top_level = true
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
 script = ExtResource("1_s5dj4")
 text = NodePath("ToolTip/Content")
 
 [node name="ToolTip" type="PanelContainer" parent="." unique_id=1901512040]
-layout_mode = 0
-offset_right = 360.0
-offset_bottom = 150.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -180.0
+offset_top = -180.0
+offset_right = 180.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_owes1")
 

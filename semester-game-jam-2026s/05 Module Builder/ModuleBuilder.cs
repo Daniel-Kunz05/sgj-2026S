@@ -29,18 +29,22 @@ public partial class ModuleBuilder : Node2D
     public BuildErrorCode IsBuildAccepted()
     {
         if (!usedModules.ContainsValue(coreBody)) return BuildErrorCode.CORE_MISSING;
-        foreach (var key in usedModules.Keys)
+        if (usedModules.Count > 1)
         {
+            foreach (var key in usedModules.Keys)
+            {
+            
+                if (!((usedModules.ContainsKey((key.Item1 + 1, key.Item2))) || (usedModules.ContainsKey((key.Item1 - 1,
+                                                                                key.Item2)))
+                                                                            || (usedModules.ContainsKey((key.Item1,
+                                                                                key.Item2 + 1))) ||
+                                                                            (usedModules.ContainsKey((key.Item1,
+                                                                                key.Item2 - 1)))))
+                    return BuildErrorCode.NOT_CONNECTED;
 
-            if (!((usedModules.ContainsKey((key.Item1 + 1, key.Item2))) || (usedModules.ContainsKey((key.Item1 - 1,
-                                                                            key.Item2)))
-                                                                        || (usedModules.ContainsKey((key.Item1,
-                                                                            key.Item2 + 1))) ||
-                                                                        (usedModules.ContainsKey((key.Item1,
-                                                                            key.Item2 - 1)))))
-                return BuildErrorCode.NOT_CONNECTED;
-
+            }
         }
+        
 
         return BuildErrorCode.ALL_GOOD;
     }

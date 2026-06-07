@@ -6,12 +6,19 @@ using sgj.Module;
 
 public partial class GameManager : Node
 {
+
+	private const string CORE_MISSING_TOOLTIP = "[color=red]YOUR VIRUS FILE HAS TO BE INCLUDED![/color]";
+	private const string CONNECTION_MISSING_TOOLTIP = "[color=red]ALL FILES HAVE TO BE ADJESANT TO EACH OTHER![/color]";
+	private const string ALL_GOOD_TOOLTIP = "You can start the upcoming battle here.";
+
+	
 	public static GameManager instance = null!;
 
 	private ModuleBuilder playerModuleBuilder;
 	private ModuleBuilder enemyModuleBuilder;
 	private Shop shop;
 	private MainCmdlineController mainCmdlineController;
+	private ButtonWithToolTip battleButton;
 
 	private bool isBattlePhase = false;
 	private int battlePhaseNumber = 5;
@@ -63,14 +70,57 @@ public partial class GameManager : Node
 			GD.PrintErr("MainCmdlineController not found");
 			return;
 		}
+		
+		battleButton = GetTree().Root.GetNode("Main/Battle Button") as ButtonWithToolTip;
+		if (battleButton == null)
+		{
+			GD.PrintErr("Battle Button not found");
+			return;
+		}
 
+		battleButton.Pressed += OnBattleButtonPressed;
+		battleButton.OverrideToolTip(ALL_GOOD_TOOLTIP);
+
+		battleButton.MouseEntered += () => BattlePhaseAllowed();
+
+		
 		// So that we start correctly in the shop phase
 		isBattlePhase = true;
 
 		NextPhase();
 	}
 
-	public void NextPhase()
+	public void OnBattleButtonPressed()
+	{
+		if (!isBattlePhase)
+		{
+			if (BattlePhaseAllowed())
+			{
+				NextPhase();
+			}
+		}
+	}
+
+	private bool BattlePhaseAllowed()
+	{
+		switch (playerModuleBuilder.IsBuildAccepted())
+		{
+			case ModuleBuilder.BuildErrorCode.CORE_MISSING:
+				(battleButton).OverrideToolTip(CORE_MISSING_TOOLTIP);
+				TooltipManager.instance.toolTip.setText(CORE_MISSING_TOOLTIP);
+				return false;
+			case ModuleBuilder.BuildErrorCode.NOT_CONNECTED:
+				battleButton.OverrideToolTip(CONNECTION_MISSING_TOOLTIP);
+				TooltipManager.instance.toolTip.setText(CONNECTION_MISSING_TOOLTIP);
+				return false;
+			default:
+				battleButton.OverrideToolTip(ALL_GOOD_TOOLTIP);
+				TooltipManager.instance.toolTip.setText(ALL_GOOD_TOOLTIP);
+				return true;
+		}
+	}
+
+	public async void NextPhase()
 	{
 		//shop phase
 		if (isBattlePhase)
@@ -80,17 +130,12 @@ public partial class GameManager : Node
 			{
 				shop.OpenAndGenerateShop();
 				playerModuleBuilder.ShowBuilder();
-				
+				ShowBattleButton();
+
 			});
 		}
 		else //battle phase
 		{
-			
-			shop.CloseShop();
-			playerModuleBuilder.SetupShip();
-
-			playerModuleBuilder.HideBuilder();
-			
 			BattleSequence();
 			
 		}
@@ -101,6 +146,12 @@ public partial class GameManager : Node
 		// Command animation
 		mainCmdlineController.EnqueueCommand("cd ..", CmdlineAction.POP_DIR, () =>
 		{
+			shop.CloseShop();
+
+			playerModuleBuilder.HideBuilder();
+			HideBattleButton();
+			
+			
 			// Continue after command animation is done
 			currentFighter = Database.GetFighter(mainCmdlineController.CurrentPath);
 			mainCmdlineController.EnqueueCommand($"{Database.Instance.initialGamePath}/{Database.Instance.playerName}/core.exe --fight {currentFighter.name}", CmdlineAction.NOP, async void () =>
@@ -164,6 +215,27 @@ public partial class GameManager : Node
 			NextPhase();
 		}
 		
+	}
+	
+	private Tween ShowBattleButton()
+	{
+		battleButton.Modulate = new Color(1, 1, 1, 0);
+		var tween = CreateTween();
+		tween.TweenProperty(battleButton, "modulate", new Color(1,1,1,1), 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
+		tween.Play();
+		battleButton.Disabled = false;
+		return tween;
+
+	}
+
+	private Tween HideBattleButton()
+	{
+		battleButton.Disabled = true;
+		battleButton.Modulate = new Color(1, 1, 1, 1);
+		var tween = CreateTween();
+		tween.TweenProperty(battleButton, "modulate", new Color(1,1,1,0), 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
+		tween.Play();
+		return tween;
 	}
 
 	private void GameOver()

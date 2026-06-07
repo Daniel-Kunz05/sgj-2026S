@@ -6,7 +6,7 @@ public interface IExplodable
     private static readonly PackedScene scene = ResourceLoader.Load<PackedScene>(pathToParticle);
 
 
-    void SpawnExplosion(Node2D caller, Vector2 posToSpawn)
+    public void SpawnExplosion(Node2D caller, Vector2 posToSpawn)
     {
         if(caller == null) {
             GD.PrintErr("Caller is null");

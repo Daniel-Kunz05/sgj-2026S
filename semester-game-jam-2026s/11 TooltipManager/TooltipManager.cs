@@ -8,7 +8,7 @@ using System.Reflection;
 public partial class TooltipManager : Node
 {
 	public static TooltipManager instance;
-	[Export] ToolTip toolTip;
+	[Export]public ToolTip toolTip;
 
 	private Node currentCaller;
 
