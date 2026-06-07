@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://h467tk4w68or"]
 
 [ext_resource type="Shader" uid="uid://bagk85xk4afh6" path="res://20 Shaders/screen_shader.gdshader" id="1_ago7x"]
-[ext_resource type="Script" uid="uid://gspb75caxk5x" path="res://09 Cmdline/WinAnimator.cs" id="2_ora7u"]
+[ext_resource type="Script" uid="uid://chkglr4fvtjse" path="res://09 Cmdline/LoseAnimator.cs" id="2_ago7x"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_20tug"]
 shader = ExtResource("1_ago7x")
@@ -59,8 +59,8 @@ text = "[font=res://NotoSansMono.ttf]Viruses run rampant on this disk.
 After this operation, only one will remain.
 Is this ok [y/N]:[/font]"
 
-[node name="LoseAnimator" type="Node" parent="." unique_id=839872197 node_paths=PackedStringArray("endCommand", "confirm")]
-script = ExtResource("2_ora7u")
+[node name="LoseAnimator" type="Node" parent="." unique_id=1952138638 node_paths=PackedStringArray("endCommand", "confirm")]
+script = ExtResource("2_ago7x")
 endCommand = NodePath("../endCommand")
 confirm = NodePath("../confirmCommand")
-metadata/_custom_type_script = "uid://gspb75caxk5x"
+metadata/_custom_type_script = "uid://chkglr4fvtjse"
