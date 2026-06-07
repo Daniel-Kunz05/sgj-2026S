@@ -20,6 +20,8 @@ public partial class ModuleBody : Node2D, IToolTippable
 	[Export] private Sprite2D sprite;
 
 	[Export] private ModuleAudioPlayer audioPlayer;
+
+	[Export] private int debug;
 	
 
     public string ToolTipText => $"[b]{module.fileName}[/b]\n{module.fileExtension.ToolTip}";
@@ -28,8 +30,8 @@ public partial class ModuleBody : Node2D, IToolTippable
     public void BattleMode(bool val)
     {
 	    Draggable.AllowDragging = !val;
-	    Draggable.Monitorable = val;
-	    Draggable.Monitoring = val;
+		Draggable.SetDeferred(nameof(Draggable.Monitorable), val);
+		Draggable.SetDeferred(nameof(Draggable.Monitoring), val);
     }
 
     public override void _Ready()
@@ -37,6 +39,8 @@ public partial class ModuleBody : Node2D, IToolTippable
 	    base._Ready();
 	    Material = (Material)Material.Duplicate();
 	    BattleMode(false);
+
+		debug = (int)Draggable.CollisionLayer;
     }
 
     public void Setup(Module module, bool isPlayer)
@@ -82,9 +86,9 @@ public partial class ModuleBody : Node2D, IToolTippable
 
     public void KnockOut()
     {
-	    Reparent(GetTree().Root);
+	    SetDeferred(nameof(Node.Owner), GetTree().Root);
 	    GlobalPosition = Vector2.One * -1000;
-	    physicsShape.Reparent(GetTree().Root);
+	    physicsShape.SetDeferred(nameof(Node.Owner), GetTree().Root);
 	    physicsShape.GlobalPosition = Vector2.One * -1000;
 	    BattleMode(false);
     }

@@ -4,15 +4,16 @@
 [ext_resource type="Script" uid="uid://hi13uj8xp72l" path="res://05 Module Builder/Modules/Projectile.cs" id="1_8fgk2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8fgk2"]
+size = Vector2(10, 10)
 
 [node name="MusicProjectile" type="Area2D" unique_id=1933811180]
 script = ExtResource("1_8fgk2")
 speed = 600.0
-lifetime = 2.0
+lifetime = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=608536924]
 shape = SubResource("RectangleShape2D_8fgk2")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=123378778]
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_6as0x")

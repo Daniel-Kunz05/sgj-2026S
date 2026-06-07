@@ -3,7 +3,7 @@ using Godot;
 using sgj.Behaviour;
 using sgj.Module;
 
-public partial class MP3Behaviour(Module module) : Behaviour(module)
+public partial class MP3Behaviour(Module module) : Behaviour(module), IExplodable
 {
     private double spawnInterval = 0.5f;
     private double spawnTimer = 0;
@@ -21,8 +21,8 @@ public partial class MP3Behaviour(Module module) : Behaviour(module)
             reset = false;
             return;
         }
-        GD.Print("MP3 death triggered");
         isDead = true;
+        ((IExplodable) this).SpawnExplosion(Body, Body.GlobalPosition, module.fileExtension);
         Body.KnockOut();
     }
 

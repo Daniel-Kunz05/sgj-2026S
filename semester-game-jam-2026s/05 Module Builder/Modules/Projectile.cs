@@ -11,12 +11,17 @@ public partial class Projectile : Area2D
     private Behaviour originatingBehaviour;
     private Module originatingModule;
 
+    private uint opponentLayer;
+
     public void Setup(Behaviour originatingBehaviour, float rotationRadians)
     {
         this.originatingBehaviour = originatingBehaviour;
         this.originatingModule = originatingBehaviour.module;
         GlobalRotation = rotationRadians;
         Monitoring = true;
+
+        opponentLayer = (uint)(originatingBehaviour.Body.Draggable.CollisionLayer == 8 ? 1 : 8);
+        GD.Print("Opponent layer is {}", opponentLayer);
 
         timer = new Timer();
         timer.WaitTime = lifetime;
@@ -32,7 +37,7 @@ public partial class Projectile : Area2D
         };
         AddChild(timer);
         timer.Start();
-        AreaEntered += Check2;
+        AreaEntered += CheckCollision;
     }
 
     public void ApplyTick(double delta)
@@ -40,20 +45,20 @@ public partial class Projectile : Area2D
         Position += new Vector2(speed * (float)delta, 0).Rotated(GlobalRotation);
     }
 
-    public void Check(Node2D other)
-    {
-        GD.Print("I was entered {}", other);
-        if (other is Module mod)
-        {
-            mod.behaviour.TakeDamage(1);
-            timer.Stop();
-            timer.EmitSignal(Timer.SignalName.Timeout);
-        }
-    }
-    public void Check2(Area2D other)
-    {
+    public void CheckCollision(Area2D other)
+    {        
+        // Layer check
         if (other == this || other is Projectile) return;
-        if (other is Draggable d)
-            GD.Print("I was entered a2 {}", d.OwnerParent);
+        if (other is Draggable d && d.GetParent() is ModuleBody body)
+        {
+            if (d.CollisionLayer == opponentLayer)
+            {
+                Module mod = body.module;
+
+                mod.behaviour.TakeDamage(1);
+                timer.Stop();
+                timer.EmitSignal(Timer.SignalName.Timeout);
+            }
+        }
     }
 }
