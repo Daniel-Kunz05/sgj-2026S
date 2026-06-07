@@ -11,7 +11,7 @@ using Vector2 = Godot.Vector2;
 
 public partial class EXEBehaviour(Module module) : Behaviour(module)
 {
-    
+
     [Signal] public delegate void ShipShotEventHandler();
     enum CoreState
     {
@@ -160,7 +160,7 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
             {
                 moduleBodiesList.Add(body);
                 if (body != Body)
-                { 
+                {
                     body.Reparent(Body);
                     body.Position = GetRelativePosition(new Vector2I(body.module.x, body.module.y));
 
@@ -194,6 +194,11 @@ public partial class EXEBehaviour(Module module) : Behaviour(module)
 
     public override void OnModuleHit(Module self, Module other)
     {
+        if (other.behaviour is EXEBehaviour eXE && eXE.builder.isPlayer)
+        {
+            return;
+        }
+        other.behaviour.TakeDamage(1);
     }
 
     public override void Tick(double delta)
