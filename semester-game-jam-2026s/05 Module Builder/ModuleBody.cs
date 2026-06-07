@@ -22,7 +22,6 @@ public partial class ModuleBody : Node2D, IToolTippable
 	[Export] private ModuleAudioPlayer audioPlayer;
 
 	[Export] private int debug;
-	[Export] public ModuleAudioPlayer audioPlayer;
 	
 
     public string ToolTipText => $"[b]{module.fileName}[/b]\n{module.fileExtension.ToolTip}";
