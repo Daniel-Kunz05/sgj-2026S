@@ -5,6 +5,8 @@ using sgj.Behaviour;
 using sgj.Module;
 public partial class ModuleBuilder : Node2D
 {
+    [Signal] public delegate void ShipShotEventHandler();
+    
     [Export] private bool isPlayer = true;
     [Export] private PackedScene cell;
     [Export] private PackedScene moduleBodyPrefab;
@@ -68,11 +70,19 @@ public partial class ModuleBuilder : Node2D
             coreBody = moduleBodyPrefab.Instantiate<ModuleBody>();
             coreBody.Name = "CoreModuleBody";
             Module coreModule = new Module(FileExtension.EXE, "CoreTest", -1, -1);
+            
             coreBody.Setup(coreModule, isPlayer);
             SetModule(gridSize / 2, coreBody);
+
+            CallDeferred("SetupSignal");
         }
     }
 
+    private void SetupSignal()
+    {
+        EXEBehaviour behaviour = (EXEBehaviour)coreBody.module.behaviour;
+        behaviour.ShipShot += EmitSignalShipShot;
+    }
 
     public void OnDraggableReceived(DropReceiver receiver, Draggable draggable)
     {

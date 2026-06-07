@@ -1,17 +1,21 @@
 using Godot;
 using sgj;
 using System;
+using sgj.Module;
 
 public partial class GameManager : Node
 {
 	public static GameManager instance = null!;
 
-	private ModuleBuilder moduleBuilder;
+	private ModuleBuilder playerModuleBuilder;
+	private ModuleBuilder enemyModuleBuilder;
 	private Shop shop;
 	private MainCmdlineController mainCmdlineController;
 
 	private bool isBattlePhase = false;
 	private int battlePhaseNumber = 5;
+
+	private (string name, string progress, Module[] modules) currentFighter;
 
 	public override void _Ready()
 	{
@@ -28,12 +32,20 @@ public partial class GameManager : Node
 	{
 		GD.Print("Game Started");
 		// find Module Builder
-		moduleBuilder = GetTree().Root.GetNode("Main/ModuleBuilder") as ModuleBuilder;
-		if (moduleBuilder == null)
+		playerModuleBuilder = GetTree().Root.GetNode("Main/ModuleBuilder") as ModuleBuilder;
+		if (playerModuleBuilder == null)
 		{
 			GD.PrintErr("ModuleBuilder not found");
 			return;
 		}
+		
+		enemyModuleBuilder = GetTree().Root.GetNode("Main/EnemyBuilder") as ModuleBuilder;
+		if (enemyModuleBuilder == null)
+		{
+			GD.PrintErr("ModuleBuilder not found");
+			return;
+		}
+		
 
 		// find Shop
 		shop = GetTree().Root.GetNode("Main/Shop") as Shop;
@@ -59,48 +71,61 @@ public partial class GameManager : Node
 
 	public void NextPhase()
 	{
+		//shop phase
 		if (isBattlePhase)
 		{
 			isBattlePhase = false;
 			mainCmdlineController.EnqueueCommand("ls", CmdlineAction.NOP, () =>
 			{
 				shop.OpenAndGenerateShop();
-				moduleBuilder.ShowBuilder();
+				playerModuleBuilder.ShowBuilder();
+				
 			});
 		}
-		else
+		else //battle phase
 		{
+			
 			shop.CloseShop();
-			moduleBuilder.SetupShip();
+			playerModuleBuilder.SetupShip();
 
-			moduleBuilder.HideBuilder();
+			playerModuleBuilder.HideBuilder();
+			BattleSequence();
+			
+		}
+	}
 
-			// Command animation
-			mainCmdlineController.EnqueueCommand("cd ..", CmdlineAction.POP_DIR, () =>
+	private async void BattleSequence()
+	{
+		// Command animation
+		mainCmdlineController.EnqueueCommand("cd ..", CmdlineAction.POP_DIR, () =>
+		{
+			// Continue after command animation is done
+			currentFighter = Database.GetFighter(mainCmdlineController.CurrentPath);
+			mainCmdlineController.EnqueueCommand($"{Database.Instance.initialGamePath}/{Database.Instance.playerName}/core.exe --fight {currentFighter.name}", CmdlineAction.NOP, async void () =>
 			{
-				// Continue after command animation is done
+				isBattlePhase = true;
 
-				mainCmdlineController.EnqueueCommand($"{Database.Instance.initialGamePath}/{Database.Instance.playerName}/core.exe --fight TODO", CmdlineAction.NOP, () =>
-				{
-					isBattlePhase = true;
+				enemyModuleBuilder.ShowBuilder();
+				enemyModuleBuilder.NPCOverwriteModules(currentFighter.modules);
+				//TODO play enemy entry animation
 
-					// Start battle (aim phase)
-					// moduleBuilder.SetupShip();
+				// Start battle (aim phase)
+				playerModuleBuilder.SetupShip();
+				await ToSignal(playerModuleBuilder, ModuleBuilder.SignalName.ShipShot);
+				GD.Print("yipiii");
+				// Todo wait for battle end
+				//EndBattlePhase();
 
-					// Todo wait for battle end
-					//EndBattlePhase();
-
-
-				});
 
 			});
-		}
+
+		});
 	}
 
 	private void EndBattlePhase()
 	{
 		battlePhaseNumber--;
-		moduleBuilder.ResetModules();
+		playerModuleBuilder.ResetModules();
 
 		if (battlePhaseNumber == 0)
 		{
