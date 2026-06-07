@@ -23,7 +23,7 @@ public partial class TestBoom : Node2D, IExplodable
 	private void BoomTest()
 	{
 		//GD.Print(GlobalPosition);
-		((IExplodable) this).SpawnExplosion(this.GetNode<Node2D>("%TestBoom"), this.GlobalPosition);
+		((IExplodable) this).SpawnExplosion(this.GetNode<Node2D>("%TestBoom"), this.GlobalPosition, sgj.Behaviour.FileExtension.OBJ);
 		//GD.Print("Boom");
 	}
 }
