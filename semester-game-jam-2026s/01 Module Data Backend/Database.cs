@@ -63,7 +63,7 @@ public partial class Database : Node
 
 	public static void AddFighter(string name, string progress, Module.Module[] modules)
 	{
-		var moduleTuples = modules.Select((m) => (m.fileExtension, m.fileName, m.x, m.y)).ToList();
+		var moduleTuples = modules.Select((m) => (m.fileExtension, m.fileName, 4 - m.x, m.y)).ToList();
 		Instance.SaveData[Guid.NewGuid()] = (name, progress, moduleTuples);
 		Save();
 	}
