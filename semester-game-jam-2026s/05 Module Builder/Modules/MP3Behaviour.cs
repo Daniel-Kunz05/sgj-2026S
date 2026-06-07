@@ -8,6 +8,7 @@ public partial class MP3Behaviour(Module module) : Behaviour(module)
     private double spawnInterval = 0.5f;
     private double spawnTimer = 0;
     private bool isDead = false;
+    private bool reset = false;
 
     private HashSet<Projectile> projectiles = new HashSet<Projectile>();
 
@@ -15,23 +16,35 @@ public partial class MP3Behaviour(Module module) : Behaviour(module)
 
     public override void OnModuleDeath(Module cause)
     {
+        if (reset)
+        {
+            reset = false;
+            return;
+        }
+        GD.Print("MP3 death triggered");
         isDead = true;
     }
 
     public override void OnModuleHit(Module self, Module other)
     {
-        self.EmitSignalOnModuleDeathExtern(self);    
+        other.behaviour.TakeDamage(1);
     }
 
     public override void Reset()
     {
+        GD.Print("MP3 got reset!");
+        reset = isDead;
         isDead = false;
         spawnTimer = 0;
     }
 
     public override void TakeDamage(int amount)
     {
-        throw new System.NotImplementedException();
+        if (amount < 1)
+        {
+            return;
+        }
+        module.EmitSignalOnModuleDeathExtern(module);
     }
 
     public override void Tick(double delta)

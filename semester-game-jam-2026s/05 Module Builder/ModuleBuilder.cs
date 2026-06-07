@@ -6,7 +6,7 @@ using sgj.Module;
 public partial class ModuleBuilder : Node2D
 {
     [Signal] public delegate void ShipShotEventHandler();
-    
+
     [Export] public bool isPlayer = true;
     [Export] private PackedScene cell;
     [Export] private PackedScene moduleBodyPrefab;
@@ -70,7 +70,7 @@ public partial class ModuleBuilder : Node2D
             coreBody = moduleBodyPrefab.Instantiate<ModuleBody>();
             coreBody.Name = "CoreModuleBody";
             Module coreModule = new Module(FileExtension.EXE, "CoreTest", -1, -1);
-            
+
             coreBody.Setup(coreModule, isPlayer);
             SetModule(gridSize / 2, coreBody);
 
@@ -208,7 +208,7 @@ public partial class ModuleBuilder : Node2D
                 coreBody = body;
                 coreBody.Name = "CoreModuleBody";
                 CallDeferred("SetupSignal");
-            } 
+            }
             body.Setup(module, isPlayer);
             SetModule(new Vector2I(module.x, module.y), body);
         }
@@ -262,7 +262,7 @@ public partial class ModuleBuilder : Node2D
     {
         foreach (ModuleBody body in usedModules.Values)
         {
-            GD.Print($"Resetting module: {body.Name} at index {GetIndex(body)}");
+            GD.Print($"Resetting module: {body.Name} at index {GetIndex(body)} ({(body.module == null ? "null module" : body.module.behaviour)})");
             body.module.behaviour?.Reset();
 
             Vector2I index = new Vector2I(body.module.x, body.module.y);
