@@ -23,7 +23,7 @@ public interface IExplodable
     private static readonly PackedScene OBJBoom = ResourceLoader.Load<PackedScene>(pathToOBJ);
     private const string pathToPNG = "res://12 Particle System/PNGBoom.tscn";
     private static readonly PackedScene PNGBoom = ResourceLoader.Load<PackedScene>(pathToPNG);
-    private const string pathToSH = "rres://12 Particle System/SHBoom.tscn";
+    private const string pathToSH = "res://12 Particle System/SHBoom.tscn";
     private static readonly PackedScene SHBoom = ResourceLoader.Load<PackedScene>(pathToSH);
     private const string pathToTXT = "res://12 Particle System/TXTBoom.tscn";
     private static readonly PackedScene TXTBoom = ResourceLoader.Load<PackedScene>(pathToTXT);
