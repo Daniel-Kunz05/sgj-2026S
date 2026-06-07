@@ -65,6 +65,7 @@ public partial class Database : Node
 	{
 		var moduleTuples = modules.Select((m) => (m.fileExtension, m.fileName, m.x, m.y)).ToList();
 		Instance.SaveData[Guid.NewGuid()] = (name, progress, moduleTuples);
+		Save();
 	}
 
 	public static (string name, string progress, Module.Module[] modules) GetFighter(Guid guid)
