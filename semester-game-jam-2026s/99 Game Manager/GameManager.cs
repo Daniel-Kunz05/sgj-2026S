@@ -9,7 +9,7 @@ public partial class GameManager : Node
 {
 
 	private const string CORE_MISSING_TOOLTIP = "[color=red]YOUR VIRUS FILE HAS TO BE INCLUDED![/color]";
-	private const string CONNECTION_MISSING_TOOLTIP = "[color=red]ALL FILES HAVE TO BE ADJESANT TO EACH OTHER![/color]";
+	private const string CONNECTION_MISSING_TOOLTIP = "[color=red]ALL FILES HAVE TO BE ADJACENT TO EACH OTHER![/color]";
 	private const string ALL_GOOD_TOOLTIP = "You can start the upcoming battle here.";
 
 	
