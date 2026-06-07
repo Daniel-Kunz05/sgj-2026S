@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Reflection;
+using sgj._05_Module_Builder.Modules;
 using sgj.Module;
 namespace sgj.Behaviour;
 
@@ -34,7 +35,7 @@ public enum FileExtension
 	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/txt.png"), ToolTip("The plainest of files")] TXT,
 	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/mp4.png"), ToolTip("Does nothing special")] MP4,
 	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/sh.png"), ToolTip("Does nothing special")] SH,
-	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/zip.png"), ToolTip("Does nothing special")] ZIP,
+	[Behaviour(typeof(ZIPBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/zip.png"), ToolTip("Does nothing special")] ZIP,
 	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/png.png"), ToolTip("Does nothing special")] PNG,
 	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/obj.png"), ToolTip("Does nothing special")] OBJ,
 	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/godot.png"), ToolTip("Does nothing special")] GODOT,

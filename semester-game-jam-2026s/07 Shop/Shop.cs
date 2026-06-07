@@ -8,11 +8,12 @@ using System.Linq;
 
 public partial class Shop : Node2D
 {
+	[Signal] private delegate void ShopClosedEventHandler();
+	
 	[Export] private PackedScene moduleBodyScene;
 	[Export] private Button rerollButton;
 
 	private List<Node2D> itemsInSlots = new();
-	private List<Node2D> itemsOutOfSlots = new();
 
 	private int rerollTries = 3;
 
@@ -27,6 +28,7 @@ public partial class Shop : Node2D
 	{
 		AnimateCloseShop();
 		ClearShop();
+		EmitSignalShopClosed();
 	}
 
 	public void SetupShop()
@@ -74,16 +76,8 @@ public partial class Shop : Node2D
 				shopItemField.RemoveCurrentItem();
 			}
 		}
-
-		foreach (ModuleBody body in itemsOutOfSlots)
-		{
-			if (!body.locked)
-			{
-				body.QueueFree();
-			}
-		}
+		
 		itemsInSlots.Clear();
-		itemsOutOfSlots.Clear();
 	}
 
 	public void OnItemPlacedInField(ShopItemField shopItemField, ModuleBody moduleBody)
@@ -99,11 +93,6 @@ public partial class Shop : Node2D
 	{
 		if (itemsInSlots.Remove(moduleBody))
 		{
-			if (!moduleBody.IsQueuedForDeletion())
-			{
-				itemsOutOfSlots.Add(moduleBody);
-
-			}
 			GD.Print($"Item removed from shop: {shopItemField.Name}, module body: {moduleBody.Name}");
 		}
 		else
@@ -122,10 +111,12 @@ public partial class Shop : Node2D
 		//var chosenFileExtension = FileExtension.MP3;
 		var module = new Module(chosenFileExtension, FilenameGenerator.Generate(chosenFileExtension), -1, -1);
 		instance.Setup(module, true);
+		Connect(SignalName.ShopClosed, Callable.From(instance.OnShopClosed));
 		attachTo.AddChild(instance);
 
 		attachTo.OnItemPlaced(null, instance.GetNode<Area2D>("Area2D"));
 	}
+	
 	
 
 	private void AnimateOpenShop()

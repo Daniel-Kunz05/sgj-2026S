@@ -16,7 +16,7 @@ public partial class Draggable : Area2D
     
     public void MoveTo(Vector2 worldPos)
     {
-        OwnerParent.Position = worldPos;
+        OwnerParent.GlobalPosition = worldPos;
     }
 
 

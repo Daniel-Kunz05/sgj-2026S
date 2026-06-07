@@ -3,7 +3,6 @@ using System;
 
 public partial class ToolTip : Control
 {
-	static Vector2 OFFSET = Vector2.One * 20f;
 	Tween opacityTween = null;
 	[Export] RichTextLabel text;
 	// Called when the node enters the scene tree for the first time.
@@ -21,7 +20,7 @@ public partial class ToolTip : Control
     {
         if(Visible && @event is InputEventMouseMotion)
 		{
-			GlobalPosition = GetGlobalMousePosition() + OFFSET;
+			GlobalPosition = GetGlobalMousePosition();
 		}
     }
 

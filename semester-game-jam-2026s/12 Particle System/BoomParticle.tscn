@@ -37,6 +37,7 @@ self_modulate = Color(0.7781978, 0.3072736, 0.18219253, 1)
 emitting = false
 amount = 200
 one_shot = true
+speed_scale = 2.0
 explosiveness = 0.8
 process_material = SubResource("ParticleProcessMaterial_af1ci")
 script = ExtResource("1_rugbg")

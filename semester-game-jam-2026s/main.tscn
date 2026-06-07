@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b2cv7yg2167us" path="res://07 Shop/shop.tscn" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://68deu6fevow4" path="res://04 Drag And Drop/DragAndDropManager.tscn" id="5_7mycd"]
 [ext_resource type="PackedScene" uid="uid://bgtqrl5ms0kqe" path="res://11 TooltipManager/tooltipManager.tscn" id="6_272bh"]
-[ext_resource type="Script" uid="uid://dmgwe0sdar3vr" path="res://PlaceholderButtonNextPhase.cs" id="7_272bh"]
+[ext_resource type="Script" uid="uid://3qnruq0p4w1f" path="res://11 TooltipManager/ButtonWithToolTip.cs" id="7_272bh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0xm2m"]
 shader = ExtResource("1_ig7tw")
@@ -74,12 +74,12 @@ position = Vector2(960, 895)
 
 [node name="TooltipManager" parent="." unique_id=1883395475 instance=ExtResource("6_272bh")]
 
-[node name="Debug Next phase Button" type="Button" parent="." unique_id=1397113647]
-offset_left = 1507.0
-offset_top = 47.0
-offset_right = 1515.0
-offset_bottom = 55.0
-text = "next phase"
+[node name="Battle Button" type="Button" parent="." unique_id=1397113647]
+offset_left = 1496.0
+offset_top = 936.0
+offset_right = 1888.0
+offset_bottom = 1056.0
+text = "FIGHT"
 script = ExtResource("7_272bh")
 
 [node name="ArenaBorders" type="Node2D" parent="." unique_id=288830574]

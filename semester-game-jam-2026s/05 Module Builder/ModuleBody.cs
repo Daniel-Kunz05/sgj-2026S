@@ -65,5 +65,13 @@ public partial class ModuleBody : Node2D, IToolTippable
 	    }
     }
 
+    public void OnShopClosed()
+    {
+	    if (!locked)
+	    {
+		    QueueFree();
+	    }
+    }
+
 
 }
