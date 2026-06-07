@@ -23,7 +23,7 @@ public partial class WinAnimator : Node
 									 + CONFIRM_TEXT_DURATION;
 	private static readonly string confirm_text = @"Congratulations.
 You have slain all other viruses and achieved ownership of Root.
-Do you wish to play again [y/N]:";
+Do you wish to play again [Y/n]:";
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -111,10 +111,10 @@ Do you wish to play again [y/N]:";
 				confirm.Text = $"[font=res://NotoSansMono.ttf]{confirm_text} y[/font]";
 				return;
 			}
-			else if (keyEvent.Keycode == Key.N && !noInput && !yesInput && Input.IsKeyPressed(Key.Shift))
+			else if (keyEvent.Keycode == Key.N && !noInput && !yesInput)
 			{
 				noInput = true;
-				confirm.Text = $"[font=res://NotoSansMono.ttf]{confirm_text} N[/font]";
+				confirm.Text = $"[font=res://NotoSansMono.ttf]{confirm_text} n[/font]";
 				return;
 			}
 			else if (keyEvent.Keycode == Key.Backspace && (noInput || yesInput))
@@ -122,13 +122,13 @@ Do you wish to play again [y/N]:";
 				noInput = yesInput = false;
 				confirm.Text = $"[font=res://NotoSansMono.ttf]{confirm_text}[/font]";
 			}
-			else if (keyEvent.Keycode == Key.Enter && (noInput || yesInput))
+			else if (keyEvent.Keycode == Key.Enter)
 			{
 				if (noInput)
 				{
 					GetTree().Quit();
 				}
-				if (yesInput)
+				else
 				{
 					GetTree().ChangeSceneToFile(NextScene);
 				}
@@ -141,7 +141,7 @@ Do you wish to play again [y/N]:";
 				}
 				else if (noInput)
 				{
-					confirm.Text = $"[font=res://NotoSansMono.ttf]{confirm_text} N^C[/font]";
+					confirm.Text = $"[font=res://NotoSansMono.ttf]{confirm_text} n^C[/font]";
 				}
 				else
 				{

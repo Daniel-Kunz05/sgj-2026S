@@ -36,7 +36,7 @@ public partial class MainMenuAnimator : Node
 ╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝     ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ";
 	private static readonly string confirm_text = @"Viruses run rampant on this disk.
 After this operation, only one will remain.
-Is this ok [y/N]:";
+Is this ok [Y/n]:";
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -151,10 +151,10 @@ Is this ok [y/N]:";
 				confirm.Text = $"[font=res://NotoSansMono.ttf]{confirm_text} y[/font]";
 				return;
 			}
-			else if (keyEvent.Keycode == Key.N && !noInput && !yesInput && Input.IsKeyPressed(Key.Shift))
+			else if (keyEvent.Keycode == Key.N && !noInput && !yesInput)
 			{
 				noInput = true;
-				confirm.Text = $"[font=res://NotoSansMono.ttf]{confirm_text} N[/font]";
+				confirm.Text = $"[font=res://NotoSansMono.ttf]{confirm_text} n[/font]";
 				return;
 			}
 			else if (keyEvent.Keycode == Key.Backspace && (noInput || yesInput))
@@ -162,13 +162,13 @@ Is this ok [y/N]:";
 				noInput = yesInput = false;
 				confirm.Text = $"[font=res://NotoSansMono.ttf]{confirm_text}[/font]";
 			}
-			else if (keyEvent.Keycode == Key.Enter && (noInput || yesInput))
+			else if (keyEvent.Keycode == Key.Enter)
 			{
 				if (noInput)
 				{
 					GetTree().Quit();
 				}
-				if (yesInput)
+				else
 				{
 					GetTree().ChangeSceneToFile(NextScene);
 				}
@@ -181,7 +181,7 @@ Is this ok [y/N]:";
 				}
 				else if (noInput)
 				{
-					confirm.Text = $"[font=res://NotoSansMono.ttf]{confirm_text} N^C[/font]";
+					confirm.Text = $"[font=res://NotoSansMono.ttf]{confirm_text} n^C[/font]";
 				}
 				else
 				{
