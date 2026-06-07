@@ -13,7 +13,7 @@ public interface IExplodable
             return;
         }
 
-        GD.Print("Entered SpawnExplosion()");
+        //GD.Print("Entered SpawnExplosion()");
 
         if(scene == null) {
             GD.PrintErr("Particle scene couldn't be found");
@@ -29,7 +29,7 @@ public interface IExplodable
         caller.GetTree().CurrentScene.AddChild(particle);
         if(particle is Node2D node)
         {
-            GD.Print("Ready to boom");
+            //GD.Print("Ready to boom");
             node.GlobalPosition = posToSpawn;
             node.Set("emitting", true);
             var lifetime = node.Get("lifetime");

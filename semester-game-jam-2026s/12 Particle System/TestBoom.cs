@@ -7,7 +7,7 @@ public partial class TestBoom : Node2D, IExplodable
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GD.Print("I exist");
+		//GD.Print("I exist");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -22,8 +22,8 @@ public partial class TestBoom : Node2D, IExplodable
 
 	private void BoomTest()
 	{
-		GD.Print(GlobalPosition);
+		//GD.Print(GlobalPosition);
 		((IExplodable) this).SpawnExplosion(this.GetNode<Node2D>("%TestBoom"), this.GlobalPosition);
-		GD.Print("Boom");
+		//GD.Print("Boom");
 	}
 }
