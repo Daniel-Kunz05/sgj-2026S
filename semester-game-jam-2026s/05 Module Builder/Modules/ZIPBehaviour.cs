@@ -19,7 +19,7 @@ public partial class ZIPBehaviour(Module.Module module) : Behaviour.Behaviour(mo
 
     public override void OnModuleDeath(Module.Module cause)
     {
-        ((IExplodable) this).SpawnExplosion(Body, Body.GlobalPosition);
+        ((IExplodable) this).SpawnExplosion(Body, Body.GlobalPosition, module.fileExtension);
         Body.KnockOut();
     }
 

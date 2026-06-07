@@ -13,7 +13,7 @@ public partial class ParticleFreer : GpuParticles2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if (Time.GetTicksMsec() - timeCreated > 10000)
+		if (Time.GetTicksMsec() - timeCreated > 1000)
 			QueueFree();
 	}
 }

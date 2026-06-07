@@ -18,6 +18,8 @@ public partial class ModuleBody : Node2D, IToolTippable
 	[Export] public Draggable Draggable { get; private set; }
 	public bool locked;
 	[Export] private Sprite2D sprite;
+
+	[Export] private ModuleAudioPlayer audioPlayer;
 	
 
     public string ToolTipText => $"[b]{module.fileName}[/b]\n{module.fileExtension.ToolTip}";
@@ -45,7 +47,7 @@ public partial class ModuleBody : Node2D, IToolTippable
 	    else AddChild(module);
 
 	    sprite.Texture = ResourceLoader.Load<Texture2D>(module.fileExtension.IconPath);
-
+		module.audioPlayer = audioPlayer;
 	    module.OnModuleHit += OnHurt;
 
 	    if (isPlayer)

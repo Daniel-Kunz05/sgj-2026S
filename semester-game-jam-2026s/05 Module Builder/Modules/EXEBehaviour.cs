@@ -215,7 +215,7 @@ public partial class EXEBehaviour(Module module) : Behaviour(module), IExplodabl
 
     public override void OnModuleDeath(Module cause)
     {
-        ((IExplodable) this).SpawnExplosion(Body, Body.GlobalPosition);
+        ((IExplodable) this).SpawnExplosion(Body, Body.GlobalPosition, module.fileExtension);
 
         Body.QueueFree();
     }
