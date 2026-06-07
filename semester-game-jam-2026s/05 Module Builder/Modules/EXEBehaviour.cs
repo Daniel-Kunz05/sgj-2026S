@@ -52,7 +52,7 @@ public partial class EXEBehaviour(Module module) : Behaviour(module), IExplodabl
 
     public ModuleBuilder builder;
 
-    private float speed = 300;
+    private float speed = 400;
 
     private RigidBody2D? _rigidBody2D;
 
@@ -215,9 +215,13 @@ public partial class EXEBehaviour(Module module) : Behaviour(module), IExplodabl
 
     public override void OnModuleDeath(Module cause)
     {
-        ((IExplodable) this).SpawnExplosion(Body, Body.GlobalPosition, module.fileExtension);
+        
+        if (Body.Draggable.CollisionLayer == 1)
+        {
+            ((IExplodable) this).SpawnExplosion(Body, Body.GlobalPosition, module.fileExtension);
 
-        Body.QueueFree();
+            Body.QueueFree();
+        }
     }
 
     public override void Reset()

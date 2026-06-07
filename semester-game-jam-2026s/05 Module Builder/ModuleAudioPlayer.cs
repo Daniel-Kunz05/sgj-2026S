@@ -8,22 +8,30 @@ public partial class ModuleAudioPlayer : AudioStreamPlayer2D
 	[Export] private AudioStream projectileAudioStream;
 	[Export] private AudioStream deathAudioStream;
 
-	public void PlayExplosionSound()
+	public void PlayExplosionSound(int index)
 	{
-		var stream = explosionAudioStreams[(int)GD.Randi() % explosionAudioStreams.Count];
+		RandomPitch();
+		var stream = explosionAudioStreams[index];
 		Stream = stream;
 		Play();
 	}
 
 	public void PlayProjectileSound()
 	{
+		RandomPitch();
 		Stream = projectileAudioStream;
 		Play();
 	}
 
 	public void PlayDeathSound()
 	{
+		RandomPitch();
 		Stream = deathAudioStream;
 		Play();
+	}
+
+	private void RandomPitch()
+	{
+		PitchScale = 1 + Random.Shared.Next(-3, 3) * 0.1f;
 	}
 }

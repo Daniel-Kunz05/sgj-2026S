@@ -2,8 +2,11 @@ using Godot;
 using sgj;
 using System;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic;
 using sgj.Module;
+using Vector2 = Godot.Vector2;
 
 public partial class GameManager : Node
 {
@@ -211,10 +214,7 @@ public partial class GameManager : Node
 
 			if (battlePhaseNumber == 0)
 			{
-				// End game, TODO
-				GD.Print("You won!"); 
-				GetTree().ChangeSceneToFile("res://you_win.tscn");
-				return;
+				GameWon();
 			}
 
 			NextPhase();
@@ -248,9 +248,31 @@ public partial class GameManager : Node
 		await ToSignal(tween, Tween.SignalName.Finished);
 	}
 
-	private void GameOver()
+	private async void GameOver()
 	{
+		GetTree().Paused = true;
+		EXEBehaviour behaviour = (EXEBehaviour)playerModuleBuilder.coreBody.module.behaviour;
+		IExplodable asExplodable = (IExplodable)behaviour;
+		await ToSignal(GetTree().CreateTimer(0.8, true), SceneTreeTimer.SignalName.Timeout);
+		
+		for (int i = 0; i < playerModuleBuilder.UsedModules.Count; i++)
+		{
+			Vector2 pos = playerModuleBuilder.coreBody.GlobalPosition + new Vector2(Random.Shared.Next(-250, 150), Random.Shared.Next(-100, 100));
+			asExplodable.SpawnExplosion(playerModuleBuilder, pos, playerModuleBuilder.UsedModules.GetValueAtIndex(i).module.fileExtension);
+			await ToSignal(GetTree().CreateTimer(0.2, true), SceneTreeTimer.SignalName.Timeout);
+
+
+		}
+		await ToSignal(GetTree().CreateTimer(playerModuleBuilder.UsedModules.Count * 0.7f, true), SceneTreeTimer.SignalName.Timeout);
+		GetTree().Paused = false;
 		GetTree().ChangeSceneToFile("res://you_lose.tscn");
 
+	}
+
+	private void GameWon()
+	{
+		// End game, TODO
+		GD.Print("You won!"); 
+		GetTree().ChangeSceneToFile("res://you_win.tscn");
 	}
 }

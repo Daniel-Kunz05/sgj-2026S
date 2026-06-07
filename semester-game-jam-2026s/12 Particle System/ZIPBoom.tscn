@@ -35,6 +35,7 @@ hue_variation_min = -0.06000002
 hue_variation_max = 0.29999998
 
 [node name="GPUParticles2D" type="GPUParticles2D" unique_id=686034547]
+process_mode = 3
 self_modulate = Color(0.40784314, 0.83137256, 0.34117648, 1)
 emitting = false
 amount = 200

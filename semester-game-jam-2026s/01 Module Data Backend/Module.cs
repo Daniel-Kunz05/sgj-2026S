@@ -14,9 +14,9 @@ public partial class Module : Node2D
 	[Export] public int x;
 	[Export] public int y;
 	public Behaviour.Behaviour behaviour = null!;
-    public ModuleAudioPlayer audioPlayer;
+	public ModuleAudioPlayer audioPlayer;
 
-    public Module(FileExtension fileExtension, string fileName, int x, int y)
+	public Module(FileExtension fileExtension, string fileName, int x, int y)
 	{
 		this.fileExtension = fileExtension;
 		this.fileName = fileName;

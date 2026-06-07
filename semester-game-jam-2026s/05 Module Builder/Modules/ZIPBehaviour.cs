@@ -7,6 +7,7 @@ public partial class ZIPBehaviour(Module.Module module) : Behaviour.Behaviour(mo
     private const int max_health = 1;
     private int current_health = max_health;
     
+    
     public override void OnModuleHit(Module.Module self, Module.Module other)
     {
         
@@ -19,6 +20,7 @@ public partial class ZIPBehaviour(Module.Module module) : Behaviour.Behaviour(mo
 
     public override void OnModuleDeath(Module.Module cause)
     {
+        Body.audioPlayer.PlayExplosionSound(1);
         ((IExplodable) this).SpawnExplosion(Body, Body.GlobalPosition, module.fileExtension);
         Body.KnockOut();
     }
