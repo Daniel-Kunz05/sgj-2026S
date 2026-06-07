@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://bugsmfurlnsl2"]
 
-[ext_resource type="Texture2D" uid="uid://cjuy3lnvjsal3" path="res://06 Modules/Sprites/Filetypes/test.png" id="1_6as0x"]
 [ext_resource type="Script" uid="uid://hi13uj8xp72l" path="res://05 Module Builder/Modules/Projectile.cs" id="1_8fgk2"]
+[ext_resource type="Texture2D" uid="uid://bwasqcmy8wpfj" path="res://05 Module Builder/Projectiles/note.png" id="2_8fgk2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8fgk2"]
-size = Vector2(10, 10)
+size = Vector2(15, 15)
 
 [node name="MusicProjectile" type="Area2D" unique_id=1933811180]
 script = ExtResource("1_8fgk2")
@@ -15,5 +15,5 @@ lifetime = 1.0
 shape = SubResource("RectangleShape2D_8fgk2")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=123378778]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_6as0x")
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("2_8fgk2")
