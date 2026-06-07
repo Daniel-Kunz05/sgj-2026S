@@ -1,9 +1,15 @@
 [gd_scene format=3 uid="uid://b6yl6btkqug8q"]
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_xml41"]
-size = Vector2(125, 125)
+[ext_resource type="Shader" uid="uid://ck1kxxgjwa2bu" path="res://20 Shaders/node_pixelate.gdshader" id="1_58foo"]
+[ext_resource type="Texture2D" uid="uid://b2yuu2peqkdp4" path="res://05 Module Builder/GridTexture.png" id="1_tlxwk"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0i3wp"]
+shader = ExtResource("1_58foo")
+shader_parameter/pixel_size = 4.0
+shader_parameter/handle_edges = false
 
 [node name="GridCellTest" type="Node2D" unique_id=1949909551]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=814085199]
-texture = SubResource("PlaceholderTexture2D_xml41")
+material = SubResource("ShaderMaterial_0i3wp")
+texture = ExtResource("1_tlxwk")

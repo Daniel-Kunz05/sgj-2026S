@@ -18,6 +18,8 @@ fill_from = Vector2(0, 1)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s8bx7"]
 size = Vector2(120, 120)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_avg1m"]
+
 [node name="Shop" type="Node2D" unique_id=2021783419 node_paths=PackedStringArray("rerollButton")]
 script = ExtResource("1_avg1m")
 moduleBodyScene = ExtResource("2_6om5j")
@@ -71,6 +73,7 @@ script = ExtResource("5_ng0ng")
 shape = SubResource("RectangleShape2D_s8bx7")
 
 [node name="Reroll Button" type="Button" parent="." unique_id=131157190]
+material = SubResource("ShaderMaterial_avg1m")
 offset_left = 199.0
 offset_top = -181.0
 offset_right = 311.0

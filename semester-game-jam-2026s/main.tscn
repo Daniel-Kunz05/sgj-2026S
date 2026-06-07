@@ -75,6 +75,7 @@ position = Vector2(960, 895)
 [node name="TooltipManager" parent="." unique_id=1883395475 instance=ExtResource("6_272bh")]
 
 [node name="Battle Button" type="Button" parent="." unique_id=1397113647]
+visible = false
 offset_left = 1496.0
 offset_top = 936.0
 offset_right = 1888.0

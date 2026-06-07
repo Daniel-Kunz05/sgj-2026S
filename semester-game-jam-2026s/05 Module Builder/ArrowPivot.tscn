@@ -1,11 +1,17 @@
 [gd_scene format=3 uid="uid://cqkqutp2w2tq"]
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_u741x"]
-size = Vector2(500, 800)
+[ext_resource type="Shader" uid="uid://ck1kxxgjwa2bu" path="res://20 Shaders/node_pixelate.gdshader" id="1_g3ifb"]
+[ext_resource type="Texture2D" uid="uid://ckbupu5s1fk3v" path="res://05 Module Builder/ArrowTexture.png" id="1_hl6re"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_68bhs"]
+shader = ExtResource("1_g3ifb")
+shader_parameter/pixel_size = 4.0
+shader_parameter/handle_edges = false
 
 [node name="ArrowPivot" type="Node2D" unique_id=253471180]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1622007516]
-position = Vector2(184, -0.99999994)
-scale = Vector2(0.1, 0.1)
-texture = SubResource("PlaceholderTexture2D_u741x")
+z_index = 5
+material = SubResource("ShaderMaterial_68bhs")
+position = Vector2(1000, 0)
+texture = ExtResource("1_hl6re")

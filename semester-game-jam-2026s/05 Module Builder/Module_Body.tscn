@@ -15,7 +15,7 @@ size = Vector2(500, 500)
 
 [node name="ModuleBody" type="Node2D" unique_id=2008233099 node_paths=PackedStringArray("Draggable", "sprite")]
 material = SubResource("ShaderMaterial_ldrhc")
-scale = Vector2(0.15, 0.15)
+scale = Vector2(0.2, 0.2)
 script = ExtResource("1_j1uiu")
 Draggable = NodePath("Area2D")
 sprite = NodePath("Sprite2D")

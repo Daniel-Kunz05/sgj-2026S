@@ -40,7 +40,7 @@ public enum FileExtension
 	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/obj.png"), ToolTip("Does nothing special")] OBJ,
 	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/godot.png"), ToolTip("Does nothing special")] GODOT,
 	[Behaviour(typeof(TXTBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/json.png"), ToolTip("Does nothing special")] JSON,
-	[Behaviour(typeof(EXEBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/test.png"), ToolTip("The core of your system. It dies, you lose.")] EXE,
+	[Behaviour(typeof(EXEBehaviour)), Icon("res://06 Modules/Sprites/Filetypes/exe.png"), ToolTip("The core of your system. It dies, you lose.")] EXE,
 }
 
 public static class BehaviourTypeExtensions

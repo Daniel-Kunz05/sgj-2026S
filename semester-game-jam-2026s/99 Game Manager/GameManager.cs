@@ -2,6 +2,7 @@ using Godot;
 using sgj;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using sgj.Module;
 
 public partial class GameManager : Node
@@ -126,10 +127,12 @@ public partial class GameManager : Node
 		if (isBattlePhase)
 		{
 			isBattlePhase = false;
-			mainCmdlineController.EnqueueCommand("ls", CmdlineAction.NOP, () =>
+			mainCmdlineController.EnqueueCommand("ls", CmdlineAction.NOP, async () =>
 			{
+				await playerModuleBuilder.EntryAnimationAllModules();
+				await ToSignal(GetTree().CreateTimer(0.2f), SceneTreeTimer.SignalName.Timeout);
 				shop.OpenAndGenerateShop();
-				playerModuleBuilder.ShowBuilder();
+				await playerModuleBuilder.ShowBuilder();
 				ShowBattleButton();
 
 			});
@@ -144,26 +147,27 @@ public partial class GameManager : Node
 	private async void BattleSequence()
 	{
 		// Command animation
-		mainCmdlineController.EnqueueCommand("cd ..", CmdlineAction.POP_DIR, () =>
+		mainCmdlineController.EnqueueCommand("cd ..", CmdlineAction.POP_DIR, async() =>
 		{
-			shop.CloseShop();
-
-			playerModuleBuilder.HideBuilder();
 			HideBattleButton();
+			shop.CloseShop();
+			playerModuleBuilder.HideBuilder();
 			
+			await ToSignal(GetTree().CreateTimer(.5), SceneTreeTimer.SignalName.Timeout);
 			
 			// Continue after command animation is done
 			currentFighter = Database.GetFighter(mainCmdlineController.CurrentPath);
 			mainCmdlineController.EnqueueCommand($"{Database.Instance.initialGamePath}/{Database.Instance.playerName}/core.exe --fight {currentFighter.name}", CmdlineAction.NOP, async void () =>
 			{
 				isBattlePhase = true;
-
-				enemyModuleBuilder.ShowBuilder();
 				enemyModuleBuilder.NPCOverwriteModules(currentFighter.modules);
+
+				await enemyModuleBuilder.EntryAnimationAllModules();
+				
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 				//TODO play enemy entry animation
 				enemyModuleBuilder.SetupShip();
-				enemyModuleBuilder.HideBuilder();
+
 
 				// Start battle (aim phase)
 				playerModuleBuilder.SetupShip();
@@ -200,6 +204,7 @@ public partial class GameManager : Node
 		else
 		{
 			battlePhaseNumber--;
+			playerModuleBuilder.HideAllModules();
 			playerModuleBuilder.CallDeferred("ResetModules");
 			enemyModuleBuilder.CallDeferred("ResetModules");
 			enemyModuleBuilder.CallDeferred("NPCClearModules");
@@ -217,25 +222,30 @@ public partial class GameManager : Node
 		
 	}
 	
-	private Tween ShowBattleButton()
+	private async Task ShowBattleButton()
 	{
+		battleButton.Visible = true;
 		battleButton.Modulate = new Color(1, 1, 1, 0);
 		var tween = CreateTween();
 		tween.TweenProperty(battleButton, "modulate", new Color(1,1,1,1), 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
 		tween.Play();
+		await ToSignal(tween, Tween.SignalName.Finished);
 		battleButton.Disabled = false;
-		return tween;
+
+
 
 	}
 
-	private Tween HideBattleButton()
+	private async Task HideBattleButton()
 	{
 		battleButton.Disabled = true;
 		battleButton.Modulate = new Color(1, 1, 1, 1);
 		var tween = CreateTween();
 		tween.TweenProperty(battleButton, "modulate", new Color(1,1,1,0), 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
 		tween.Play();
-		return tween;
+		await ToSignal(tween, Tween.SignalName.Finished);
+		battleButton.Visible = true;
+		await ToSignal(tween, Tween.SignalName.Finished);
 	}
 
 	private void GameOver()

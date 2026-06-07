@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using sgj.Behaviour;
 using sgj.Module;
 public partial class ModuleBuilder : Node2D
@@ -75,6 +76,7 @@ public partial class ModuleBuilder : Node2D
             coreBody.Name = "CoreModuleBody";
             Module coreModule = new Module(FileExtension.EXE, "CoreTest", -1, -1);
 
+            coreBody.Visible = false;
             coreBody.Setup(coreModule, isPlayer);
             SetModule(gridSize / 2, coreBody);
 
@@ -214,6 +216,7 @@ public partial class ModuleBuilder : Node2D
                 CallDeferred("SetupSignal");
             }
             body.Setup(module, isPlayer);
+            body.Visible = false;
             SetModule(new Vector2I(module.x, module.y), body);
         }
     }
@@ -283,7 +286,7 @@ public partial class ModuleBuilder : Node2D
         }
     }
 
-    public void ShowBuilder()
+    public async Task ShowBuilder()
     {
         // Animate open builder
         var grid = FindChild("GridBackground") as Node2D;
@@ -292,9 +295,28 @@ public partial class ModuleBuilder : Node2D
         var tween = CreateTween();
         tween.TweenProperty(grid, "scale:x", 1, 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
         tween.Play();
+        await ToSignal(tween, Tween.SignalName.Finished);
+
     }
 
-    public void HideBuilder()
+    public async Task EntryAnimationAllModules()
+    {
+        var tasks = new List<Task>();
+
+        foreach (ModuleBody body in usedModules.Values)
+        {
+            tasks.Add(body.EntryAnimation());
+
+            await ToSignal(
+                GetTree().CreateTimer(Random.Shared.Next(1, 3) * 0.1f),
+                SceneTreeTimer.SignalName.Timeout
+            );
+        }
+
+        await Task.WhenAll(tasks);
+    }
+
+    public async Task HideBuilder()
     {
         ((EXEBehaviour)coreBody.module.behaviour).RigidBody2D.Reparent(GetTree().Root.GetNode("Main"));
 
@@ -304,5 +326,15 @@ public partial class ModuleBuilder : Node2D
         tween.TweenProperty(grid, "scale:x", 0, 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.In);
         tween.Play();
         tween.TweenCallback(new Callable(grid, "Hide"));
+        await ToSignal(tween, Tween.SignalName.Finished);
+
+    }
+
+    public void HideAllModules()
+    {
+        foreach (ModuleBody VARIABLE in usedModules.Values)
+        {
+            VARIABLE.Visible = false;
+        }
     }
 }
