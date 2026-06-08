@@ -20,7 +20,6 @@ public partial class ZIPBehaviour(Module.Module module) : Behaviour.Behaviour(mo
 
     public override void OnModuleDeath(Module.Module cause)
     {
-        Body.audioPlayer.PlayExplosionSound(1);
         ((IExplodable) this).SpawnExplosion(Body, Body.GlobalPosition, module.fileExtension);
         Body.KnockOut();
     }

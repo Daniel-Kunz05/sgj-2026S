@@ -33,16 +33,16 @@ public partial class EXEBehaviour(Module module) : Behaviour(module), IExplodabl
                 case CoreState.AIMING:
                     _rigidBody2D.GlobalPosition = Body.GlobalPosition;
                     Body.Reparent(_rigidBody2D);
-                    if (builder.isPlayer) arrowPivot.Modulate = new Color(1, 1, 1, 1);
+                    if (builder.isPlayer) ShowArrow();
                     _rigidBody2D.Freeze = true;
 
                     break;
                 case CoreState.FIGHTING:
-                    arrowPivot.Modulate = new Color(1, 1, 1, 0);
+                    HideArrow();
                     _rigidBody2D.Freeze = false;
                     break;
                 case CoreState.DRAGGING:
-                    arrowPivot.Modulate = new Color(1, 1, 1, 0);
+                    HideArrow();
                     _rigidBody2D.Freeze = true;
                     break;
             }
@@ -114,7 +114,8 @@ public partial class EXEBehaviour(Module module) : Behaviour(module), IExplodabl
         base._Process(delta);
         if (State == CoreState.AIMING)
         {
-            arrowPivot.Rotation = (Body.GetGlobalMousePosition() - arrowPivot.GlobalPosition).Angle();
+            if (!builder.isPlayer) return;
+            SetArrowRotation((Body.GetGlobalMousePosition() - arrowPivot.GlobalPosition).Angle());
         }
         else if (State == CoreState.FIGHTING)
         {
@@ -133,6 +134,21 @@ public partial class EXEBehaviour(Module module) : Behaviour(module), IExplodabl
                 Shoot(arrowPivot.Rotation);
             }
         }
+    }
+
+    public void SetArrowRotation(float angle)
+    {
+        arrowPivot.Rotation = angle;
+    }
+
+    public void ShowArrow()
+    {
+        arrowPivot.Visible = true;
+    }
+
+    public void HideArrow()
+    {
+        arrowPivot.Visible = false;
     }
 
     public async void Shoot(float angle)
@@ -217,7 +233,7 @@ public partial class EXEBehaviour(Module module) : Behaviour(module), IExplodabl
     public override void OnModuleDeath(Module cause)
     {
         
-        if (Body.Draggable.CollisionLayer == 1)
+        if (!builder.isPlayer)
         {
             ((IExplodable) this).SpawnExplosion(Body, Body.GlobalPosition, module.fileExtension);
 

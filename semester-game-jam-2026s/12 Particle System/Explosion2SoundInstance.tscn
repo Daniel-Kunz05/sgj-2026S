@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://chn3isslrkr0p"]
+
+[ext_resource type="AudioStream" uid="uid://dwo4k7ocqgn27" path="res://21 Audio/explosion2.mp3" id="1_li4am"]
+
+[node name="Explosion2SoundInstance" type="AudioStreamPlayer2D" unique_id=1173187385]
+stream = ExtResource("1_li4am")
+autoplay = true

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using Microsoft.VisualBasic;
+using sgj.Behaviour;
 using sgj.Module;
 using Vector2 = Godot.Vector2;
 
@@ -124,16 +125,24 @@ public partial class GameManager : Node
 		}
 	}
 
-	public async void NextPhase()
+	public void NextPhase()
 	{
 		//shop phase
 		if (isBattlePhase)
 		{
+			gameDecided = false;
 			isBattlePhase = false;
 			mainCmdlineController.EnqueueCommand("ls", CmdlineAction.NOP, async () =>
 			{
+				currentFighter = Database.GetFighter(battlePhaseNumber-1);
+				
+				playerModuleBuilder.EnableDrag(false);
 				await playerModuleBuilder.EntryAnimationAllModules();
 				await ToSignal(GetTree().CreateTimer(0.2f), SceneTreeTimer.SignalName.Timeout);
+				enemyModuleBuilder.NPCOverwriteModules(currentFighter.modules);
+				await enemyModuleBuilder.EntryAnimationAllModules();
+				await ToSignal(GetTree().CreateTimer(0.2f), SceneTreeTimer.SignalName.Timeout);
+				playerModuleBuilder.EnableDrag(true);
 				shop.OpenAndGenerateShop();
 				await playerModuleBuilder.ShowBuilder();
 				ShowBattleButton();
@@ -159,27 +168,25 @@ public partial class GameManager : Node
 			await ToSignal(GetTree().CreateTimer(.5), SceneTreeTimer.SignalName.Timeout);
 			
 			// Continue after command animation is done
-			currentFighter = Database.GetFighter(mainCmdlineController.CurrentPath);
 			mainCmdlineController.EnqueueCommand($"{Database.Instance.initialGamePath}/{Database.Instance.playerName}/core.exe --fight {currentFighter.name}", CmdlineAction.NOP, async void () =>
 			{
 				isBattlePhase = true;
-				enemyModuleBuilder.NPCOverwriteModules(currentFighter.modules);
-
-				await enemyModuleBuilder.EntryAnimationAllModules();
 				
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 				//TODO play enemy entry animation
 				enemyModuleBuilder.SetupShip();
 
-
+				EXEBehaviour enemyEXE = (EXEBehaviour)enemyModuleBuilder.coreBody.module.behaviour;
+				
 				// Start battle (aim phase)
 				playerModuleBuilder.SetupShip();
-				await ToSignal(playerModuleBuilder, ModuleBuilder.SignalName.ShipShot);
 
-				if (enemyModuleBuilder.coreBody.module.behaviour is EXEBehaviour enemyEXE)
-				{
-					enemyEXE.Shoot(Random.Shared.Next((int)(Math.PI / 2f) * 100, (int)(Math.PI * 3f /2f)*100)/100f);
-				}
+				float angle = (float)(Random.Shared.Next(30, 70) * 0.01f * Math.PI);
+				enemyEXE.SetArrowRotation(angle);
+				enemyEXE.ShowArrow();
+				await ToSignal(playerModuleBuilder, ModuleBuilder.SignalName.ShipShot);
+				enemyEXE.HideArrow();
+				enemyEXE.Shoot(angle); 
 				
 				Database.Instance.modules = [.. playerModuleBuilder.UsedModules.Select((m) => m.Value.module!)];
 				Database.AddFighter(Database.Instance.playerName, Database.Instance.gamePath, Database.Instance.modules);
@@ -197,6 +204,7 @@ public partial class GameManager : Node
 
 	private void EndBattlePhase(Module module)
 	{
+		if (gameDecided) return;
 		enemyModuleBuilder.coreBody.module.OnModuleDeath -= EndBattlePhase;
 		playerModuleBuilder.coreBody.module.OnModuleDeath -= EndBattlePhase;
 
@@ -248,31 +256,55 @@ public partial class GameManager : Node
 		await ToSignal(tween, Tween.SignalName.Finished);
 	}
 
+	private bool gameDecided;
 	private async void GameOver()
 	{
+		if (gameDecided) return;
+		Vector2 corePos = playerModuleBuilder.coreBody.GlobalPosition;
 		GetTree().Paused = true;
 		EXEBehaviour behaviour = (EXEBehaviour)playerModuleBuilder.coreBody.module.behaviour;
-		IExplodable asExplodable = (IExplodable)behaviour;
-		await ToSignal(GetTree().CreateTimer(0.8, true), SceneTreeTimer.SignalName.Timeout);
-		
+		IExplodable asExplodable = behaviour;
+
+		enemyModuleBuilder.coreBody.Visible = false;
+		foreach (ModuleBody body in playerModuleBuilder.UsedModules.Values)
+		{
+			body.Visible = false;
+		}
+
+		playerModuleBuilder.coreBody.Visible = true;
+		await playerModuleBuilder.coreBody.Blink(5);
 		for (int i = 0; i < playerModuleBuilder.UsedModules.Count; i++)
 		{
-			Vector2 pos = playerModuleBuilder.coreBody.GlobalPosition + new Vector2(Random.Shared.Next(-250, 150), Random.Shared.Next(-100, 100));
+			Vector2 pos =  corePos + Vector2.FromAngle(Random.Shared.Next()) * Random.Shared.Next(200);
 			asExplodable.SpawnExplosion(playerModuleBuilder, pos, playerModuleBuilder.UsedModules.GetValueAtIndex(i).module.fileExtension);
 			await ToSignal(GetTree().CreateTimer(0.2, true), SceneTreeTimer.SignalName.Timeout);
-
-
 		}
-		await ToSignal(GetTree().CreateTimer(playerModuleBuilder.UsedModules.Count * 0.7f, true), SceneTreeTimer.SignalName.Timeout);
+
+		for (int i = 0; i < 3; i++)
+		{
+			Vector2 pos =  corePos + Vector2.FromAngle(Random.Shared.Next()) * Random.Shared.Next(200);
+			asExplodable.SpawnExplosion(playerModuleBuilder, pos, (FileExtension)Random.Shared.Next(0, (int)FileExtension.EXE));
+			await ToSignal(GetTree().CreateTimer(0.2, true), SceneTreeTimer.SignalName.Timeout);
+		}
+		
+		await ToSignal(GetTree().CreateTimer(playerModuleBuilder.UsedModules.Count * 0.2f, true), SceneTreeTimer.SignalName.Timeout);
 		GetTree().Paused = false;
+		ResetForNewGame();    
 		GetTree().ChangeSceneToFile("res://you_lose.tscn");
 
 	}
 
 	private void GameWon()
 	{
-		// End game, TODO
+		if (gameDecided) return;    
 		GD.Print("You won!"); 
+		ResetForNewGame();    
 		GetTree().ChangeSceneToFile("res://you_win.tscn");
+	}
+
+	private void ResetForNewGame()
+	{
+		battlePhaseNumber = 5;
+		gameDecided = false;
 	}
 }

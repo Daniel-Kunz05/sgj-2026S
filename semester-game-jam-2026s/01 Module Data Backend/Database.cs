@@ -79,7 +79,11 @@ public partial class Database : Node
 		return GetFighter(Instance.SaveData.Where((e) => e.Value.progress.Count('/') == progress.Count('/')).Select(e => e.Key).PickRandom());
 	}
 
-
+	public static (string name, string progress, Module.Module[] modules) GetFighter(int progress)
+	{
+		progress = Math.Clamp(progress, 1, 5);
+		return GetFighter(Instance.SaveData.Where((e) => e.Value.progress.Count('/') == progress).Select(e => e.Key).PickRandom());
+	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)

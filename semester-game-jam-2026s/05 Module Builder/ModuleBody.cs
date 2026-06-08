@@ -96,8 +96,13 @@ public partial class ModuleBody : Node2D, IToolTippable
     private async void OnHurt(Module _, Module __)
     {
 	    if (isBlinking) return;
+	    Blink(3);
+    }
+
+    public async Task Blink(int amount)
+    {
 	    isBlinking = true;
-	    for (int i = 0; i < 5; i++)
+	    for (int i = 0; i < amount; i++)
 	    {
 		    Visible = false;
 		    await ToSignal(GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
@@ -108,7 +113,6 @@ public partial class ModuleBody : Node2D, IToolTippable
 
 	    isBlinking = false;
     }
-
 
     public async Task EntryAnimation()
     {

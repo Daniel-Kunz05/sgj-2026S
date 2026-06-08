@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c58yocd17o8jj"]
 
 [ext_resource type="Script" uid="uid://dwivk7vo8th7b" path="res://12 Particle System/ParticleFreer.cs" id="1_2wj4w"]
+[ext_resource type="PackedScene" uid="uid://chn3isslrkr0p" path="res://12 Particle System/Explosion2SoundInstance.tscn" id="2_48juo"]
 
 [sub_resource type="Gradient" id="Gradient_1wqnm"]
 offsets = PackedFloat32Array(0.5295858, 0.9078014, 1)
@@ -44,3 +45,5 @@ one_shot = true
 explosiveness = 0.94
 process_material = SubResource("ParticleProcessMaterial_af1ci")
 script = ExtResource("1_2wj4w")
+
+[node name="Explosion2SoundInstance" parent="." unique_id=1173187385 instance=ExtResource("2_48juo")]

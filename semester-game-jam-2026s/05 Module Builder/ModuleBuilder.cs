@@ -316,6 +316,14 @@ public partial class ModuleBuilder : Node2D
         await Task.WhenAll(tasks);
     }
 
+    public void EnableDrag(bool val)
+    {
+        foreach (ModuleBody body in usedModules.Values)
+        {
+            body.Draggable.AllowDragging = val;
+        }
+    }
+
     public async Task HideBuilder()
     {
         ((EXEBehaviour)coreBody.module.behaviour).RigidBody2D.Reparent(GetTree().Root.GetNode("Main"));
