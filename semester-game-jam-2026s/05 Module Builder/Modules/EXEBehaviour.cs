@@ -124,6 +124,7 @@ public partial class EXEBehaviour(Module module) : Behaviour(module), IExplodabl
 
     public override void _UnhandledInput(InputEvent @event)
     {
+        if (builder.coreBody.Draggable.CollisionLayer != 1) return;
         if (State != CoreState.AIMING) return;
         if (@event is InputEventMouseButton eventKey)
         {
