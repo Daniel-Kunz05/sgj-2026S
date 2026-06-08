@@ -137,14 +137,6 @@ public partial class GameManager : Node
 				shop.OpenAndGenerateShop();
 				await playerModuleBuilder.ShowBuilder();
 				ShowBattleButton();
-				// Continue after command animation is done
-				currentFighter = Database.GetFighter(mainCmdlineController.CurrentPath);
-				enemyModuleBuilder.NPCOverwriteModules(currentFighter.modules);
-
-				await enemyModuleBuilder.EntryAnimationAllModules();
-				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-				//TODO play enemy entry animation
-				enemyModuleBuilder.SetupShip();
 
 			});
 		}
@@ -166,11 +158,18 @@ public partial class GameManager : Node
 			
 			await ToSignal(GetTree().CreateTimer(.5), SceneTreeTimer.SignalName.Timeout);
 			
-			
+			// Continue after command animation is done
+			currentFighter = Database.GetFighter(mainCmdlineController.CurrentPath);
 			mainCmdlineController.EnqueueCommand($"{Database.Instance.initialGamePath}/{Database.Instance.playerName}/core.exe --fight {currentFighter.name}", CmdlineAction.NOP, async void () =>
 			{
 				isBattlePhase = true;
+				enemyModuleBuilder.NPCOverwriteModules(currentFighter.modules);
+
+				await enemyModuleBuilder.EntryAnimationAllModules();
 				
+				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+				//TODO play enemy entry animation
+				enemyModuleBuilder.SetupShip();
 
 
 				// Start battle (aim phase)
